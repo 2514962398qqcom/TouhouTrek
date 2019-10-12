@@ -26,7 +26,7 @@ namespace ZMDFQ
         /// <param name="eventEnum"></param>
         /// <param name="seat">小于0视为优先发动</param>
         /// <param name="action"></param>
-        /// <param name="sortIndex"></param>
+        /// <param name="sortIndex">执行优先度，注意seat优先于sortIndex</param>
         public void Register(EventEnum eventEnum, int seat, Func<object[], Task> action, int sortIndex = 0, string name = null)
         {
             List<EventItem> list;

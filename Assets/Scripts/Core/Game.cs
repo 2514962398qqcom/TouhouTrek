@@ -127,6 +127,7 @@ namespace ZMDFQ
         {
             EventSystem = new SeatByEventSystem();
             EventSystem.game = this;
+            EventHelper.RegisterEvent(this);
             this.options = options;
             if (TimeManager != null)
                 TimeManager.Game = this;
@@ -405,12 +406,12 @@ namespace ZMDFQ
             var tcs = new TaskCompletionSource<Response>(cts.Token);
             int index = Players.FindIndex(x => x.Id == request.PlayerId);
             Requests[index] = tcs;
-            OnRequest?.Invoke(this, request);
             if (TimeManager != null)
             {
                 TimeManager.Register(request);
                 tcs.Task.ContinueWith(x => { TimeManager.Cancel(request); }, cts.Token);
             }
+            OnRequest?.Invoke(this, request);
             return tcs.Task;
         }
 

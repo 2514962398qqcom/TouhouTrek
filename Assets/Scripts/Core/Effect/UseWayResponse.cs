@@ -18,7 +18,7 @@ namespace ZMDFQ.Effects
         /// <param name="nextRequest"></param>
         /// <param name="card"></param>
         /// <returns></returns>
-        public static bool CheckLimit(Game game, UseLimitCard useLimt, FreeUse useInfo, ref NextRequest nextRequest,Card card)
+        public static bool CheckLimit(Game game, UseLimitCardRequest useLimt, FreeUse useInfo, ref NextRequest nextRequest,Card card)
         {
             if (useLimt.CardType != CardHelper.getId(card))
             {

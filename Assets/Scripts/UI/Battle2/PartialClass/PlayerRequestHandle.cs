@@ -43,6 +43,9 @@ namespace ZMDFQ.UI.Battle
                     case ChooseDirectionRequest chooseDirectionRequest:
                         
                         break;
+                    case UseLimitCardRequest useLimitCardRequest:
+                        m_Request.selectedIndex = 4;
+                        break;
                     default:
                         Log.Warning($"未处理的request:{nowRequest.GetType().Name}");
                         break;

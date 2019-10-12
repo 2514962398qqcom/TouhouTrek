@@ -81,6 +81,7 @@ namespace ZMDFQ.UI.Battle
                         list.Add(action);
                 }
             }
+            m_skills.onClickItem.Add(SkillClick);
             doDispatch(nameof(Init));
         }
 
@@ -136,7 +137,6 @@ namespace ZMDFQ.UI.Battle
         {
             //m_ActivePlayer.SetVar("p", request.PlayerId == self.Id ? "你" : request.PlayerId.ToString());
             nowRequest = request;
-            m_Request.selectedIndex = 0;
             doDispatch(nameof(onRequest));
             flush();//感觉这里写的有问题
         }
@@ -148,8 +148,25 @@ namespace ZMDFQ.UI.Battle
         private void onResponse(Game game, Response response)
         {
             nowResponse = response;
+            if (response.PlayerId == self.Id && nowRequest == null)
+                m_Request.selectedIndex = 0;
             doDispatch(nameof(onResponse));
             flush();
+        }
+
+        void SkillClick(FairyGUI.EventContext evt)
+        {
+            var skill = (evt.data as GObject).data as Skill;
+            if (selectedSkill == skill)
+            {
+                //再点一下表示取消选择
+                selectedSkill = null;
+            }
+            else
+            {
+                selectedSkill = skill;
+            }
+            flushSkills();
         }
     }
 }

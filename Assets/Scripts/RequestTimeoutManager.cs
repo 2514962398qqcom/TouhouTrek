@@ -77,7 +77,7 @@ namespace ZMDFQ
                     Game.Answer(new TakeChoiceResponse() { PlayerId = request.PlayerId, Index = takeChoiceRequest.Infos.Count - 1 });
                     break;
                 default:
-                    Log.Warning($"ai未处理的响应类型:{request.GetType()}");
+                    Log.Warning($"超时未处理的响应类型:{request.GetType()}");
                     break;
             }
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080" designImage="ui://oacz4rtmgs0sb" designImageAlpha="0" designImageLayer="1">
   <controller name="ChooseHero" pages="0,,1," selected="0"/>
-  <controller name="Request" pages="5,,0,,1,,2,,3,,4," selected="0">
+  <controller name="Request" pages="5,,0,,1,,2,,3,,4," selected="4">
     <remark page="0" value="null"/>
     <remark page="1" value="freeUse"/>
     <remark page="2" value="takeChoice"/>
@@ -114,6 +114,10 @@
     <component id="n109_g2d6" name="limitUse" src="dzy4g" fileName="NormalBtn.xml" xy="661,743">
       <gearDisplay controller="Request" pages="3"/>
       <Button title="使用"/>
+    </component>
+    <component id="n116_rmtc" name="limitUseCancel" src="dzy4g" fileName="NormalBtn.xml" xy="814,745">
+      <gearDisplay controller="Request" pages="3"/>
+      <Button title="取消"/>
     </component>
     <graph id="n110_g2d6" name="n110" xy="658,742" size="484,68" group="n114_g2d6" type="rect"/>
     <component id="n111_g2d6" name="forward" src="dzy4g" fileName="NormalBtn.xml" xy="665,747" group="n114_g2d6">

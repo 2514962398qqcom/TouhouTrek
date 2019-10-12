@@ -16,7 +16,14 @@ namespace ZMDFQ.Cards
         protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             nextRequest = null;
-            return true;
+            switch (nowRequest)
+            {
+                case UseLimitCardRequest useLimitCard:
+                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, this);
+                case FreeUseRequest freeUseRequest:
+                    return useInfo.PlayersId.Count == 0;
+            }
+            return false;
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {

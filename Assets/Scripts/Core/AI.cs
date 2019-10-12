@@ -54,6 +54,9 @@ namespace ZMDFQ
                 case TakeChoiceRequest takeChoice:
                     game.Answer(new TakeChoiceResponse() { PlayerId = Id, Index = 0 });
                     break;
+                case UseLimitCardRequest useLimitCardRequest:
+                    game.Answer(new UseLimitCardResponse() { PlayerId = Id, Used = false });
+                    break;
                 default:
                     Log.Warning($"ai未处理的响应类型:{request.GetType()}");
                     break;

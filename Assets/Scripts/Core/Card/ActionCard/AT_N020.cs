@@ -12,6 +12,33 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_N020 : ActionCard
     {
+        static TaskCompletionSource<bool> flag;
+        [EventReigster]
+        public static void Register(Game game)
+        {
+            //注册一个事件用于阻塞
+            game.EventSystem.Register(EventEnum.changeEventDirection, 0, (x) =>
+            {
+                foreach (var player in game.Players)
+                {
+                    AT_N020 card = (AT_N020)player.ActionCards.Find(c => c.GetType() == typeof(AT_N020));
+                    if (card!=null)
+                    {
+                        card.effect(x);
+                    }
+                }
+                return Task.CompletedTask;
+            });
+
+            game.EventSystem.Register(EventEnum.changeEventDirection, 100, (x) =>
+            {
+                if (flag != null)
+                    return flag.Task;
+                else
+                    return Task.CompletedTask;
+            });
+        }
+
         public override Task DoEffect(Game game, FreeUse useWay)
         {
             return Task.CompletedTask;
@@ -19,28 +46,37 @@ namespace ZMDFQ.Cards
 
         protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
-            nextRequest = new NextRequest()
+            nextRequest = null;
+            switch (nowRequest)
             {
-                RequestInfo = "无法主动打出"
-            };
+                case UseLimitCardRequest useLimitCard:
+                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, this);
+                case FreeUseRequest freeUse:
+                    nextRequest = new NextRequest()
+                    {
+                        RequestInfo = "无法主动打出"
+                    };
+                    break;
+            }
+            
             return false;
         }
 
         internal override void OnDraw(Game game, Player player)
         {
-            game.EventSystem.Register(EventEnum.changeEventDirection, game.GetSeat(player), effect);
+            //game.EventSystem.Register(EventEnum.changeEventDirection, game.GetSeat(player), effect, 0, "使用墨菲定律");
         }
 
         internal override void OnDrop(Game game, Player player)
         {
-            game.EventSystem.Remove(EventEnum.changeEventDirection, effect);
+            //game.EventSystem.Remove(EventEnum.changeEventDirection, effect);
         }
 
         private Task effect(object[] args)
         {
             Game game = args[0] as Game;
             //这里不能用异步阻塞，直接返回任务完成
-            Task.Run(() => doeffect(args, game), game.cts.Token);
+            doeffect(args, game).NoWait();
             return Task.CompletedTask;
         }
 
@@ -49,18 +85,41 @@ namespace ZMDFQ.Cards
             ChooseDirectionResponse response = args[1] as ChooseDirectionResponse;
             if (!response.IfSet)
             {
-                TakeChoiceResponse response1 = (TakeChoiceResponse)await game.WaitAnswer(new TakeChoiceRequest()
+                //启用阻塞
+                flag = new TaskCompletionSource<bool>();
+                if (game.Requests[ game.Players.IndexOf(Owner)] != null)
                 {
-                    PlayerId = Owner.Id,
-                    Infos = new List<string>() { "使用墨菲定律", "取消" },
+                    //说明该玩家处于另一个询问，多半是另一张墨菲定律
+                    return;
+                }
+                Log.Debug($"询问{Owner.Name}使用定律");
+                UseLimitCardResponse response1 = (UseLimitCardResponse)await game.WaitAnswer(new UseLimitCardRequest()
+                {
                     AllPlayerRequest = true,
+                    PlayerId = Owner.Id,
+                    CardType = CardHelper.getId(typeof(AT_N020))
                 }.SetTimeOut(game.RequestTime));
-                if (response1.Index == 0)
+                if (response1.Used)
                 {
-                    //如果使用了墨菲定律，那么取消所有剩余询问
+                    Log.Debug($"{Owner.Name}取消使用定律");
+                    //响应后 取消其他玩家的询问
                     game.CancelRequests();
+                    //这段会有问题，丢卡后卡的owner变成null,个人影响力变化会找不到来源玩家(理论上是自己)
+                    Player owner = Owner;
                     await Owner.DropActionCard(game, new List<int>() { this.Id }, true);
+                    await owner.ChangeSize(game, -1, this);
+                    //把方向置为反向
                     response.IfForward = !response.IfForward;
+                    //取消阻塞
+                    flag.TrySetResult(true);
+                }
+                else
+                {
+                    Log.Debug($"{Owner.Name}取消使用墨菲定律");
+                    if (game.Requests.All(x => x == null))
+                    {
+                        flag.TrySetResult(true);
+                    }
                 }
             }
         }
