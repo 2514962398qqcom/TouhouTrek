@@ -185,11 +185,12 @@ namespace ZMDFQ
             await game.EventSystem.Call(EventEnum.DropActionCard, game.GetSeat(this), this, data);
         }
 
-        public async Task ChangeSize(Game game, int Size, object source)
+        public async Task ChangeSize(Game game, int Size, object source, Player sourcePlayer)
         {
             var data = new EventData<int>() { data = Size };
-            await game.EventSystem.Call(EventEnum.OnPlayrSizeChange, game.ActivePlayerSeat(), game, this, data);
+            await game.EventSystem.Call(EventEnum.BeforePlayrSizeChange, game.ActivePlayerSeat(), game, this, data);
             this.Size += data.data;
+            await game.EventSystem.Call(EventEnum.AfterPlayrSizeChange, game.ActivePlayerSeat(), game, this, data, new EventData<object>() { data = source }, sourcePlayer);
         }
 
         public async Task<int> HandMax(Game game)

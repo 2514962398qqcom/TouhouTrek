@@ -139,25 +139,9 @@ namespace Tests
             game.Answer(new ChooseHeroResponse() { PlayerId = 1, HeroId = 24 });
             game.Answer(new FreeUse() { PlayerId = 0, CardId = 1, Source = new List<int>() { 1 } });
 
+            AssertExtension.checkActionUse(game, game.Players[0], 1);
             Assert.AreEqual(1, game.Players[0].Size);
-            Assert.IsFalse(game.Players[0].ActionCards.Any(c => c.Id == 1));
-            Assert.IsTrue(game.UsedActionDeck.Any(c => c.Id == 1));
             yield break;
-        }
-        class TestAction_Add1Inf : ActionCard
-        {
-            protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
-            {
-                nextRequest = null;
-                return true;
-            }
-            public override async Task DoEffect(Game game, FreeUse useWay)
-            {
-                await UseCard.UseActionCard(game, useWay, this, async (g, r) =>
-                {
-                    await game.GetPlayer(useWay.PlayerId).ChangeSize(game, 1, this);
-                });
-            }
         }
         [UnityTest]
         public IEnumerator useEventTest()
@@ -297,22 +281,6 @@ namespace Tests
 
             yield break;
         }
-        class TestEvent_DoubleOrZeroPlayerInf : EventCard
-        {
-            public override bool ForwardOnly => false;
-            public override async Task Use(Game game, ChooseDirectionResponse response)
-            {
-                await UseCard.UseEventCard(game, response, this, effect);
-            }
-            Task effect(Game game, ChooseDirectionResponse response)
-            {
-                if (response.IfForward)
-                    game.Players.Find(p => p.Id == response.PlayerId).Size *= 2;
-                else
-                    game.Players.Find(p => p.Id == response.PlayerId).Size = 0;
-                return Task.CompletedTask;
-            }
-        }
         [UnityTest]
         public IEnumerator discardTest()
         {
@@ -411,6 +379,52 @@ namespace Tests
             Assert.AreEqual(1, game.winners[0].point);
             Assert.AreEqual(1, game.winners[0].point);
             yield break;
+        }
+    }
+    class TestAction_Add2CS : ActionCard
+    {
+        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
+        {
+            nextRequest = null;
+            return true;
+        }
+        public override async Task DoEffect(Game game, FreeUse useWay)
+        {
+            await UseCard.UseActionCard(game, useWay, this, async (g, r) =>
+            {
+                await game.ChangeSize(2, this);
+            });
+        }
+    }
+    class TestAction_Add1Inf : ActionCard
+    {
+        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
+        {
+            nextRequest = null;
+            return true;
+        }
+        public override async Task DoEffect(Game game, FreeUse useWay)
+        {
+            await UseCard.UseActionCard(game, useWay, this, async (g, r) =>
+            {
+                await game.GetPlayer(useWay.PlayerId).ChangeSize(game, 1, this, Owner);
+            });
+        }
+    }
+    class TestEvent_DoubleOrZeroPlayerInf : EventCard
+    {
+        public override bool ForwardOnly => false;
+        public override async Task Use(Game game, ChooseDirectionResponse response)
+        {
+            await UseCard.UseEventCard(game, response, this, effect);
+        }
+        Task effect(Game game, ChooseDirectionResponse response)
+        {
+            if (response.IfForward)
+                game.Players.Find(p => p.Id == response.PlayerId).Size *= 2;
+            else
+                game.Players.Find(p => p.Id == response.PlayerId).Size = 0;
+            return Task.CompletedTask;
         }
     }
     class TestCharacter_Empty : HeroCard

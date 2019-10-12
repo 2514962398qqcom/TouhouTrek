@@ -598,7 +598,7 @@ namespace ZMDFQ
         public async Task ChangeSize(int size, object source)
         {
             var data = new EventData<int> { data = size };
-            await EventSystem.Call(EventEnum.OnGameSizeChange, Players.IndexOf(ActivePlayer), data, source);
+            await EventSystem.Call(EventEnum.BeforeGameSizeChange, Players.IndexOf(ActivePlayer), data, source);
             Size += data.data;
             Log.Debug($"Game size change to {Size}");
         }

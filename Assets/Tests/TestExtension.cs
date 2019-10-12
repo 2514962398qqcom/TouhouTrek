@@ -11,6 +11,10 @@ namespace Tests
         {
             return (game.Database as ConfigManager).Cards.First(p => p.Value is T).Key;
         }
+        public static int getCardID(this Game game, string name)
+        {
+            return (game.Database as ConfigManager).Cards.First(p => p.Value.Name == name).Key;
+        }
         public static IEnumerable<T> concatRepeat<T>(this IEnumerable<T> first, T value, int count)
         {
             T[] second = new T[count];

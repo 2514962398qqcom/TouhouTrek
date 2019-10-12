@@ -40,12 +40,12 @@ namespace ZMDFQ.Cards
         {
             Player target = game.GetPlayer(useWay.PlayersId[0]);
             Player user = game.GetPlayer(useWay.PlayerId);
-            await target.ChangeSize(game, -1, this);
+            await target.ChangeSize(game, -1, this, Owner);
             Player now = target;
             while (true)
             {
                 ChooseSomeCardResponse chooseSomeCardResponse =
-                    (ChooseSomeCardResponse)await game.WaitAnswer(new PlayerAction.ChooseSomeCardRequest()
+                    (ChooseSomeCardResponse)await game.WaitAnswer(new ChooseSomeCardRequest()
                     { Count = 1, PlayerId = now.Id, TimeOut = game.RequestTime, EnoughOnly = false });
                 if (chooseSomeCardResponse.Cards.Count == 0)
                 {
@@ -54,7 +54,7 @@ namespace ZMDFQ.Cards
                 else
                 {
                     Player nowTarget = now == user ? target : user;
-                    await nowTarget.ChangeSize(game, -1, this);
+                    await nowTarget.ChangeSize(game, -1, this, Owner);
                     now = nowTarget;
                 }
             }

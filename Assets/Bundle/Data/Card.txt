@@ -2,6 +2,7 @@
 {"_t":"AT_N002","ConfigId":2,"Name":"创作","CardType":3}
 {"_t":"AT_N003","ConfigId":3,"Name":"盈利","CardType":3}
 {"_t":"AT_N004","ConfigId":4,"Name":"约稿","CardType":3}
+{"_t":"AT_N005","ConfigId":5,"Name":"挂裱","CardType":3}
 {"_t":"AT_N006","ConfigId":6,"Name":"互撕","CardType":3}
 {"_t":"AT_N012","ConfigId":12,"Name":"出警","CardType":3}
 {"_t":"AT_N020","ConfigId":20,"Name":"墨菲定理","CardType":3}
@@ -10,5 +11,6 @@
 {"_t":"HeroCard","ConfigId":113,"Name":"传教爱好者","CardType":0,"SkillIds":[1],"camp":0}
 {"_t":"HeroCard","ConfigId":119,"Name":"东方警察","CardType":0,"SkillIds":[7],"camp":2}
 {"_t":"G_001","ConfigId":125,"Name":"旧作","CardType":1}
+{"_t":"G_013","ConfigId":137,"Name":"辉针城","CardType":1}
 {"_t":"EV_E001","ConfigId":148,"Name":"人气投票","CardType":2}
 {"_t":"EV_E002","ConfigId":149,"Name":"全国性活动","CardType":2}

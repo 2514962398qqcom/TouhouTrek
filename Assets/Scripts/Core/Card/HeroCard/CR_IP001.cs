@@ -52,12 +52,12 @@ namespace ZMDFQ.Cards
     {
         public override void Disable(Game game)
         {
-            game.EventSystem.Remove(EventEnum.OnPlayrSizeChange, moreChange);
+            game.EventSystem.Remove(EventEnum.BeforePlayrSizeChange, moreChange);
         }
 
         public override void Enable(Game game)
         {
-            game.EventSystem.Register(EventEnum.OnPlayrSizeChange, game.Players.IndexOf(Hero.Player), moreChange);
+            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, game.Players.IndexOf(Hero.Player), moreChange);
         }
 
         private Task moreChange(object[] param)

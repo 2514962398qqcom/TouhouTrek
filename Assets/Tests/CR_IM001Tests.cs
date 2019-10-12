@@ -26,7 +26,7 @@ namespace Tests
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA000, 20)//行动
-                .concatRepeat(107, 20)//角色
+                .concatRepeat(game.getCardID("冷门爱好者"), 20)//角色
                 .concatRepeat(0xF000, 20)//官作
                 .concatRepeat(0xE000, 20),//事件
                 firstPlayer = 0,
@@ -68,7 +68,7 @@ namespace Tests
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA000, 20)//行动
-                .concatRepeat(107, 20)//角色
+                .concatRepeat(game.getCardID("冷门爱好者"), 20)//角色
                 .concatRepeat(0xF000, 20)//官作
                 .concatRepeat(0xE000, 20),//事件
                 firstPlayer = 0,
@@ -105,7 +105,7 @@ namespace Tests
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA000, 20)//行动
-                .concatRepeat(107, 20)//角色
+                .concatRepeat(game.getCardID("冷门爱好者"), 20)//角色
                 .concatRepeat(0xF000, 20)//官作
                 .concatRepeat(0xE000, 20),//事件
                 firstPlayer = 0,
