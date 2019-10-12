@@ -107,7 +107,7 @@ namespace ZMDFQ.Cards
                     //这段会有问题，丢卡后卡的owner变成null,个人影响力变化会找不到来源玩家(理论上是自己)
                     Player owner = Owner;
                     await Owner.DropActionCard(game, new List<int>() { this.Id }, true);
-                    await owner.ChangeSize(game, -1, this);
+                    await owner.ChangeSize(game, -1, this, Owner);
                     //把方向置为反向
                     response.IfForward = !response.IfForward;
                     //取消阻塞
