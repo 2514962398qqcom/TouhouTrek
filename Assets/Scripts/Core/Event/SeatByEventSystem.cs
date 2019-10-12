@@ -53,7 +53,7 @@ namespace ZMDFQ
         }
         public async Task Call(EventEnum eventEnum, int seat, params object[] param)
         {
-            Log.Debug($"触发了{eventEnum}事件");
+            //Log.Debug($"触发了{eventEnum}事件");
             List<EventItem> list;
             if (dic.TryGetValue(eventEnum, out list))
             {

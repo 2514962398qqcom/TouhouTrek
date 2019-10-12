@@ -17,12 +17,12 @@ namespace ZMDFQ.Cards
         public static void Register(Game game)
         {
             //注册一个事件用于阻塞
-            game.EventSystem.Register(EventEnum.changeEventDirection, 0, (x) =>
+            game.EventSystem.Register(EventEnum.changeEventDirection, -1, (x) =>
             {
                 foreach (var player in game.Players)
                 {
                     AT_N020 card = (AT_N020)player.ActionCards.Find(c => c.GetType() == typeof(AT_N020));
-                    if (card!=null)
+                    if (card != null)
                     {
                         card.effect(x);
                     }

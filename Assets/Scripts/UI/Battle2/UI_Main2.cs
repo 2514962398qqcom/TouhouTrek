@@ -101,6 +101,10 @@ namespace ZMDFQ.UI.Battle
         protected override void OnUpdate()
         { 
             base.OnUpdate();
+            if (game.Requests[game.Players.IndexOf(self)] == null)
+            {
+                m_Request.selectedIndex = 0;
+            }
             doDispatch(nameof(OnUpdate));
         }
 
@@ -136,8 +140,12 @@ namespace ZMDFQ.UI.Battle
         private void onRequest(Game game, Request request)
         {
             //m_ActivePlayer.SetVar("p", request.PlayerId == self.Id ? "你" : request.PlayerId.ToString());
-            nowRequest = request;
-            doDispatch(nameof(onRequest));
+            if (request.PlayerId == self.Id)
+            {
+                Log.Debug($"受到{request.GetType().Name}");
+                nowRequest = request;
+                doDispatch(nameof(onRequest));
+            }
             flush();//感觉这里写的有问题
         }
         /// <summary>
@@ -148,8 +156,6 @@ namespace ZMDFQ.UI.Battle
         private void onResponse(Game game, Response response)
         {
             nowResponse = response;
-            if (response.PlayerId == self.Id && nowRequest == null)
-                m_Request.selectedIndex = 0;
             doDispatch(nameof(onResponse));
             flush();
         }

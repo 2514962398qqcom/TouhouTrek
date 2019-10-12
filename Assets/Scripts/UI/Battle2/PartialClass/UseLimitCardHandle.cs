@@ -23,28 +23,18 @@ namespace ZMDFQ.UI.Battle
                 game.Answer(new UseLimitCardResponse() { PlayerId = self.Id, Used = false });
             });
             m_Hand.OnCardClick.Add(checkLimitUseAble);
-            m_skills.onClickItem.Add(limitUse_SkillClick);
+            m_skills.onClickItem.Add(checkLimitUseAble);
         }
 
         [BattleUI(nameof(onRequest))]
         private void UseLimitRequestHandle()
         {
-            Log.Debug(MongoHelper.ToJson(nowRequest));
+            //Log.Debug(MongoHelper.ToJson(nowRequest));
             if (nowRequest.PlayerId == self.Id && nowRequest is UseLimitCardRequest useLimitCardRequest)
             {
                 m_UseTip.text = "是否使用" + CardHelper.getType(useLimitCardRequest.CardType).Name;
                 m_Request.selectedIndex = 4;
             }
-        }
-
-        private void limitUse_CardClick()
-        {
-            checkLimitUseAble();
-        }
-
-        private void limitUse_SkillClick()
-        {
-
         }
 
         private void checkLimitUseAble()

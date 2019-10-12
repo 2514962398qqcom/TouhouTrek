@@ -17,7 +17,7 @@ namespace ZMDFQ
                 {
                     foreach (EventReigsterAttribute attr in method.GetCustomAttributes(typeof(EventReigsterAttribute), true))
                     {
-                        Log.Debug(method.Name);
+                        //Log.Debug(method.Name);
                         Action<Game> action = method.CreateDelegate(typeof(Action<Game>), null) as Action<Game>;
                         actions.Add(action);
                     }

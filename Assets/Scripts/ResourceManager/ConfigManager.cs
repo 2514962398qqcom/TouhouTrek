@@ -99,7 +99,7 @@ namespace ZMDFQ
                 {
                     cards.Add(deck.CardTypes[i]);
                 }
-                Log.Debug($"add:{deck.CardTypes[i]},count:{deck.CardNumbers[i]}");
+                //Log.Debug($"add:{deck.CardTypes[i]},count:{deck.CardNumbers[i]}");
             }
             return gameOptions;
         }
