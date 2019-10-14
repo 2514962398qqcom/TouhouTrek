@@ -101,10 +101,6 @@ namespace ZMDFQ.UI.Battle
         protected override void OnUpdate()
         { 
             base.OnUpdate();
-            if (game.Requests[game.Players.IndexOf(self)] == null)
-            {
-                m_Request.selectedIndex = 0;
-            }
             doDispatch(nameof(OnUpdate));
         }
 

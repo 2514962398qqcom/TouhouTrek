@@ -44,13 +44,13 @@ namespace ZMDFQ.UI.Battle
             });
         }
 
-        [BattleUI(nameof(onRequest))]
+        //[BattleUI(nameof(onRequest))]
         private void chooseDirectionRequestHandle()
         {
-            if (nowRequest.PlayerId==self.Id&&nowRequest is ChooseDirectionRequest chooseDirectionRequest)
+            //if (nowRequest.PlayerId==self.Id&&nowRequest is ChooseDirectionRequest chooseDirectionRequest)
             {
                 m_Request.selectedIndex = 5;
-                m_setcard.enabled = chooseDirectionRequest.CanSet;
+                m_setcard.enabled = (nowRequest as ChooseDirectionRequest).CanSet;
             }
         }
     }

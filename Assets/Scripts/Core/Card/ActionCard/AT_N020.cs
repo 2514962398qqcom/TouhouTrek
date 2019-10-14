@@ -87,9 +87,9 @@ namespace ZMDFQ.Cards
             {
                 //启用阻塞
                 flag = new TaskCompletionSource<bool>();
-                if (game.Requests[ game.Players.IndexOf(Owner)] != null)
+                if (game.Requests[ game.Players.IndexOf(Owner)].Any(x=>x is UseLimitCardRequest r &&r.CardType== CardHelper.getId(typeof(AT_N020))))
                 {
-                    //说明该玩家处于另一个询问，多半是另一张墨菲定律
+                    //说明该玩家处于另一个墨菲定律询问
                     return;
                 }
                 Log.Debug($"询问{Owner.Name}使用定律");
@@ -116,7 +116,7 @@ namespace ZMDFQ.Cards
                 else
                 {
                     Log.Debug($"{Owner.Name}取消使用墨菲定律");
-                    if (game.Requests.All(x => x == null))
+                    if (game.Requests.All(x => x.Count == 0))
                     {
                         flag.TrySetResult(true);
                     }

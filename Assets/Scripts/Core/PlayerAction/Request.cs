@@ -29,6 +29,11 @@ namespace ZMDFQ.PlayerAction
         /// </summary>
         public bool AllPlayerRequest = false;
 
+        /// <summary>
+        /// 询问的提示信息
+        /// </summary>
+        public string RequsetInfo;
+
         public Request SetTimeOut(float time)
         {
             RemainTime = time;

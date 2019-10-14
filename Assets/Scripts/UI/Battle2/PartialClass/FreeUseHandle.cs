@@ -43,15 +43,15 @@ namespace ZMDFQ.UI.Battle
 
         //}
 
-        [BattleUI(nameof(onRequest))]
+        //[BattleUI(nameof(onRequest))]
         private void freeUseRequestHandle()
         {
             //自由出牌
-            if (nowRequest.PlayerId == self.Id && nowRequest is FreeUseRequest && !(nowRequest is UseLimitCardRequest))
+            //if (nowRequest.PlayerId == self.Id && nowRequest is FreeUseRequest && !(nowRequest is UseLimitCardRequest))
             {
                 m_Request.selectedIndex = 1;
-                selectedCards.Clear();
-                m_Hand.SetCards(self.ActionCards, selectedCards);
+                //selectedCards.Clear();
+                //m_Hand.SetCards(self.ActionCards, selectedCards);
             }
         }
 

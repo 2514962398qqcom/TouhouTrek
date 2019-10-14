@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080" designImage="ui://oacz4rtmgs0sb" designImageAlpha="0" designImageLayer="1">
   <controller name="ChooseHero" pages="0,,1," selected="0"/>
-  <controller name="Request" pages="5,,0,,1,,2,,3,,4," selected="4">
+  <controller name="Request" pages="5,,0,,1,,2,,3,,4,,6," selected="6">
     <remark page="0" value="null"/>
     <remark page="1" value="freeUse"/>
     <remark page="2" value="takeChoice"/>
     <remark page="3" value="chooseCard"/>
     <remark page="4" value="useLimit"/>
     <remark page="5" value="chooseDirection"/>
+    <remark page="6" value="chooseRequest"/>
   </controller>
   <displayList>
     <graph id="n91_dzy4" name="n91" xy="0,0" size="1920,1080" type="rect"/>
@@ -110,6 +111,16 @@
     </list>
     <group id="n108_g2d6" name="takeChoice" xy="668,736" size="296,73" advanced="true" collapsed="true">
       <gearDisplay controller="Request" pages="1"/>
+    </group>
+    <graph id="n117_ta80" name="n117" xy="667,736" size="296,72" group="n119_ta80" type="rect">
+      <relation target="n118_ta80" sidePair="width-width"/>
+    </graph>
+    <list id="n118_ta80" name="requestList" xy="672,740" size="282,68" group="n119_ta80" layout="row" overflow="scroll" colGap="15" defaultItem="ui://oacz4rtmdzy4g">
+      <item title="选择1"/>
+      <item title="选择2"/>
+    </list>
+    <group id="n119_ta80" name="ChooseRequest" xy="667,736" size="296,73" advanced="true">
+      <gearDisplay controller="Request" pages="6"/>
     </group>
     <component id="n109_g2d6" name="limitUse" src="dzy4g" fileName="NormalBtn.xml" xy="661,743">
       <gearDisplay controller="Request" pages="3"/>

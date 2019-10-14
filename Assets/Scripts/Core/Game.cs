@@ -101,10 +101,12 @@ namespace ZMDFQ
 
         private List<Card> allCards = new List<Card>();
 
+
+        private List<TaskCompletionSource<Response>>[] responses;
         /// <summary>
         /// 所有玩家的询问状态
         /// </summary>
-        public List<TaskCompletionSource<Response>>[] Requests;
+        public List<Request>[] Requests;
 
         internal System.Threading.CancellationTokenSource cts;
         IDatabase _database;
@@ -220,10 +222,12 @@ namespace ZMDFQ
             }
             //初始化游戏结束条件
             endingOfficialCardCount = options != null && options.endingOfficialCardCount > 0 ? options.endingOfficialCardCount : 12 - Players.Count;
-            Requests = new List<TaskCompletionSource<Response>>[Players.Count];
-            for (int i = 0; i < Requests.Length; i++)
+            responses = new List<TaskCompletionSource<Response>>[Players.Count];
+            Requests = new List<Request>[Players.Count];
+            for (int i = 0; i < responses.Length; i++)
             {
-                Requests[i] = new List<TaskCompletionSource<Response>>();
+                responses[i] = new List<TaskCompletionSource<Response>>();
+                Requests[i] = new List<Request>();
             }
         }
 
@@ -395,9 +399,10 @@ namespace ZMDFQ
         {
             //Log.Debug(response.GetType().Name);
             int index = Players.FindIndex(x => x.Id == response.PlayerId);
-            var list = Requests[index];
+            var list = responses[index];
             var tcs = list[requestIndex];
             list.RemoveAt(requestIndex);//可能后续会重新对requests[index]询问，所以这个要写在TrySetResult之前
+            Requests[index].RemoveAt(requestIndex);
             tcs?.TrySetResult(response);
             OnResponse?.Invoke(this, response);
         }
@@ -410,7 +415,8 @@ namespace ZMDFQ
         {
             var tcs = new TaskCompletionSource<Response>(cts.Token);
             int index = Players.FindIndex(x => x.Id == request.PlayerId);
-            Requests[index].Add(tcs);
+            responses[index].Add(tcs);
+            Requests[index].Add(request);
             if (TimeManager != null)
             {
                 TimeManager.Register(request);
@@ -422,14 +428,15 @@ namespace ZMDFQ
 
         public void CancelRequests()
         {
-            for (int i = 0; i < Requests.Length; i++)
+            for (int i = 0; i < responses.Length; i++)
             {
-                var list = Requests[i];
+                var list = responses[i];
                 foreach (var tcs in list.ToArray())
                 {
                     tcs?.TrySetCanceled();
                     list.Remove(tcs);
                 }
+                Requests[i].Clear();
             }
         }
 
@@ -533,7 +540,9 @@ namespace ZMDFQ
             int max = await player.HandMax(this);
             if (player.ActionCards.Count > max)
             {
-                ChooseSomeCardResponse chooseSomeCardResponse = (ChooseSomeCardResponse)await WaitAnswer(new ChooseSomeCardRequest() { PlayerId = player.Id, Count = player.ActionCards.Count - max }.SetTimeOut(RequestTime));
+                ChooseSomeCardResponse chooseSomeCardResponse = (ChooseSomeCardResponse)await WaitAnswer(
+                    new ChooseSomeCardRequest() { PlayerId = player.Id, Count = player.ActionCards.Count - max, RequsetInfo = "回合结束，丢弃多余手牌" }.SetTimeOut(RequestTime)
+                    );
                 await player.DropActionCard(this, chooseSomeCardResponse.Cards, true);
             }
             await EventSystem.Call(EventEnum.afterDiscardPhase, seat, this, player);

@@ -45,6 +45,8 @@ namespace ZMDFQ.UI.Battle
 		public GGroup m_chooseCard;
 		public GList m_choiceList;
 		public GGroup m_takeChoice;
+		public GList m_requestList;
+		public GGroup m_ChooseRequest;
 		public GButton m_limitUse;
 		public GButton m_limitUseCancel;
 		public GButton m_forward;
@@ -106,13 +108,15 @@ namespace ZMDFQ.UI.Battle
 			m_chooseCard = (GGroup)this.GetChildAt(71);
 			m_choiceList = (GList)this.GetChildAt(73);
 			m_takeChoice = (GGroup)this.GetChildAt(74);
-			m_limitUse = (GButton)this.GetChildAt(75);
-			m_limitUseCancel = (GButton)this.GetChildAt(76);
-			m_forward = (GButton)this.GetChildAt(78);
-			m_backward = (GButton)this.GetChildAt(79);
-			m_setcard = (GButton)this.GetChildAt(80);
-			m_chooseDirection = (GGroup)this.GetChildAt(81);
-			m_HeroChooseWindow = (UI_ChooseHero)this.GetChildAt(83);
+			m_requestList = (GList)this.GetChildAt(76);
+			m_ChooseRequest = (GGroup)this.GetChildAt(77);
+			m_limitUse = (GButton)this.GetChildAt(78);
+			m_limitUseCancel = (GButton)this.GetChildAt(79);
+			m_forward = (GButton)this.GetChildAt(81);
+			m_backward = (GButton)this.GetChildAt(82);
+			m_setcard = (GButton)this.GetChildAt(83);
+			m_chooseDirection = (GGroup)this.GetChildAt(84);
+			m_HeroChooseWindow = (UI_ChooseHero)this.GetChildAt(86);
 			Init();
 		}
 		

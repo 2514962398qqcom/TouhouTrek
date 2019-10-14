@@ -43,12 +43,12 @@ namespace ZMDFQ.UI.Battle
             }
         }
 
-        [BattleUI(nameof(onRequest))]
-        private void chooseHeroRequest()
+        //[BattleUI(nameof(onRequest))]
+        private void chooseHeroRequestHandle()
         {
-            if ((nowRequest.PlayerId == self.Id) && nowRequest is PlayerAction.ChooseHeroRequest chooseHeroRequset)
+            //if ((nowRequest.PlayerId == self.Id) && nowRequest is PlayerAction.ChooseHeroRequest chooseHeroRequset)
             {
-                this.chooseHeroRequset = chooseHeroRequset;
+                this.chooseHeroRequset = nowRequest as PlayerAction.ChooseHeroRequest;
                 m_ChooseHero.selectedIndex = 1;
                 for (int i = 0; i < chooseHeroRequset.HeroIds.Count; i++)
                 {

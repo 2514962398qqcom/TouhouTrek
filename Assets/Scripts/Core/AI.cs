@@ -23,7 +23,7 @@ namespace ZMDFQ
         {
             if (request.PlayerId != Id) return;
             //Log.Debug(request.PlayerId + "," + Id);
-            await Task.Delay(500);//假装思考0.5s
+            await Task.Delay(500, game.cts.Token);//假装思考0.5s
             switch (request)
             {
                 case FreeUseRequest useCardRequest:
