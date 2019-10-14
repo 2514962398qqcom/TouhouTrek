@@ -104,7 +104,7 @@ namespace ZMDFQ
         /// <summary>
         /// 所有玩家的询问状态
         /// </summary>
-        public TaskCompletionSource<Response>[] Requests;
+        public List<TaskCompletionSource<Response>>[] Requests;
 
         internal System.Threading.CancellationTokenSource cts;
         IDatabase _database;
@@ -220,7 +220,11 @@ namespace ZMDFQ
             }
             //初始化游戏结束条件
             endingOfficialCardCount = options != null && options.endingOfficialCardCount > 0 ? options.endingOfficialCardCount : 12 - Players.Count;
-            Requests = new TaskCompletionSource<Response>[Players.Count];
+            Requests = new List<TaskCompletionSource<Response>>[Players.Count];
+            for (int i = 0; i < Requests.Length; i++)
+            {
+                Requests[i] = new List<TaskCompletionSource<Response>>();
+            }
         }
 
         /// <summary>
@@ -387,12 +391,13 @@ namespace ZMDFQ
         /// 玩家响应系统询问用这个接口
         /// </summary>
         /// <param name="response"></param>
-        public void Answer(Response response)
+        public void Answer(Response response, int requestIndex = 0)
         {
             //Log.Debug(response.GetType().Name);
             int index = Players.FindIndex(x => x.Id == response.PlayerId);
-            var tcs = Requests[index];
-            Requests[index] = null;//可能后续会重新对requests[index]询问，所以这个要写在TrySetResult之前
+            var list = Requests[index];
+            var tcs = list[requestIndex];
+            list.RemoveAt(requestIndex);//可能后续会重新对requests[index]询问，所以这个要写在TrySetResult之前
             tcs?.TrySetResult(response);
             OnResponse?.Invoke(this, response);
         }
@@ -405,7 +410,7 @@ namespace ZMDFQ
         {
             var tcs = new TaskCompletionSource<Response>(cts.Token);
             int index = Players.FindIndex(x => x.Id == request.PlayerId);
-            Requests[index] = tcs;
+            Requests[index].Add(tcs);
             if (TimeManager != null)
             {
                 TimeManager.Register(request);
@@ -419,9 +424,12 @@ namespace ZMDFQ
         {
             for (int i = 0; i < Requests.Length; i++)
             {
-                var tcs = Requests[i];
-                Requests[i] = null;
-                tcs?.TrySetCanceled();
+                var list = Requests[i];
+                foreach (var tcs in list.ToArray())
+                {
+                    tcs?.TrySetCanceled();
+                    list.Remove(tcs);
+                }
             }
         }
 
