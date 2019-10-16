@@ -79,11 +79,13 @@ namespace Tests
             game.Answer(new ChooseHeroResponse() { PlayerId = 0, HeroId = 21 });
             game.Answer(new ChooseHeroResponse() { PlayerId = 1, HeroId = 24 });
             game.setDice(6);
-            game.Answer(new FreeUse() { PlayerId = 0, CardId = 1, Source = new List<int>() { 1 }, PlayersId = new List<int>() { 1 } });
+            int cardID = game.Players[0].ActionCards[0].Id;
+            game.Answer(new FreeUse() { PlayerId = 0, CardId = cardID, Source = new List<int>() { cardID }, PlayersId = new List<int>() { 1 } });
 
             Assert.AreEqual(-2, game.Players[1].Size);
 
-            game.Answer(new TakeChoiceResponse() { PlayerId = 1, Index = 1 });
+            cardID = game.Players[1].ActionCards[0].Id;
+            game.Answer(new UseLimitCardResponse() { PlayerId = 1, CardId = cardID, Source = new List<int>() { cardID }, Used = true });
 
             Assert.AreEqual(-2, game.Players[0].Size);
         }
