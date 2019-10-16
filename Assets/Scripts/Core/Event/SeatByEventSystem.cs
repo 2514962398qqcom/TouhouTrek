@@ -26,7 +26,7 @@ namespace ZMDFQ
         /// <param name="eventEnum"></param>
         /// <param name="seat">小于0视为优先发动</param>
         /// <param name="action"></param>
-        /// <param name="sortIndex"></param>
+        /// <param name="sortIndex">执行优先度，注意seat优先于sortIndex</param>
         public void Register(EventEnum eventEnum, int seat, Func<object[], Task> action, int sortIndex = 0, string name = null)
         {
             List<EventItem> list;
@@ -53,7 +53,7 @@ namespace ZMDFQ
         }
         public async Task Call(EventEnum eventEnum, int seat, params object[] param)
         {
-            Log.Debug($"触发了{eventEnum}事件");
+            //Log.Debug($"触发了{eventEnum}事件");
             List<EventItem> list;
             if (dic.TryGetValue(eventEnum, out list))
             {
@@ -83,35 +83,32 @@ namespace ZMDFQ
                         items.RemoveAt(0);
                     }
 
-                    if (seat >= 0 && seat < game.Players.Count)
-                    {
-                        while (nextLists.Count > 1)
-                        {
-                            //说明同一玩家在此处注册了多个事件
-                            PlayerAction.TakeChoiceResponse response = (PlayerAction.TakeChoiceResponse)await game.WaitAnswer(new PlayerAction.TakeChoiceRequest()
-                            {
-                                Infos = nextLists.Select(x => x.name).ToList(),
-                                PlayerId = game.Players[next.Seat].Id,
-                            }.SetTimeOut(game.RequestTime));
-                            await nextLists[response.Index].action(param);
-                            nextLists.RemoveAt(response.Index);
-                        }
-                        await nextLists[0].action(param);
-                    }
-                    else
-                    {
-                        //并非玩家注册的，直接按顺序执行
-                        foreach (var eventItem in items)
-                        {
-                            await eventItem.action(param);
-                        }
-                    }
-                }
+                    await Task.WhenAll(items.Select(x => x.action(param)));
 
-                //foreach (var eventItem in list)
-                //{
-                //    await eventItem.action(param);
-                //}
+                    //if (seat >= 0 && seat < game.Players.Count)
+                    //{
+                    //    while (nextLists.Count > 1)
+                    //    {
+                    //        //说明同一玩家在此处注册了多个事件
+                    //        PlayerAction.TakeChoiceResponse response = (PlayerAction.TakeChoiceResponse)await game.WaitAnswer(new PlayerAction.TakeChoiceRequest()
+                    //        {
+                    //            Infos = nextLists.Select(x => x.name).ToList(),
+                    //            PlayerId = game.Players[next.Seat].Id,
+                    //        }.SetTimeOut(game.RequestTime));
+                    //        await nextLists[response.Index].action(param);
+                    //        nextLists.RemoveAt(response.Index);
+                    //    }
+                    //    await nextLists[0].action(param);
+                    //}
+                    //else
+                    //{
+                    //    //并非玩家注册的，直接按顺序执行
+                    //    foreach (var eventItem in items)
+                    //    {
+                    //        await eventItem.action(param);
+                    //    }
+                    //}
+                }
             }
         }
 

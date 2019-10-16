@@ -23,7 +23,7 @@ namespace ZMDFQ
         {
             if (request.PlayerId != Id) return;
             //Log.Debug(request.PlayerId + "," + Id);
-            await Task.Delay(500);//假装思考0.5s
+            await Task.Delay(500, game.cts.Token);//假装思考0.5s
             switch (request)
             {
                 case FreeUseRequest useCardRequest:
@@ -53,6 +53,9 @@ namespace ZMDFQ
                     break;
                 case TakeChoiceRequest takeChoice:
                     game.Answer(new TakeChoiceResponse() { PlayerId = Id, Index = 0 });
+                    break;
+                case UseLimitCardRequest useLimitCardRequest:
+                    game.Answer(new UseLimitCardResponse() { PlayerId = Id, Used = false });
                     break;
                 default:
                     Log.Warning($"ai未处理的响应类型:{request.GetType()}");

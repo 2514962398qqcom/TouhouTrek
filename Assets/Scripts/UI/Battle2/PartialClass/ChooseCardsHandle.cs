@@ -36,15 +36,15 @@ namespace ZMDFQ.UI.Battle
             });
         }
 
-        [BattleUI(nameof(onRequest))]
+        //[BattleUI(nameof(onRequest))]
         private void chooseCardsRequestHandle()
         {
-            if (nowRequest.PlayerId == self.Id && nowRequest is ChooseSomeCardRequest chooseSomeCardRequest)
+            //if (nowRequest.PlayerId == self.Id && nowRequest is ChooseSomeCardRequest chooseSomeCardRequest)
             {
                 m_Request.selectedIndex = 3;
-                selectedCards.Clear();
-                m_Hand.SetCards(self.ActionCards, selectedCards);
-                m_choose_n.visible = !chooseSomeCardRequest.EnoughOnly;
+                //selectedCards.Clear();
+                //m_Hand.SetCards(self.ActionCards, selectedCards);
+                m_choose_n.visible = !(nowRequest as ChooseSomeCardRequest).EnoughOnly;
             }
         }
     }

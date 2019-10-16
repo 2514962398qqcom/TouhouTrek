@@ -18,6 +18,6 @@ namespace ZMDFQ.PlayerAction
     {
         public int CardId;
         public bool IfForward = true;
-        public bool IfSet;
+        public bool IfSet = false;
     }
 }

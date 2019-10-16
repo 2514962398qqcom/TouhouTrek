@@ -16,7 +16,7 @@ namespace ZMDFQ
             {
                 if (typeof(Card).IsAssignableFrom(type)&&!type.IsAbstract)
                 {
-                    Log.Debug($"获取到卡片实例类型:{type.Name},Id:{list.Count - 1}");
+                    //Log.Debug($"获取到卡片实例类型:{type.Name},Id:{list.Count - 1}");
                     list.Add(type);
                 }
             }
@@ -25,6 +25,12 @@ namespace ZMDFQ
         {
             return list.IndexOf(card.GetType());
         }
+
+        public static int getId(Type type)
+        {
+            return list.IndexOf(type);
+        }
+
         public static Type getType(int id)
         {
             return list[id];

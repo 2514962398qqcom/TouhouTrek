@@ -16,7 +16,7 @@ namespace ZMDFQ.UI.Battle
             m_useCard.enabled = false;
             m_useCard.onClick.Add(() =>
             {
-                var useinfo = getFreeUseInfo();
+                var useinfo = getFreeUseInfo<FreeUse>();
                 selectedCards.Clear();
                 selectedSkill = null;
                 flushSkills();
@@ -29,8 +29,8 @@ namespace ZMDFQ.UI.Battle
                     PlayerId = self.Id,
                 });
             });
-            m_Hand.OnCardClick.Add(freeUse_CardClick);
-            m_skills.onClickItem.Add(freeUse_SkillClick);
+            m_Hand.OnCardClick.Add(checkFreeUseAble);
+            m_skills.onClickItem.Add(checkFreeUseAble);
             for (int i = 0; i < 8; i++)
             {
                 playersSimpleInfo[i].onClick.Add(freeUse_HeroClick);
@@ -43,15 +43,15 @@ namespace ZMDFQ.UI.Battle
 
         //}
 
-        [BattleUI(nameof(onRequest))]
+        //[BattleUI(nameof(onRequest))]
         private void freeUseRequestHandle()
         {
             //自由出牌
-            if (nowRequest.PlayerId == self.Id && nowRequest is FreeUseRequest freeUseRequest)
+            //if (nowRequest.PlayerId == self.Id && nowRequest is FreeUseRequest && !(nowRequest is UseLimitCardRequest))
             {
                 m_Request.selectedIndex = 1;
-                selectedCards.Clear();
-                m_Hand.SetCards(self.ActionCards, selectedCards);
+                //selectedCards.Clear();
+                //m_Hand.SetCards(self.ActionCards, selectedCards);
             }
         }
 
@@ -76,37 +76,21 @@ namespace ZMDFQ.UI.Battle
                 selectedPlayers.Add(playerSimpleInfo.Player);
             }
             flushSelectPlayer();
-            checkUseAble();
-        }
-
-        void freeUse_SkillClick(FairyGUI.EventContext evt)
-        {
-            var skill = (evt.data as GObject).data as Skill;
-            if (selectedSkill == skill)
-            {
-                //再点一下表示取消选择
-                selectedSkill = null;
-            }
-            else
-            {
-                selectedSkill = skill;
-            }
-            checkUseAble();
-            flushSkills();
+            checkFreeUseAble();
         }
 
         void freeUse_CardClick(FairyGUI.EventContext evt)
         {
-            checkUseAble();
+            checkFreeUseAble();
         }
 
-        private void checkUseAble()
+        private void checkFreeUseAble()
         {
-            if (nowRequest == null || nowRequest.PlayerId != self.Id) return;
+            if (nowRequest == null || nowRequest.PlayerId != self.Id || !(nowRequest is FreeUseRequest) || nowRequest is UseLimitCardRequest) return;
             if (selectedSkill != null)
             {
                 NextRequest nextRequest;
-                if (selectedSkill.CanUse(game, nowRequest, getFreeUseInfo(), out nextRequest))
+                if (selectedSkill.CanUse(game, nowRequest, getFreeUseInfo<FreeUse>(), out nextRequest))
                 {
                     m_useCard.enabled = true;
                     m_UseTip.text = "";//应该是确认是否使用
@@ -120,7 +104,7 @@ namespace ZMDFQ.UI.Battle
             else if (selectedCards.Count == 1)
             {
                 NextRequest nextRequest;
-                if (selectedCards[0].CanUse(game, nowRequest, getFreeUseInfo(), out nextRequest))
+                if (selectedCards[0].CanUse(game, nowRequest, getFreeUseInfo<FreeUse>(), out nextRequest))
                 {
                     m_useCard.enabled = true;
                     m_UseTip.text = "";//应该是确认是否使用
@@ -139,9 +123,9 @@ namespace ZMDFQ.UI.Battle
             }
         }
 
-        FreeUse getFreeUseInfo()
+        T getFreeUseInfo<T>() where T : FreeUse,new()
         {
-            return new FreeUse()
+            return new T()
             {
                 PlayerId = self.Id,
                 Source = selectedCards.Select(x => x.Id).ToList(),
