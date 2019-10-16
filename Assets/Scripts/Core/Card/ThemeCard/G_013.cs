@@ -9,8 +9,8 @@ namespace ZMDFQ.Cards
     {
         public override void Enable(Game game)
         {
-            game.EventSystem.Register(EventEnum.BeforeGameSizeChange, -1, effect_BeforeGameSizeChange);
-            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, -1, effect_BeforePlayerSizeChange);
+            game.EventSystem.Register(EventEnum.BeforeGameSizeChange, -1, effect_BeforeGameSizeChange, 2);
+            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, -1, effect_BeforePlayerSizeChange, 2);
         }
         public override void Disable(Game game)
         {

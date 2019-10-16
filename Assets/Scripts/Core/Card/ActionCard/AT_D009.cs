@@ -19,7 +19,7 @@ namespace ZMDFQ.Cards
             await Effects.UseCard.UseActionCard(game, useWay, this, (g, r) =>
             {
                 g.DelayActionDeck.Add(this);//置入连锁区
-                game.EventSystem.Register(EventEnum.BeforeEventCardEffect, g.GetSeat(Owner), beforeEventCardEffect);//注册事件
+                game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
                 return Task.CompletedTask;
             });
         }
@@ -27,16 +27,16 @@ namespace ZMDFQ.Cards
         {
             Game game = args[0] as Game;
             targetCard = args[1] as EventCard;//设置生效卡片
-            game.EventSystem.Register(EventEnum.BeforeGameSizeChange, game.GetSeat(Owner), beforeGameSizeChange);
-            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, game.GetSeat(Owner), beforePlayerSizeChange);
-            game.EventSystem.Register(EventEnum.AfterEventCardEffect, game.GetSeat(Owner), afterEventCardEffect);//注册事件
+            game.EventSystem.Register(EventEnum.BeforeGameSizeChange, -1, beforeGameSizeChange);
+            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, -1, beforePlayerSizeChange);
+            game.EventSystem.Register(EventEnum.AfterEventCardEffect, -1, afterEventCardEffect);//注册事件
             game.EventSystem.Remove(EventEnum.BeforeEventCardEffect, beforeEventCardEffect);
             return Task.CompletedTask;
         }
         Task beforeGameSizeChange(object[] args)
         {
             EventData<int> value = args[0] as EventData<int>;
-            if (args[1] == targetCard)
+            if (targetCard != null && args[1] == targetCard)
             {
                 if (value.data > 0)
                     value.data += 1;
@@ -48,7 +48,7 @@ namespace ZMDFQ.Cards
         Task beforePlayerSizeChange(object[] args)
         {
             EventData<int> value = args[2] as EventData<int>;
-            if (args[3] == targetCard)
+            if (targetCard != null && args[3] == targetCard)
             {
                 if (value.data > 0)
                     value.data += 1;
