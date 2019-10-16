@@ -130,7 +130,6 @@ namespace Tests
             Assert.AreEqual(2, game.Players[0].Size);//偏移量+1
             Assert.AreEqual(0, game.DelayActionDeck.Count);
             Assert.True(game.UsedActionDeck.Any(c => c.ConfigId == game.getCardID<AT_D009>()));//结算完毕进入弃牌区
-            game.Answer(new ChooseSomeCardResponse() { PlayerId = 0, Cards = new List<int>(game.Players[0].ActionCards.Take(1).Select(c => c.Id)) });
             //当前回合不发动事件
             cardID = game.Players[1].ActionCards[0].Id;
             game.Answer(new FreeUse() { PlayerId = 1, CardId = cardID, Source = new List<int>() { cardID } });
@@ -148,7 +147,7 @@ namespace Tests
             cardID = game.Players[0].EventCards[0].Id;
             game.Answer(new ChooseDirectionResponse() { PlayerId = 0, CardId = cardID });
             Assert.AreEqual(0, game.DelayActionDeck.Count);
-            Assert.AreEqual(3, game.UsedActionDeck.Count);
+            Assert.AreEqual(4, game.UsedActionDeck.Count);
             Assert.AreEqual(8, game.Size);
             Assert.AreEqual(5, game.Players[0].Size);
             //与盖卡互动

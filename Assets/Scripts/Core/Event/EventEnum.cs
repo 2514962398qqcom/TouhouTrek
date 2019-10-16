@@ -47,6 +47,9 @@ namespace ZMDFQ
         changeEventDirection,
 
         BeforeEventCardEffect,
-        AfterEventCardEffect
+        AfterEventCardEffect,
+
+        BeforeGetPlayerSizeMax,
+        BeforeGetPlayerSizeMin
     }
 }

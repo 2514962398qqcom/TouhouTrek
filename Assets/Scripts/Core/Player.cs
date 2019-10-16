@@ -189,18 +189,28 @@ namespace ZMDFQ
         {
             var data = new EventData<int>() { data = Size };
             await game.EventSystem.Call(EventEnum.BeforePlayrSizeChange, game.ActivePlayerSeat(), game, this, data, source);
+            if (this.Size + data.data > await getSizeMax(game))
+                data.data = await getSizeMax(game) - this.Size;
+            if (this.Size + data.data < await getSizeMin(game))
+                data.data = await getSizeMin(game) - this.Size;
             this.Size += data.data;
             await game.EventSystem.Call(EventEnum.AfterPlayrSizeChange, game.ActivePlayerSeat(), game, this, data, new EventData<object>() { data = source }, sourcePlayer);
         }
-
+        public async Task<int> getSizeMin(Game game)
+        {
+            EventData<int> min = new EventData<int>() { data = -5 };
+            await game.EventSystem.Call(EventEnum.BeforeGetPlayerSizeMin, game.GetSeat(this), game, this, min);
+            return min.data;
+        }
+        public async Task<int> getSizeMax(Game game)
+        {
+            EventData<int> max = new EventData<int>() { data = 5 };
+            await game.EventSystem.Call(EventEnum.BeforeGetPlayerSizeMax, game.GetSeat(this), game, this, max);
+            return max.data;
+        }
         public async Task<int> HandMax(Game game)
         {
             int result = Size;
-            //属性修正
-            //foreach (IPropertyModifier<int> modifier in Hero.Skills.Where(s => s is IPropertyModifier<int> m && m.propName == nameof(HandMax)))
-            //{
-            //    modifier.modify(ref result);
-            //}
             if (result < 1)
                 result = 1;
             if (result > 4)

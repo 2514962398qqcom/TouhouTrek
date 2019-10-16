@@ -619,6 +619,10 @@ namespace ZMDFQ
         {
             var data = new EventData<int> { data = size };
             await EventSystem.Call(EventEnum.BeforeGameSizeChange, Players.IndexOf(ActivePlayer), data, source, this);
+            if (Size + data.data > 10)//规模溢出
+                data.data = 10 - Size;
+            if (Size + data.data < -10)
+                data.data = -10 - Size;
             Size += data.data;
             Log.Debug($"Game size change to {Size}");
         }

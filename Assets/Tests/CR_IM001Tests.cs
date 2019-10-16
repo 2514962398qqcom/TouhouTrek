@@ -122,12 +122,10 @@ namespace Tests
             game.Answer(new EndFreeUseResponse() { PlayerId = 0 });
             game.Answer(new ChooseDirectionResponse() { PlayerId = 0, CardId = 61, IfSet = true });
             game.Answer(new ChooseSomeCardResponse() { PlayerId = 0, Cards = new List<int>() { 1, 2 } });
-            game.Answer(new TakeChoiceResponse() { PlayerId = 0, Index = 0 });
 
             game.Answer(new EndFreeUseResponse() { PlayerId = 1 });
             game.Answer(new ChooseDirectionResponse() { PlayerId = 1, CardId = 62, IfSet = true });
             game.Answer(new ChooseSomeCardResponse() { PlayerId = 1, Cards = new List<int>() { 3, 4 } });
-            game.Answer(new TakeChoiceResponse() { PlayerId = 1, Index = 0 });
 
             Assert.AreEqual(2, game.winners.Length);
             Assert.AreEqual(5, game.winners[0].point);
