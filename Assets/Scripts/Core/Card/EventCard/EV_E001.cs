@@ -15,16 +15,14 @@ namespace ZMDFQ.Cards
         public override bool ForwardOnly => false;
         public override async Task Use(Game game, ChooseDirectionResponse response)
         {
-            await Effects.UseCard.UseEventCard(game, response, this, effect);
-        }
-        Task effect(Game game, ChooseDirectionResponse response)
-        {
-            if (response.IfForward)
-                game.Size += game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1;
-            else
-                game.Size -= game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1;
-            game.ChainEventDeck.Add(this);
-            return Task.CompletedTask;
+            await Effects.UseCard.UseEventCard(game, response, this, async (g,r)=>
+            {
+                if (response.IfForward)
+                    game.Size += game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1;
+                else
+                    game.Size -= game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1;
+                game.ChainEventDeck.Add(this);
+            });
         }
     }
 }

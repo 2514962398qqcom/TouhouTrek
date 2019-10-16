@@ -188,7 +188,7 @@ namespace ZMDFQ
         public async Task ChangeSize(Game game, int Size, object source, Player sourcePlayer)
         {
             var data = new EventData<int>() { data = Size };
-            await game.EventSystem.Call(EventEnum.BeforePlayrSizeChange, game.ActivePlayerSeat(), game, this, data);
+            await game.EventSystem.Call(EventEnum.BeforePlayrSizeChange, game.ActivePlayerSeat(), game, this, data, source);
             this.Size += data.data;
             await game.EventSystem.Call(EventEnum.AfterPlayrSizeChange, game.ActivePlayerSeat(), game, this, data, new EventData<object>() { data = source }, sourcePlayer);
         }

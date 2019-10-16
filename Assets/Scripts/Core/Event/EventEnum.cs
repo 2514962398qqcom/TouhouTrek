@@ -45,5 +45,8 @@ namespace ZMDFQ
         /// </summary>
         onCheckCanUse,
         changeEventDirection,
+
+        BeforeEventCardEffect,
+        AfterEventCardEffect
     }
 }

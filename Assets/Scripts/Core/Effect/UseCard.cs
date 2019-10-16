@@ -33,13 +33,14 @@ namespace ZMDFQ.Effects
                 Card = card,
                 Info = $"{player.Hero.Name}使用了{card.Name}",
             });
-            await game.EventSystem.Call(EventEnum.changeEventDirection, game.ActivePlayerSeat(),game, useEventCard);
+            await game.EventSystem.Call(EventEnum.changeEventDirection, game.ActivePlayerSeat(), game, useEventCard);
+            await game.EventSystem.Call(EventEnum.BeforeEventCardEffect, game.ActivePlayerSeat(), game, card);
             await effect(game, useEventCard);
+            await game.EventSystem.Call(EventEnum.AfterEventCardEffect, game.ActivePlayerSeat(), game, card);
             game.RemoveUsingCard(card);
             if (!game.ChainEventDeck.Contains(card))
                 game.UsedEventDeck.Add(card);
         }
-
         public static async Task UseActionCard<T>(Game game, T useActionCard, ActionCard card, Func<Game, T, Task> effect) where T : PlayerAction.FreeUse
         {
             Player player = game.GetPlayer(useActionCard.PlayerId);
@@ -64,7 +65,8 @@ namespace ZMDFQ.Effects
                 var c = game.GetCard(cardId) as ActionCard;
                 game.RemoveUsingCard(c);
                 //结算完毕进入弃牌堆
-                game.UsedActionDeck.Add(c);
+                if (!game.DelayActionDeck.Contains(c))
+                    game.UsedActionDeck.Add(c);
             }
         }
         [Obsolete("时请使用UseActionCard和UseEventCard作为替代")]

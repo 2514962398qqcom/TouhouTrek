@@ -49,7 +49,10 @@ namespace ZMDFQ
         List<HeroCard> characterDeck = new List<HeroCard>();
 
         public List<ActionCard> ActionDeck = new List<ActionCard>();
-
+        /// <summary>
+        /// 延迟行动牌堆
+        /// </summary>
+        public List<ActionCard> DelayActionDeck = new List<ActionCard>();
         public List<ActionCard> UsedActionDeck = new List<ActionCard>();
 
         public List<ThemeCard> ThemeDeck = new List<ThemeCard>();
@@ -61,7 +64,7 @@ namespace ZMDFQ
         public List<EventCard> UsedEventDeck = new List<EventCard>();
 
         /// <summary>
-        /// 延迟行动牌
+        /// 连锁事件牌
         /// </summary>
         public List<EventCard> ChainEventDeck = new List<EventCard>();
 
@@ -597,7 +600,7 @@ namespace ZMDFQ
         public async Task ChangeSize(int size, object source)
         {
             var data = new EventData<int> { data = size };
-            await EventSystem.Call(EventEnum.BeforeGameSizeChange, Players.IndexOf(ActivePlayer), data, source);
+            await EventSystem.Call(EventEnum.BeforeGameSizeChange, Players.IndexOf(ActivePlayer), data, source, this);
             Size += data.data;
             Log.Debug($"Game size change to {Size}");
         }

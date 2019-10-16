@@ -480,7 +480,7 @@ namespace Tests
     }
     class TestEvent_Empty : EventCard
     {
-        public override bool ForwardOnly => false;
+        public override bool ForwardOnly => true;
         public override async Task Use(Game game, ChooseDirectionResponse response)
         {
             await UseCard.UseEventCard(game, response, this, (g, r) =>
