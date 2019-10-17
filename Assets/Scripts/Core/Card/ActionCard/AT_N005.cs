@@ -47,7 +47,7 @@ namespace ZMDFQ.Cards
         {
             game.EventSystem.Register(EventEnum.AfterPlayrSizeChange, game.GetSeat(player), doeffect_passive);
         }
-        internal override void OnDrop(Game game, Player player)
+        internal override void OnLeaveHand(Game game, Player player)
         {
             game.EventSystem.Remove(EventEnum.AfterPlayrSizeChange, doeffect_passive);
         }
