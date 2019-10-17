@@ -29,7 +29,7 @@ namespace Tests
                     new GameOptions.PlayerInfo() { Id = 0 },
                     new GameOptions.PlayerInfo() { Id = 1 }
                 },
-                Cards = (new int[] { })
+                Cards = Enumerable.Empty<int>()
                 .concatRepeat(game.getCardID<AT_N003>(), 20)//行动
                 .concatRepeat(0xC000, 20)//角色
                 .concatRepeat(0xF000, 20)//官作
@@ -63,7 +63,7 @@ namespace Tests
                     new GameOptions.PlayerInfo() { Id = 0 },
                     new GameOptions.PlayerInfo() { Id = 1 }
                 },
-                Cards = (new int[] { })
+                Cards = Enumerable.Empty<int>()
                 .concatRepeat(game.getCardID<AT_N005>(), 20)//行动
                 .concatRepeat(0xC000, 20)//角色
                 .concatRepeat(0xF000, 20)//官作
@@ -105,7 +105,7 @@ namespace Tests
                     new GameOptions.PlayerInfo() { Id = 0 },
                     new GameOptions.PlayerInfo() { Id = 1 }
                 },
-                Cards = (new int[] { })
+                Cards = Enumerable.Empty<int>()
                 .concatRepeat(game.getCardID<AT_D009>(), 20)//行动
                 .concatRepeat(0xC000, 20)//角色
                 .concatRepeat(0xF000, 1).concatRepeat(game.getCardID<G_013>(), 19)//官作
@@ -160,6 +160,48 @@ namespace Tests
             game.Answer(new ChooseDirectionResponse() { PlayerId = 1, CardId = cardID, IfSet = true });
             Assert.AreEqual(10, game.Size);
             Assert.AreEqual(4, game.Players[1].Size);
+        }
+        [Test]
+        public void AT_G013Test()
+        {
+            Game game = new Game();
+            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
+            game.Init(new GameOptions()
+            {
+                PlayerInfos = new GameOptions.PlayerInfo[]
+                {
+                    new GameOptions.PlayerInfo() { Id = 0 },
+                    new GameOptions.PlayerInfo() { Id = 1 },
+                    new GameOptions.PlayerInfo() { Id = 2 },
+                    new GameOptions.PlayerInfo() { Id = 3 }
+                },
+                Cards = Enumerable.Empty<int>()
+                .concatRepeat(game.getCardID<AT_G013>(), 20)//行动
+                .concatRepeat(0xC000, 20)//角色
+                .concatRepeat(0xF000, 20)//官作
+                .concatRepeat(0xE002, 20),//事件
+                firstPlayer = 0,
+                shuffle = false,
+                initCommunitySize = 0,
+                initInfluence = 0,
+                chooseCharacter = true,
+                doubleCharacter = false
+            });
+            game.StartGame();
+            game.Answer(new ChooseHeroResponse() { PlayerId = 0, HeroId = 21 });
+            game.Answer(new ChooseHeroResponse() { PlayerId = 1, HeroId = 24 });
+            game.Answer(new ChooseHeroResponse() { PlayerId = 2, HeroId = 27 });
+            game.Answer(new ChooseHeroResponse() { PlayerId = 3, HeroId = 30 });
+            //1人使用众筹：+1影响力
+            int cardID = game.Players[0].ActionCards[0].Id;
+            game.Answer(new FreeUse() { PlayerId = 0, CardId = cardID, Source = new List<int>() { cardID } });
+            game.Answer(new ChooseSomeCardResponse() { PlayerId = 1, Cards = new List<int>() });
+            game.Answer(new ChooseSomeCardResponse() { PlayerId = 2, Cards = new List<int>() });
+            game.Answer(new ChooseSomeCardResponse() { PlayerId = 3, Cards = new List<int>() });
+            Assert.AreEqual(1, game.Players[0].Size);
         }
     }
     class TestEvent_AddCSAndInf : EventCard

@@ -25,7 +25,7 @@ namespace ZMDFQ.PlayerAction
         public int PlayerId = -1;
 
         /// <summary>
-        /// 是否是向所有玩家进行的询问，true时表示玩家拼手速出牌
+        /// 是否是向所有玩家进行的询问，true时表示玩家拼手速出牌（意思是不知道被询问的玩家是谁）
         /// </summary>
         public bool AllPlayerRequest = false;
 

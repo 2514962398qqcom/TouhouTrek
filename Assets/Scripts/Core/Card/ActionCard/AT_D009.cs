@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+
+using System.Threading.Tasks;
 using ZMDFQ.PlayerAction;
 
 namespace ZMDFQ.Cards

@@ -17,12 +17,7 @@ namespace Tests
         }
         public static IEnumerable<T> concatRepeat<T>(this IEnumerable<T> first, T value, int count)
         {
-            T[] second = new T[count];
-            for (int i = 0; i < second.Length; i++)
-            {
-                second[i] = value;
-            }
-            return first.Concat(second);
+            return first.Concat(Enumerable.Repeat(value, count));
         }
     }
 }

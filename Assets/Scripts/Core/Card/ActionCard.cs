@@ -9,6 +9,10 @@ namespace ZMDFQ
 {
     public abstract class ActionCard : Card
     {
+        public virtual bool isGroup
+        {
+            get { return false; }
+        }
         public bool CanUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             NextRequest request;
@@ -31,11 +35,11 @@ namespace ZMDFQ
 
         public abstract Task DoEffect(Game game, FreeUse useWay);
 
-        internal virtual void OnDraw(Game game,Player player)
+        internal virtual void OnDraw(Game game, Player player)
         {
 
         }
-        internal virtual void OnDrop(Game game,Player player)
+        internal virtual void OnDrop(Game game, Player player)
         {
 
         }
