@@ -159,9 +159,79 @@
 }
 </code></pre>
 <p>通常情况下，你必须返回<code>Effects.UseCard.UseActionCard(game, useWay, this, async (g,r)=&gt; {...});</code>，因为调用这个方法代表着使用这张牌会经过正常的使用动作卡的流程，即先将这张牌从手牌中移除，置入结算区，结算效果，最后置入弃牌堆。<code>async (g,r)=&gt; {...}</code>是一个lambda表达式，你可以把这张卡的具体效果写在<code>{...}</code>中。以这张卡为例，它在效果中为玩家提供了“+2”和“-2”两个选项，如果玩家选了“+2”（第0个选项），那么社区规模+2，否则-2。</p>
+<p>延迟行动卡是一种特殊的行动卡，其特点为在使用之后不触发任何效果，而是被置入延迟行动区，直到它的效果被触发才会进行结算并置入弃牌堆。可以通过类似于以下的方式实现延迟行动卡：</p>
+<pre><code>public class AT_D009 : ActionCard
+{
+	protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
+	{
+		nextRequest = null;
+		return true;
+	}
+	EventCard targetCard { get; set; } = null;
+	public override async Task DoEffect(Game game, FreeUse useWay)
+	{
+		await Effects.UseCard.UseActionCard(game, useWay, this, (g, r) =&gt;
+		{
+			g.DelayActionDeck.Add(this);//置入连锁区
+			game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
+			return Task.CompletedTask;
+		});
+	}
+	Task beforeEventCardEffect(object[] args)
+	{
+		Game game = args[0] as Game;
+		targetCard = args[1] as EventCard;//设置生效卡片
+		game.EventSystem.Register(EventEnum.BeforeGameSizeChange, -1, beforeGameSizeChange);
+		game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, -1, beforePlayerSizeChange);
+		game.EventSystem.Register(EventEnum.AfterEventCardEffect, -1, afterEventCardEffect);//注册事件
+		game.EventSystem.Remove(EventEnum.BeforeEventCardEffect, beforeEventCardEffect);
+		return Task.CompletedTask;
+	}
+	Task beforeGameSizeChange(object[] args)
+	{
+		EventData&lt;int&gt; value = args[0] as EventData&lt;int&gt;;
+		if (targetCard != null &amp;&amp; args[1] == targetCard)
+		{
+			if (value.data &gt; 0)
+				value.data += 1;
+			else
+				value.data -= 1;//偏移量+1
+		}
+		return Task.CompletedTask;
+	}
+	Task beforePlayerSizeChange(object[] args)
+	{
+		EventData&lt;int&gt; value = args[2] as EventData&lt;int&gt;;
+		if (targetCard != null &amp;&amp; args[3] == targetCard)
+		{
+			if (value.data &gt; 0)
+				value.data += 1;
+			else
+				value.data -= 1;//偏移量+1
+		}
+		return Task.CompletedTask;
+	}
+	Task afterEventCardEffect(object[] args)
+	{
+		Game game = args[0] as Game;
+		EventCard eventCard = args[1] as EventCard;//生效卡片
+		if (eventCard == targetCard)
+		{
+			targetCard = null;
+			game.DelayActionDeck.Remove(this);
+			game.UsedActionDeck.Add(this);//进入弃牌区
+			game.EventSystem.Remove(EventEnum.BeforeGameSizeChange, beforeGameSizeChange);
+			game.EventSystem.Remove(EventEnum.BeforePlayrSizeChange, beforePlayerSizeChange);
+			game.EventSystem.Remove(EventEnum.AfterEventCardEffect, afterEventCardEffect);//注销事件
+		}
+		return Task.CompletedTask;
+	}
+}
+</code></pre>
+<p>上图所示为“煽风点火：下一张生效的事件牌效果中的社群规模和个人影响力偏移量+1”的实现。通常来讲，延迟行动牌应该没有任何条件，并且使用效果只有将其置入延迟行动区和注册效果所响应的相应事件。在事件被触发，卡牌实际效果被执行之后，卡牌应当被置入弃牌堆并注销效果响应事件。</p>
 <h2 id="faq">FAQ</h2>
-<p>Q：如何实现卡片在特定的时机，比如响应某个事件的时候触发对应的效果？
-A：详细参考关于<a href="">事件系统</a>的说明。</p>
+<p>Q：如何实现卡片在特定的时机，比如响应某个事件的时候触发对应的效果？</p>
+<p>A：详细参考关于<a href="">事件系统</a>的说明。</p>
 </article>
           </div>
           

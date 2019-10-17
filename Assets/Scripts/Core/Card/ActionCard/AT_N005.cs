@@ -98,7 +98,7 @@ namespace ZMDFQ.Cards
                     await Owner.DropActionCard(game, new List<int>() { Id }, true);//弃牌
                     //实际上的效果
                     await sourcePlayer.ChangeSize(game, value.data, this, player);
-                    //Log.Debug("挂裱生效");
+                    Log.Debug("挂裱生效");
                     //取消阻塞
                     flag.TrySetResult(true);
                 }

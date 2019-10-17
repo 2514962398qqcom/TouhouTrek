@@ -392,6 +392,12 @@ references:
   commentId: T:ZMDFQ.CardHelper
   fullName: ZMDFQ.CardHelper
   nameWithType: CardHelper
+- uid: ZMDFQ.CardHelper.getId(System.Type)
+  name: getId(Type)
+  href: api/ZMDFQ.CardHelper.html#ZMDFQ_CardHelper_getId_System_Type_
+  commentId: M:ZMDFQ.CardHelper.getId(System.Type)
+  fullName: ZMDFQ.CardHelper.getId(System.Type)
+  nameWithType: CardHelper.getId(Type)
 - uid: ZMDFQ.CardHelper.getId(ZMDFQ.Card)
   name: getId(Card)
   href: api/ZMDFQ.CardHelper.html#ZMDFQ_CardHelper_getId_ZMDFQ_Card_
@@ -424,6 +430,41 @@ references:
   commentId: N:ZMDFQ.Cards
   fullName: ZMDFQ.Cards
   nameWithType: ZMDFQ.Cards
+- uid: ZMDFQ.Cards.AT_D009
+  name: AT_D009
+  href: api/ZMDFQ.Cards.AT_D009.html
+  commentId: T:ZMDFQ.Cards.AT_D009
+  fullName: ZMDFQ.Cards.AT_D009
+  nameWithType: AT_D009
+- uid: ZMDFQ.Cards.AT_D009.canUse(ZMDFQ.Game,ZMDFQ.PlayerAction.Request,ZMDFQ.PlayerAction.FreeUse,ZMDFQ.PlayerAction.NextRequest@)
+  name: canUse(Game, Request, FreeUse, out NextRequest)
+  href: api/ZMDFQ.Cards.AT_D009.html#ZMDFQ_Cards_AT_D009_canUse_ZMDFQ_Game_ZMDFQ_PlayerAction_Request_ZMDFQ_PlayerAction_FreeUse_ZMDFQ_PlayerAction_NextRequest__
+  commentId: M:ZMDFQ.Cards.AT_D009.canUse(ZMDFQ.Game,ZMDFQ.PlayerAction.Request,ZMDFQ.PlayerAction.FreeUse,ZMDFQ.PlayerAction.NextRequest@)
+  name.vb: canUse(Game, Request, FreeUse, ByRef NextRequest)
+  fullName: ZMDFQ.Cards.AT_D009.canUse(ZMDFQ.Game, ZMDFQ.PlayerAction.Request, ZMDFQ.PlayerAction.FreeUse, out ZMDFQ.PlayerAction.NextRequest)
+  fullName.vb: ZMDFQ.Cards.AT_D009.canUse(ZMDFQ.Game, ZMDFQ.PlayerAction.Request, ZMDFQ.PlayerAction.FreeUse, ByRef ZMDFQ.PlayerAction.NextRequest)
+  nameWithType: AT_D009.canUse(Game, Request, FreeUse, out NextRequest)
+  nameWithType.vb: AT_D009.canUse(Game, Request, FreeUse, ByRef NextRequest)
+- uid: ZMDFQ.Cards.AT_D009.canUse*
+  name: canUse
+  href: api/ZMDFQ.Cards.AT_D009.html#ZMDFQ_Cards_AT_D009_canUse_
+  commentId: Overload:ZMDFQ.Cards.AT_D009.canUse
+  isSpec: "True"
+  fullName: ZMDFQ.Cards.AT_D009.canUse
+  nameWithType: AT_D009.canUse
+- uid: ZMDFQ.Cards.AT_D009.DoEffect(ZMDFQ.Game,ZMDFQ.PlayerAction.FreeUse)
+  name: DoEffect(Game, FreeUse)
+  href: api/ZMDFQ.Cards.AT_D009.html#ZMDFQ_Cards_AT_D009_DoEffect_ZMDFQ_Game_ZMDFQ_PlayerAction_FreeUse_
+  commentId: M:ZMDFQ.Cards.AT_D009.DoEffect(ZMDFQ.Game,ZMDFQ.PlayerAction.FreeUse)
+  fullName: ZMDFQ.Cards.AT_D009.DoEffect(ZMDFQ.Game, ZMDFQ.PlayerAction.FreeUse)
+  nameWithType: AT_D009.DoEffect(Game, FreeUse)
+- uid: ZMDFQ.Cards.AT_D009.DoEffect*
+  name: DoEffect
+  href: api/ZMDFQ.Cards.AT_D009.html#ZMDFQ_Cards_AT_D009_DoEffect_
+  commentId: Overload:ZMDFQ.Cards.AT_D009.DoEffect
+  isSpec: "True"
+  fullName: ZMDFQ.Cards.AT_D009.DoEffect
+  nameWithType: AT_D009.DoEffect
 - uid: ZMDFQ.Cards.AT_N001
   name: AT_N001
   href: api/ZMDFQ.Cards.AT_N001.html
@@ -599,6 +640,19 @@ references:
   isSpec: "True"
   fullName: ZMDFQ.Cards.AT_N005.DoEffect
   nameWithType: AT_N005.DoEffect
+- uid: ZMDFQ.Cards.AT_N005.Register(ZMDFQ.Game)
+  name: Register(Game)
+  href: api/ZMDFQ.Cards.AT_N005.html#ZMDFQ_Cards_AT_N005_Register_ZMDFQ_Game_
+  commentId: M:ZMDFQ.Cards.AT_N005.Register(ZMDFQ.Game)
+  fullName: ZMDFQ.Cards.AT_N005.Register(ZMDFQ.Game)
+  nameWithType: AT_N005.Register(Game)
+- uid: ZMDFQ.Cards.AT_N005.Register*
+  name: Register
+  href: api/ZMDFQ.Cards.AT_N005.html#ZMDFQ_Cards_AT_N005_Register_
+  commentId: Overload:ZMDFQ.Cards.AT_N005.Register
+  isSpec: "True"
+  fullName: ZMDFQ.Cards.AT_N005.Register
+  nameWithType: AT_N005.Register
 - uid: ZMDFQ.Cards.AT_N006
   name: AT_N006
   href: api/ZMDFQ.Cards.AT_N006.html
@@ -704,6 +758,19 @@ references:
   isSpec: "True"
   fullName: ZMDFQ.Cards.AT_N020.DoEffect
   nameWithType: AT_N020.DoEffect
+- uid: ZMDFQ.Cards.AT_N020.Register(ZMDFQ.Game)
+  name: Register(Game)
+  href: api/ZMDFQ.Cards.AT_N020.html#ZMDFQ_Cards_AT_N020_Register_ZMDFQ_Game_
+  commentId: M:ZMDFQ.Cards.AT_N020.Register(ZMDFQ.Game)
+  fullName: ZMDFQ.Cards.AT_N020.Register(ZMDFQ.Game)
+  nameWithType: AT_N020.Register(Game)
+- uid: ZMDFQ.Cards.AT_N020.Register*
+  name: Register
+  href: api/ZMDFQ.Cards.AT_N020.html#ZMDFQ_Cards_AT_N020_Register_
+  commentId: Overload:ZMDFQ.Cards.AT_N020.Register
+  isSpec: "True"
+  fullName: ZMDFQ.Cards.AT_N020.Register
+  nameWithType: AT_N020.Register
 - uid: ZMDFQ.Cards.CR_CM001_SK1
   name: CR_CM001_SK1
   href: api/ZMDFQ.Cards.CR_CM001_SK1.html
@@ -1491,15 +1558,15 @@ references:
   commentId: T:ZMDFQ.Effects.UseWayResponse
   fullName: ZMDFQ.Effects.UseWayResponse
   nameWithType: UseWayResponse
-- uid: ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game,ZMDFQ.PlayerAction.UseLimitCard,ZMDFQ.PlayerAction.FreeUse,ZMDFQ.PlayerAction.NextRequest@,ZMDFQ.Card)
-  name: CheckLimit(Game, UseLimitCard, FreeUse, ref NextRequest, Card)
-  href: api/ZMDFQ.Effects.UseWayResponse.html#ZMDFQ_Effects_UseWayResponse_CheckLimit_ZMDFQ_Game_ZMDFQ_PlayerAction_UseLimitCard_ZMDFQ_PlayerAction_FreeUse_ZMDFQ_PlayerAction_NextRequest__ZMDFQ_Card_
-  commentId: M:ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game,ZMDFQ.PlayerAction.UseLimitCard,ZMDFQ.PlayerAction.FreeUse,ZMDFQ.PlayerAction.NextRequest@,ZMDFQ.Card)
-  name.vb: CheckLimit(Game, UseLimitCard, FreeUse, ByRef NextRequest, Card)
-  fullName: ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game, ZMDFQ.PlayerAction.UseLimitCard, ZMDFQ.PlayerAction.FreeUse, ref ZMDFQ.PlayerAction.NextRequest, ZMDFQ.Card)
-  fullName.vb: ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game, ZMDFQ.PlayerAction.UseLimitCard, ZMDFQ.PlayerAction.FreeUse, ByRef ZMDFQ.PlayerAction.NextRequest, ZMDFQ.Card)
-  nameWithType: UseWayResponse.CheckLimit(Game, UseLimitCard, FreeUse, ref NextRequest, Card)
-  nameWithType.vb: UseWayResponse.CheckLimit(Game, UseLimitCard, FreeUse, ByRef NextRequest, Card)
+- uid: ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game,ZMDFQ.PlayerAction.UseLimitCardRequest,ZMDFQ.PlayerAction.FreeUse,ZMDFQ.PlayerAction.NextRequest@,ZMDFQ.Card)
+  name: CheckLimit(Game, UseLimitCardRequest, FreeUse, ref NextRequest, Card)
+  href: api/ZMDFQ.Effects.UseWayResponse.html#ZMDFQ_Effects_UseWayResponse_CheckLimit_ZMDFQ_Game_ZMDFQ_PlayerAction_UseLimitCardRequest_ZMDFQ_PlayerAction_FreeUse_ZMDFQ_PlayerAction_NextRequest__ZMDFQ_Card_
+  commentId: M:ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game,ZMDFQ.PlayerAction.UseLimitCardRequest,ZMDFQ.PlayerAction.FreeUse,ZMDFQ.PlayerAction.NextRequest@,ZMDFQ.Card)
+  name.vb: CheckLimit(Game, UseLimitCardRequest, FreeUse, ByRef NextRequest, Card)
+  fullName: ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game, ZMDFQ.PlayerAction.UseLimitCardRequest, ZMDFQ.PlayerAction.FreeUse, ref ZMDFQ.PlayerAction.NextRequest, ZMDFQ.Card)
+  fullName.vb: ZMDFQ.Effects.UseWayResponse.CheckLimit(ZMDFQ.Game, ZMDFQ.PlayerAction.UseLimitCardRequest, ZMDFQ.PlayerAction.FreeUse, ByRef ZMDFQ.PlayerAction.NextRequest, ZMDFQ.Card)
+  nameWithType: UseWayResponse.CheckLimit(Game, UseLimitCardRequest, FreeUse, ref NextRequest, Card)
+  nameWithType.vb: UseWayResponse.CheckLimit(Game, UseLimitCardRequest, FreeUse, ByRef NextRequest, Card)
 - uid: ZMDFQ.Effects.UseWayResponse.CheckLimit*
   name: CheckLimit
   href: api/ZMDFQ.Effects.UseWayResponse.html#ZMDFQ_Effects_UseWayResponse_CheckLimit_
@@ -1611,6 +1678,12 @@ references:
   commentId: F:ZMDFQ.EventEnum.afterDrawcardPhase
   fullName: ZMDFQ.EventEnum.afterDrawcardPhase
   nameWithType: EventEnum.afterDrawcardPhase
+- uid: ZMDFQ.EventEnum.AfterEventCardEffect
+  name: AfterEventCardEffect
+  href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_AfterEventCardEffect
+  commentId: F:ZMDFQ.EventEnum.AfterEventCardEffect
+  fullName: ZMDFQ.EventEnum.AfterEventCardEffect
+  nameWithType: EventEnum.AfterEventCardEffect
 - uid: ZMDFQ.EventEnum.AfterGameSizeChange
   name: AfterGameSizeChange
   href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_AfterGameSizeChange
@@ -1629,12 +1702,30 @@ references:
   commentId: F:ZMDFQ.EventEnum.BeforDrawActionCard
   fullName: ZMDFQ.EventEnum.BeforDrawActionCard
   nameWithType: EventEnum.BeforDrawActionCard
+- uid: ZMDFQ.EventEnum.BeforeEventCardEffect
+  name: BeforeEventCardEffect
+  href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_BeforeEventCardEffect
+  commentId: F:ZMDFQ.EventEnum.BeforeEventCardEffect
+  fullName: ZMDFQ.EventEnum.BeforeEventCardEffect
+  nameWithType: EventEnum.BeforeEventCardEffect
 - uid: ZMDFQ.EventEnum.BeforeGameSizeChange
   name: BeforeGameSizeChange
   href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_BeforeGameSizeChange
   commentId: F:ZMDFQ.EventEnum.BeforeGameSizeChange
   fullName: ZMDFQ.EventEnum.BeforeGameSizeChange
   nameWithType: EventEnum.BeforeGameSizeChange
+- uid: ZMDFQ.EventEnum.BeforeGetPlayerSizeMax
+  name: BeforeGetPlayerSizeMax
+  href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_BeforeGetPlayerSizeMax
+  commentId: F:ZMDFQ.EventEnum.BeforeGetPlayerSizeMax
+  fullName: ZMDFQ.EventEnum.BeforeGetPlayerSizeMax
+  nameWithType: EventEnum.BeforeGetPlayerSizeMax
+- uid: ZMDFQ.EventEnum.BeforeGetPlayerSizeMin
+  name: BeforeGetPlayerSizeMin
+  href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_BeforeGetPlayerSizeMin
+  commentId: F:ZMDFQ.EventEnum.BeforeGetPlayerSizeMin
+  fullName: ZMDFQ.EventEnum.BeforeGetPlayerSizeMin
+  nameWithType: EventEnum.BeforeGetPlayerSizeMin
 - uid: ZMDFQ.EventEnum.BeforePassiveDropActionCard
   name: BeforePassiveDropActionCard
   href: api/ZMDFQ.EventEnum.html#ZMDFQ_EventEnum_BeforePassiveDropActionCard
@@ -1731,6 +1822,25 @@ references:
   commentId: F:ZMDFQ.EventEnum.TurnStart
   fullName: ZMDFQ.EventEnum.TurnStart
   nameWithType: EventEnum.TurnStart
+- uid: ZMDFQ.EventHelper
+  name: EventHelper
+  href: api/ZMDFQ.EventHelper.html
+  commentId: T:ZMDFQ.EventHelper
+  fullName: ZMDFQ.EventHelper
+  nameWithType: EventHelper
+- uid: ZMDFQ.EventHelper.RegisterEvent(ZMDFQ.Game)
+  name: RegisterEvent(Game)
+  href: api/ZMDFQ.EventHelper.html#ZMDFQ_EventHelper_RegisterEvent_ZMDFQ_Game_
+  commentId: M:ZMDFQ.EventHelper.RegisterEvent(ZMDFQ.Game)
+  fullName: ZMDFQ.EventHelper.RegisterEvent(ZMDFQ.Game)
+  nameWithType: EventHelper.RegisterEvent(Game)
+- uid: ZMDFQ.EventHelper.RegisterEvent*
+  name: RegisterEvent
+  href: api/ZMDFQ.EventHelper.html#ZMDFQ_EventHelper_RegisterEvent_
+  commentId: Overload:ZMDFQ.EventHelper.RegisterEvent
+  isSpec: "True"
+  fullName: ZMDFQ.EventHelper.RegisterEvent
+  nameWithType: EventHelper.RegisterEvent
 - uid: ZMDFQ.EventSystem
   name: EventSystem
   href: api/ZMDFQ.EventSystem.html
@@ -1870,12 +1980,12 @@ references:
   commentId: F:ZMDFQ.Game.ActiveTheme
   fullName: ZMDFQ.Game.ActiveTheme
   nameWithType: Game.ActiveTheme
-- uid: ZMDFQ.Game.Answer(ZMDFQ.PlayerAction.Response)
-  name: Answer(Response)
-  href: api/ZMDFQ.Game.html#ZMDFQ_Game_Answer_ZMDFQ_PlayerAction_Response_
-  commentId: M:ZMDFQ.Game.Answer(ZMDFQ.PlayerAction.Response)
-  fullName: ZMDFQ.Game.Answer(ZMDFQ.PlayerAction.Response)
-  nameWithType: Game.Answer(Response)
+- uid: ZMDFQ.Game.Answer(ZMDFQ.PlayerAction.Response,System.Int32)
+  name: Answer(Response, Int32)
+  href: api/ZMDFQ.Game.html#ZMDFQ_Game_Answer_ZMDFQ_PlayerAction_Response_System_Int32_
+  commentId: M:ZMDFQ.Game.Answer(ZMDFQ.PlayerAction.Response,System.Int32)
+  fullName: ZMDFQ.Game.Answer(ZMDFQ.PlayerAction.Response, System.Int32)
+  nameWithType: Game.Answer(Response, Int32)
 - uid: ZMDFQ.Game.Answer*
   name: Answer
   href: api/ZMDFQ.Game.html#ZMDFQ_Game_Answer_
@@ -2013,6 +2123,12 @@ references:
   isSpec: "True"
   fullName: ZMDFQ.Game.Database
   nameWithType: Game.Database
+- uid: ZMDFQ.Game.DelayActionDeck
+  name: DelayActionDeck
+  href: api/ZMDFQ.Game.html#ZMDFQ_Game_DelayActionDeck
+  commentId: F:ZMDFQ.Game.DelayActionDeck
+  fullName: ZMDFQ.Game.DelayActionDeck
+  nameWithType: Game.DelayActionDeck
 - uid: ZMDFQ.Game.dice
   name: dice()
   href: api/ZMDFQ.Game.html#ZMDFQ_Game_dice
@@ -2854,6 +2970,32 @@ references:
   commentId: F:ZMDFQ.Player.EventCards
   fullName: ZMDFQ.Player.EventCards
   nameWithType: Player.EventCards
+- uid: ZMDFQ.Player.getSizeMax(ZMDFQ.Game)
+  name: getSizeMax(Game)
+  href: api/ZMDFQ.Player.html#ZMDFQ_Player_getSizeMax_ZMDFQ_Game_
+  commentId: M:ZMDFQ.Player.getSizeMax(ZMDFQ.Game)
+  fullName: ZMDFQ.Player.getSizeMax(ZMDFQ.Game)
+  nameWithType: Player.getSizeMax(Game)
+- uid: ZMDFQ.Player.getSizeMax*
+  name: getSizeMax
+  href: api/ZMDFQ.Player.html#ZMDFQ_Player_getSizeMax_
+  commentId: Overload:ZMDFQ.Player.getSizeMax
+  isSpec: "True"
+  fullName: ZMDFQ.Player.getSizeMax
+  nameWithType: Player.getSizeMax
+- uid: ZMDFQ.Player.getSizeMin(ZMDFQ.Game)
+  name: getSizeMin(Game)
+  href: api/ZMDFQ.Player.html#ZMDFQ_Player_getSizeMin_ZMDFQ_Game_
+  commentId: M:ZMDFQ.Player.getSizeMin(ZMDFQ.Game)
+  fullName: ZMDFQ.Player.getSizeMin(ZMDFQ.Game)
+  nameWithType: Player.getSizeMin(Game)
+- uid: ZMDFQ.Player.getSizeMin*
+  name: getSizeMin
+  href: api/ZMDFQ.Player.html#ZMDFQ_Player_getSizeMin_
+  commentId: Overload:ZMDFQ.Player.getSizeMin
+  isSpec: "True"
+  fullName: ZMDFQ.Player.getSizeMin
+  nameWithType: Player.getSizeMin
 - uid: ZMDFQ.Player.HandMax(ZMDFQ.Game)
   name: HandMax(Game)
   href: api/ZMDFQ.Player.html#ZMDFQ_Player_HandMax_ZMDFQ_Game_
@@ -3127,6 +3269,12 @@ references:
   commentId: F:ZMDFQ.PlayerAction.Request.RemainTime
   fullName: ZMDFQ.PlayerAction.Request.RemainTime
   nameWithType: Request.RemainTime
+- uid: ZMDFQ.PlayerAction.Request.RequsetInfo
+  name: RequsetInfo
+  href: api/ZMDFQ.PlayerAction.Request.html#ZMDFQ_PlayerAction_Request_RequsetInfo
+  commentId: F:ZMDFQ.PlayerAction.Request.RequsetInfo
+  fullName: ZMDFQ.PlayerAction.Request.RequsetInfo
+  nameWithType: Request.RequsetInfo
 - uid: ZMDFQ.PlayerAction.Request.SetTimeOut(System.Single)
   name: SetTimeOut(Single)
   href: api/ZMDFQ.PlayerAction.Request.html#ZMDFQ_PlayerAction_Request_SetTimeOut_System_Single_
@@ -3182,18 +3330,30 @@ references:
   commentId: F:ZMDFQ.PlayerAction.TakeChoiceResponse.Index
   fullName: ZMDFQ.PlayerAction.TakeChoiceResponse.Index
   nameWithType: TakeChoiceResponse.Index
-- uid: ZMDFQ.PlayerAction.UseLimitCard
-  name: UseLimitCard
-  href: api/ZMDFQ.PlayerAction.UseLimitCard.html
-  commentId: T:ZMDFQ.PlayerAction.UseLimitCard
-  fullName: ZMDFQ.PlayerAction.UseLimitCard
-  nameWithType: UseLimitCard
-- uid: ZMDFQ.PlayerAction.UseLimitCard.CardType
+- uid: ZMDFQ.PlayerAction.UseLimitCardRequest
+  name: UseLimitCardRequest
+  href: api/ZMDFQ.PlayerAction.UseLimitCardRequest.html
+  commentId: T:ZMDFQ.PlayerAction.UseLimitCardRequest
+  fullName: ZMDFQ.PlayerAction.UseLimitCardRequest
+  nameWithType: UseLimitCardRequest
+- uid: ZMDFQ.PlayerAction.UseLimitCardRequest.CardType
   name: CardType
-  href: api/ZMDFQ.PlayerAction.UseLimitCard.html#ZMDFQ_PlayerAction_UseLimitCard_CardType
-  commentId: F:ZMDFQ.PlayerAction.UseLimitCard.CardType
-  fullName: ZMDFQ.PlayerAction.UseLimitCard.CardType
-  nameWithType: UseLimitCard.CardType
+  href: api/ZMDFQ.PlayerAction.UseLimitCardRequest.html#ZMDFQ_PlayerAction_UseLimitCardRequest_CardType
+  commentId: F:ZMDFQ.PlayerAction.UseLimitCardRequest.CardType
+  fullName: ZMDFQ.PlayerAction.UseLimitCardRequest.CardType
+  nameWithType: UseLimitCardRequest.CardType
+- uid: ZMDFQ.PlayerAction.UseLimitCardResponse
+  name: UseLimitCardResponse
+  href: api/ZMDFQ.PlayerAction.UseLimitCardResponse.html
+  commentId: T:ZMDFQ.PlayerAction.UseLimitCardResponse
+  fullName: ZMDFQ.PlayerAction.UseLimitCardResponse
+  nameWithType: UseLimitCardResponse
+- uid: ZMDFQ.PlayerAction.UseLimitCardResponse.Used
+  name: Used
+  href: api/ZMDFQ.PlayerAction.UseLimitCardResponse.html#ZMDFQ_PlayerAction_UseLimitCardResponse_Used
+  commentId: F:ZMDFQ.PlayerAction.UseLimitCardResponse.Used
+  fullName: ZMDFQ.PlayerAction.UseLimitCardResponse.Used
+  nameWithType: UseLimitCardResponse.Used
 - uid: ZMDFQ.RequestTimeoutManager
   name: RequestTimeoutManager
   href: api/ZMDFQ.RequestTimeoutManager.html
@@ -3771,6 +3931,25 @@ references:
   isSpec: "True"
   fullName: ZMDFQ.SkillHelper.getType
   nameWithType: SkillHelper.getType
+- uid: ZMDFQ.TaskHelper
+  name: TaskHelper
+  href: api/ZMDFQ.TaskHelper.html
+  commentId: T:ZMDFQ.TaskHelper
+  fullName: ZMDFQ.TaskHelper
+  nameWithType: TaskHelper
+- uid: ZMDFQ.TaskHelper.NoWait(System.Threading.Tasks.Task)
+  name: NoWait(Task)
+  href: api/ZMDFQ.TaskHelper.html#ZMDFQ_TaskHelper_NoWait_System_Threading_Tasks_Task_
+  commentId: M:ZMDFQ.TaskHelper.NoWait(System.Threading.Tasks.Task)
+  fullName: ZMDFQ.TaskHelper.NoWait(System.Threading.Tasks.Task)
+  nameWithType: TaskHelper.NoWait(Task)
+- uid: ZMDFQ.TaskHelper.NoWait*
+  name: NoWait
+  href: api/ZMDFQ.TaskHelper.html#ZMDFQ_TaskHelper_NoWait_
+  commentId: Overload:ZMDFQ.TaskHelper.NoWait
+  isSpec: "True"
+  fullName: ZMDFQ.TaskHelper.NoWait
+  nameWithType: TaskHelper.NoWait
 - uid: ZMDFQ.ThemeCard
   name: ThemeCard
   href: api/ZMDFQ.ThemeCard.html
@@ -4304,6 +4483,12 @@ references:
   commentId: F:ZMDFQ.UI.Battle.UI_Main2.m_ChooseHero
   fullName: ZMDFQ.UI.Battle.UI_Main2.m_ChooseHero
   nameWithType: UI_Main2.m_ChooseHero
+- uid: ZMDFQ.UI.Battle.UI_Main2.m_ChooseRequest
+  name: m_ChooseRequest
+  href: api/ZMDFQ.UI.Battle.UI_Main2.html#ZMDFQ_UI_Battle_UI_Main2_m_ChooseRequest
+  commentId: F:ZMDFQ.UI.Battle.UI_Main2.m_ChooseRequest
+  fullName: ZMDFQ.UI.Battle.UI_Main2.m_ChooseRequest
+  nameWithType: UI_Main2.m_ChooseRequest
 - uid: ZMDFQ.UI.Battle.UI_Main2.m_DelayAction
   name: m_DelayAction
   href: api/ZMDFQ.UI.Battle.UI_Main2.html#ZMDFQ_UI_Battle_UI_Main2_m_DelayAction
@@ -4364,6 +4549,12 @@ references:
   commentId: F:ZMDFQ.UI.Battle.UI_Main2.m_limitUse
   fullName: ZMDFQ.UI.Battle.UI_Main2.m_limitUse
   nameWithType: UI_Main2.m_limitUse
+- uid: ZMDFQ.UI.Battle.UI_Main2.m_limitUseCancel
+  name: m_limitUseCancel
+  href: api/ZMDFQ.UI.Battle.UI_Main2.html#ZMDFQ_UI_Battle_UI_Main2_m_limitUseCancel
+  commentId: F:ZMDFQ.UI.Battle.UI_Main2.m_limitUseCancel
+  fullName: ZMDFQ.UI.Battle.UI_Main2.m_limitUseCancel
+  nameWithType: UI_Main2.m_limitUseCancel
 - uid: ZMDFQ.UI.Battle.UI_Main2.m_MainSize
   name: m_MainSize
   href: api/ZMDFQ.UI.Battle.UI_Main2.html#ZMDFQ_UI_Battle_UI_Main2_m_MainSize
@@ -4448,6 +4639,12 @@ references:
   commentId: F:ZMDFQ.UI.Battle.UI_Main2.m_Request
   fullName: ZMDFQ.UI.Battle.UI_Main2.m_Request
   nameWithType: UI_Main2.m_Request
+- uid: ZMDFQ.UI.Battle.UI_Main2.m_requestList
+  name: m_requestList
+  href: api/ZMDFQ.UI.Battle.UI_Main2.html#ZMDFQ_UI_Battle_UI_Main2_m_requestList
+  commentId: F:ZMDFQ.UI.Battle.UI_Main2.m_requestList
+  fullName: ZMDFQ.UI.Battle.UI_Main2.m_requestList
+  nameWithType: UI_Main2.m_requestList
 - uid: ZMDFQ.UI.Battle.UI_Main2.m_RoundInfo
   name: m_RoundInfo
   href: api/ZMDFQ.UI.Battle.UI_Main2.html#ZMDFQ_UI_Battle_UI_Main2_m_RoundInfo
