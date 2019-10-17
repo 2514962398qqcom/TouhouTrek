@@ -39,7 +39,7 @@ namespace ZMDFQ
         {
 
         }
-        internal virtual void OnDrop(Game game, Player player)
+        internal virtual void OnLeaveHand(Game game,Player player)
         {
 
         }

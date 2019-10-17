@@ -64,9 +64,12 @@ namespace ZMDFQ.Effects
             {
                 var c = game.GetCard(cardId) as ActionCard;
                 game.RemoveUsingCard(c);
+                c.Owner = null;
                 //结算完毕进入弃牌堆
                 if (!game.DelayActionDeck.Contains(c))
+                {
                     game.UsedActionDeck.Add(c);
+                }
             }
         }
         [Obsolete("时请使用UseActionCard和UseEventCard作为替代")]

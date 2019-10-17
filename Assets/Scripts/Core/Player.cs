@@ -153,11 +153,13 @@ namespace ZMDFQ
         }
 
         /// <summary>
-        /// 失去一张行动牌
-        /// 注意不进弃牌堆
+        /// 失去复数张牌
         /// </summary>
         /// <param name="game"></param>
         /// <param name="cards"></param>
+        /// <param name="goUsedPile">是否进入弃牌堆,为false时不改变owner</param>
+        /// <param name="ifPassive">是否主动丢牌</param>
+        /// <returns></returns>
         internal async Task DropActionCard(Game game, List<int> cards, bool goUsedPile = false, bool ifPassive = false)
         {
             if (ifPassive)
@@ -177,10 +179,12 @@ namespace ZMDFQ
                 ActionCard card = ActionCards.Find(x => x.Id == cardId);
                 ActionCards.Remove(card);
                 if (goUsedPile)
+                {
                     game.UsedActionDeck.Add(card);
+                    card.Owner = null;
+                }
                 data.Add(card);
-                card.OnDrop(game, this);
-                card.Owner = null;
+                card.OnLeaveHand(game, this);
             }
             await game.EventSystem.Call(EventEnum.DropActionCard, game.GetSeat(this), this, data);
         }

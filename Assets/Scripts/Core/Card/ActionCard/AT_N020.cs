@@ -67,7 +67,7 @@ namespace ZMDFQ.Cards
             //game.EventSystem.Register(EventEnum.changeEventDirection, game.GetSeat(player), effect, 0, "使用墨菲定律");
         }
 
-        internal override void OnDrop(Game game, Player player)
+        internal override void OnLeaveHand(Game game, Player player)
         {
             //game.EventSystem.Remove(EventEnum.changeEventDirection, effect);
         }
