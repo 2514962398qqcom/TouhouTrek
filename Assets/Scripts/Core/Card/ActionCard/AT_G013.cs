@@ -32,7 +32,7 @@ namespace ZMDFQ.Cards
                 PlayerId = p.Id,
                 RequsetInfo = "是否丢弃手牌成为众筹者？"
             }.SetTimeOut(game.RequestTime))).ToArray();
-            Task.WaitAll(tasks);
+            await Task.WhenAll(tasks);
             foreach (var task in tasks)
             {
                 ChooseSomeCardResponse response = task.Result as ChooseSomeCardResponse;

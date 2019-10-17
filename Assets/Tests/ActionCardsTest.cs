@@ -182,7 +182,7 @@ namespace Tests
                 .concatRepeat(game.getCardID<AT_G013>(), 20)//行动
                 .concatRepeat(0xC000, 20)//角色
                 .concatRepeat(0xF000, 20)//官作
-                .concatRepeat(0xE002, 20),//事件
+                .concatRepeat(0xE000, 20),//事件
                 firstPlayer = 0,
                 shuffle = false,
                 initCommunitySize = 0,
