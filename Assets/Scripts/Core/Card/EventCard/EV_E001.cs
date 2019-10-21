@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using ZMDFQ.PlayerAction;
 
 namespace ZMDFQ.Cards
@@ -13,14 +14,14 @@ namespace ZMDFQ.Cards
     public class EV_E001 : EventCard
     {
         public override bool ForwardOnly => false;
-        public override async Task Use(Game game, ChooseDirectionResponse response)
+        public override async Task DoEffect(Game game, ChooseDirectionResponse response, List<Player> unaffectedPlayers)
         {
-            await Effects.UseCard.UseEventCard(game, response, this, async (g,r)=>
+            await Effects.UseCard.UseEventCard(game, response, this, async (g, r) =>
             {
                 if (response.IfForward)
-                    game.Size += game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1;
+                    await game.ChangeSize(game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1, this);
                 else
-                    game.Size -= game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1;
+                    await game.ChangeSize(-game.ChainEventDeck.Where(c => c is EV_E001).Count() + 1, this);
                 game.ChainEventDeck.Add(this);
             });
         }

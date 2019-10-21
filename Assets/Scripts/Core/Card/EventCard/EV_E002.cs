@@ -12,7 +12,7 @@ namespace ZMDFQ.Cards
     public class EV_E002 : EventCard
     {
         public override bool ForwardOnly => false;
-        public override Task Use(Game game, ChooseDirectionResponse response)
+        public override Task DoEffect(Game game, ChooseDirectionResponse response, List<Player> unaffectedPlayers)
         {
             return Task.CompletedTask;
         }

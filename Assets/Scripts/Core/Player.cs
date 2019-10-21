@@ -39,11 +39,22 @@ namespace ZMDFQ
         /// 得分
         /// </summary>
         public int point { get; set; } = 0;
+        public bool avoidSetEvent { get; set; } = false;
         public Player(int id)
         {
             Id = id;
         }
-
+        /// <summary>
+        /// 将一张牌置入玩家的手牌
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public async Task AddCard(Game game, ActionCard card)
+        {
+            ActionCards.Add(card);
+            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, card);
+        }
         internal async Task DrawActionCard(Game game, int count)
         {
             EventData<int> drawCount = new EventData<int>() { data = count };
@@ -59,7 +70,7 @@ namespace ZMDFQ
                     game.Reshuffle(game.ActionDeck);
                 }
                 ActionCard card = game.ActionDeck[0];
-                ActionCards.Add(card);
+                await AddCard(game, card);
                 drawedCards.Add(card);
                 game.ActionDeck.Remove(card);
                 card.Owner = this;
@@ -67,13 +78,16 @@ namespace ZMDFQ
             }
             await game.EventSystem.Call(EventEnum.DrawActionCard, game.ActivePlayerSeat(), this, drawedCards);
         }
-
+        void AddEventCard(EventCard card)
+        {
+            EventCards.Add(card);
+            card.Owner = this;
+        }
         internal async Task DrawEventCard(Game game)
         {
             EventCard card = game.EventDeck[0];
-            EventCards.Add(card);
             game.EventDeck.Remove(card);
-            card.Owner = this;
+            AddEventCard(card);
             await game.EventSystem.Call(EventEnum.DrawEventCard, game.ActivePlayerSeat(), this, card);
         }
 
@@ -111,12 +125,12 @@ namespace ZMDFQ
 
         /// <summary>
         /// 失去一张事件卡
-        /// 注意没有进弃牌堆
         /// </summary>
         /// <param name="game"></param>
         /// <param name="card"></param>
+        /// <param name="goUsedDeck">是否丢进弃牌堆</param>
         /// <returns></returns>
-        internal async Task DropEventCard(Game game, EventCard card)
+        internal async Task DropEventCard(Game game, EventCard card, bool goUsedDeck = false)
         {
             if (card == SaveEvent)
             {
@@ -129,6 +143,8 @@ namespace ZMDFQ
                 EventCards.Remove(card);
             }
             card.Owner = null;
+            if (goUsedDeck)
+                game.UsedEventDeck.Add(card);
         }
 
         internal Task UseActionCard(Game game, FreeUse useInfo)
@@ -147,7 +163,7 @@ namespace ZMDFQ
                     return skill.DoEffect(game, useInfo);
                 else
                 {
-                    throw new System.Exception($"玩家不持有的技能：{useInfo.SkillId}");
+                    throw new Exception($"玩家不持有的技能：{useInfo.SkillId}");
                 }
             }
         }

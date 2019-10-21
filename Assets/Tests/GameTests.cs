@@ -29,10 +29,10 @@ namespace Tests
         public IEnumerator initTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -63,10 +63,10 @@ namespace Tests
         public IEnumerator startGameTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -109,12 +109,12 @@ namespace Tests
         public IEnumerator useActionTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
-            (game.Database as ConfigManager).AddCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -147,12 +147,12 @@ namespace Tests
         public IEnumerator useEventTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
-            (game.Database as ConfigManager).AddCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -189,12 +189,12 @@ namespace Tests
         public IEnumerator useEventReverseTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
-            (game.Database as ConfigManager).AddCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -229,12 +229,12 @@ namespace Tests
         public IEnumerator setEventTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
-            (game.Database as ConfigManager).AddCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -285,12 +285,12 @@ namespace Tests
         public IEnumerator discardTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
-            (game.Database as ConfigManager).AddCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -337,12 +337,12 @@ namespace Tests
         public IEnumerator winTest()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
-            (game.Database as ConfigManager).AddCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
@@ -414,7 +414,7 @@ namespace Tests
     class TestEvent_DoubleOrZeroPlayerInf : EventCard
     {
         public override bool ForwardOnly => false;
-        public override async Task Use(Game game, ChooseDirectionResponse response)
+        public override async Task DoEffect(Game game, ChooseDirectionResponse response, List<Player> unaffectedPlayers)
         {
             await UseCard.UseEventCard(game, response, this, effect);
         }
@@ -481,7 +481,7 @@ namespace Tests
     class TestEvent_Empty : EventCard
     {
         public override bool ForwardOnly => true;
-        public override async Task Use(Game game, ChooseDirectionResponse response)
+        public override async Task DoEffect(Game game, ChooseDirectionResponse response, List<Player> unaffectedPlayers)
         {
             await UseCard.UseEventCard(game, response, this, (g, r) =>
             {

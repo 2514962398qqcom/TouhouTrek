@@ -50,6 +50,8 @@ namespace ZMDFQ
         AfterEventCardEffect,
 
         BeforeGetPlayerSizeMax,
-        BeforeGetPlayerSizeMin
+        BeforeGetPlayerSizeMin,
+
+        AfterAddCard
     }
 }

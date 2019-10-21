@@ -13,12 +13,12 @@ namespace Tests
         public void G013Test()
         {
             Game game = new Game();
-            (game.Database as ConfigManager).AddCard(0xA000, new TestAction_Empty());
-            (game.Database as ConfigManager).AddCard(0xA001, new TestAction_Add1Inf());
-            (game.Database as ConfigManager).AddCard(0xA002, new TestAction_Add2CS());
-            (game.Database as ConfigManager).AddCard(0xC000, new TestCharacter_Empty());
-            (game.Database as ConfigManager).AddCard(0xF000, new TestOfficial_Empty());
-            (game.Database as ConfigManager).AddCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xA002, new TestAction_Add2CS());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
             game.Init(new GameOptions()
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]

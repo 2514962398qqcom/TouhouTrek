@@ -9,7 +9,7 @@ namespace ZMDFQ.PlayerAction
     /// <summary>
     /// 选择手上的一些牌
     /// </summary>
-    public class ChooseSomeCardRequest :Request
+    public class ChooseSomeCardRequest : Request
     {
         /// <summary>
         /// 需要选择的数量
