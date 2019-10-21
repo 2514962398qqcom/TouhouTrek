@@ -16,11 +16,6 @@ namespace ZMDFQ.Cards
     public class AT_G013 : ActionCard
     {
         public override bool isGroup => true;
-        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
-        {
-            nextRequest = null;
-            return true;
-        }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
             List<Player> crowdfunders = new List<Player>() { game.GetPlayer(useWay.PlayerId) };

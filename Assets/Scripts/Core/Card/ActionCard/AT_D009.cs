@@ -10,20 +10,12 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_D009 : ActionCard
     {
-        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
-        {
-            nextRequest = null;
-            return true;
-        }
         EventCard targetCard { get; set; } = null;
-        public override async Task DoEffect(Game game, FreeUse useWay)
+        public override Task DoEffect(Game game, FreeUse useWay)
         {
-            await Effects.UseCard.UseActionCard(game, useWay, this, (g, r) =>
-            {
-                g.DelayActionDeck.Add(this);//置入连锁区
-                game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
-                return Task.CompletedTask;
-            });
+            g.DelayActionDeck.Add(this);//置入连锁区
+            game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
+            return Task.CompletedTask;
         }
         Task beforeEventCardEffect(object[] args)
         {

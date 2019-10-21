@@ -45,15 +45,15 @@ namespace ZMDFQ
             Id = id;
         }
         /// <summary>
-        /// 将一张牌置入玩家的手牌
+        /// 将卡牌置入玩家的手牌
         /// </summary>
         /// <param name="game"></param>
-        /// <param name="card"></param>
+        /// <param name="cards"></param>
         /// <returns></returns>
-        public async Task AddCard(Game game, ActionCard card)
+        public async Task AddActionCards(Game game, List<ActionCard> cards)
         {
-            ActionCards.Add(card);
-            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, card);
+            ActionCards.AddRange(cards);
+            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, cards);
         }
         internal async Task DrawActionCard(Game game, int count)
         {
@@ -70,7 +70,7 @@ namespace ZMDFQ
                     game.Reshuffle(game.ActionDeck);
                 }
                 ActionCard card = game.ActionDeck[0];
-                await AddCard(game, card);
+                await AddCards(game, card);
                 drawedCards.Add(card);
                 game.ActionDeck.Remove(card);
                 card.Owner = this;
@@ -153,8 +153,10 @@ namespace ZMDFQ
             {
                 //正常用卡
                 ActionCard card = ActionCards.Find(x => x.Id == useInfo.CardId);
-                if (card == null) return Task.CompletedTask;
-                return card.DoEffect(game, useInfo);
+                if (card == null)
+                    return Task.CompletedTask;
+                return Effects.UseCard.UseActionCard(game, useInfo, card, card.DoEffect);
+                //return card.DoEffect(game, useInfo);
             }
             else
             {

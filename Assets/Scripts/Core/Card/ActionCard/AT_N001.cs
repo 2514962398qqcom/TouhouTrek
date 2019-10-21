@@ -12,42 +12,19 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_N001 : ActionCard
     {
-        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
+        public override async Task DoEffect(Game game, FreeUse useWay)
         {
-            nextRequest = null;
-            switch (nowRequest)
+            //询问玩家是加或减
+            TakeChoiceResponse response = (TakeChoiceResponse)await game.WaitAnswer(new TakeChoiceRequest()
             {
-                case UseLimitCardRequest useLimitCard:
-                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, this);
-                case FreeUseRequest _:
-                    return true;
-            }
-            return false;
-        }
-        public override Task DoEffect(Game game, FreeUse useWay)
-        {
-            return Effects.UseCard.UseActionCard(game, useWay, this, async (g,r)=>
-            {
-                //询问玩家是加或减
-                TakeChoiceResponse response = (TakeChoiceResponse)await game.WaitAnswer(new TakeChoiceRequest()
-                {
-                    PlayerId = useWay.PlayerId,
-                    Infos = new List<string>()
-                {
-                    "+2",
-                    "-2",
-                }
-                });
-                //处理实际效果
-                if (response.Index == 0)
-                {
-                    await game.ChangeSize(2, this);
-                }
-                else
-                {
-                    await game.ChangeSize(-2, this);
-                }
-            });          
+                PlayerId = useWay.PlayerId,
+                Infos = new List<string>() { "+2", "-2", }
+            });
+            //处理实际效果
+            if (response.Index == 0)
+                await game.ChangeSize(2, this);
+            else
+                await game.ChangeSize(-2, this);
         }
     }
 }
