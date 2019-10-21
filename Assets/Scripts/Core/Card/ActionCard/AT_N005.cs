@@ -20,6 +20,7 @@ namespace ZMDFQ.Cards
             //注册一个事件用于阻塞
             game.EventSystem.Register(EventEnum.AfterPlayrSizeChange, -1, args =>
             {
+                flag = null;
                 foreach (var player in game.Players)
                 {
                     AT_N005 card = (AT_N005)player.ActionCards.Find(c => c.GetType() == typeof(AT_N005));
