@@ -9,29 +9,13 @@ namespace ZMDFQ
 {
     public abstract class ActionCard : Card
     {
+        /// <summary>
+        /// 是否是群体行动牌？
+        /// </summary>
         public virtual bool isGroup
         {
             get { return false; }
         }
-
-        /// <summary>
-        /// 获取卡片的类型，通常都会直接获取到卡片的类型，但是如果卡片是变形牌之类的卡片，那么会获取到变形后的类型。
-        /// </summary>
-        /// <returns></returns>
-        public virtual Type getType(Game game)
-        {
-            return getTrueType();
-        }
-
-        /// <summary>
-        /// 获取卡片真正的类型，即使是变形牌也会获得它本来的类型。
-        /// </summary>
-        /// <returns></returns>
-        public Type getTrueType()
-        {
-            return GetType();
-        }
-
         public bool CanUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             NextRequest request;

@@ -8,8 +8,9 @@ namespace ZMDFQ
 {
     public interface IDatabase
     {
+        int getID(Type cardType);
+        Type getType(int configID);
         Card GetCard(int configId);
-
         Skill GetSkill(int configId);
     }
 }

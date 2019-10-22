@@ -9,12 +9,6 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_N023 : ActionCard
     {
-        public override Type getType(Game game)
-        {
-            if (game.UsedActionDeck.Count > 0)
-                return game.UsedActionDeck[game.UsedActionDeck.Count - 1].getTrueType();//如果弃牌堆里没有牌就没法视为变形牌。
-            return base.getType(game);
-        }
         protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             if (game.UsedActionDeck.Count < 1)
@@ -28,5 +22,6 @@ namespace ZMDFQ.Cards
         {
             return game.UsedActionDeck[game.UsedActionDeck.Count - 1].DoEffect(game, useWay);//复读上一张卡的效果
         }
+        
     }
 }

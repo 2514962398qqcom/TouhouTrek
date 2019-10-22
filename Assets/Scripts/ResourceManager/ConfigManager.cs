@@ -22,7 +22,7 @@ namespace ZMDFQ
         public Dictionary<int, DeckConfig> Decks;
         public ConfigManager Init()
         {
-            load("Card", out Cards, (x) => x.ConfigId);
+            load("Card", out Cards, (x) => x.configID);
             load("Deck", out Decks, (x) => x.ConfigId);
             load("Skill", out Skills, (x) => x.ConfigId);
             return this;
@@ -47,6 +47,17 @@ namespace ZMDFQ
                 Cards.Add(id, card);
             else
                 Cards[id] = card;
+        }
+        public int getID(Type cardType)
+        {
+            return Cards.First(p => p.Value.GetType() == cardType).Key;
+        }
+        public Type getType(int configID)
+        {
+            if (Cards.ContainsKey(configID))
+                return Cards[configID].GetType();
+            else
+                throw new KeyNotFoundException("不存在卡片" + configID);
         }
         public Card GetCard(int configId)
         {

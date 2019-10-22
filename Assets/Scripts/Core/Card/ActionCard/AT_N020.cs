@@ -21,7 +21,7 @@ namespace ZMDFQ.Cards
                 flag = null;
                 foreach (var player in game.Players)
                 {
-                    ActionCard card = player.ActionCards.Find(c => c.getType(game) == typeof(AT_N020));
+                    ActionCard card = player.ActionCards.Find(c => c.configID == game.Database.getID(typeof(AT_N020)));
                     if (card != null)
                         effect(card, args);
                 }
@@ -74,7 +74,7 @@ namespace ZMDFQ.Cards
             {
                 //启用阻塞
                 flag = new TaskCompletionSource<bool>();
-                if (game.Requests[game.Players.IndexOf(card.Owner)].Any(x => x is UseLimitCardRequest r && r.CardType == CardHelper.getId(typeof(AT_N020))))
+                if (game.Requests[game.Players.IndexOf(card.Owner)].Any(x => x is UseLimitCardRequest r && r.CardType == game.Database.getID(typeof(AT_N020))))
                 {
                     //说明该玩家处于另一个墨菲定律询问
                     return;
@@ -84,7 +84,7 @@ namespace ZMDFQ.Cards
                 {
                     AllPlayerRequest = true,
                     PlayerId = card.Owner.Id,
-                    CardType = CardHelper.getId(typeof(AT_N020))
+                    CardType = game.Database.getID(typeof(AT_N020))
                 }.SetTimeOut(game.RequestTime));
                 if (response1.Used)
                 {
