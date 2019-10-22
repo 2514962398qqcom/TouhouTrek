@@ -53,7 +53,7 @@ namespace ZMDFQ
         public async Task AddActionCards(Game game, List<ActionCard> cards)
         {
             ActionCards.AddRange(cards);
-            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, cards);
+            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, ActionCards, cards);
         }
         internal async Task DrawActionCard(Game game, int count)
         {
@@ -65,8 +65,11 @@ namespace ZMDFQ
                 if (game.ActionDeck.Count == 0)//如果没有行动牌了
                 {
                     //就把行动弃牌堆洗入行动牌堆
-                    game.ActionDeck.AddRange(game.UsedActionDeck);
+                    List<ActionCard> usedCards = new List<ActionCard>(game.UsedActionDeck);
+                    game.ActionDeck.AddRange(usedCards);
+                    await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, null, game.ActionDeck, usedCards);
                     game.UsedActionDeck.Clear();
+                    await game.EventSystem.Call(EventEnum.AfterRemoveCard, game.GetSeat(this), game, null, game.UsedActionDeck, usedCards);
                     game.Reshuffle(game.ActionDeck);
                 }
                 ActionCard card = game.ActionDeck[0];

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZMDFQ
 {
+    [Obsolete("请使用Card.configID来获取卡片的类型ID")]
     public static class CardHelper
     {
         static List<Type> list = new List<Type>();

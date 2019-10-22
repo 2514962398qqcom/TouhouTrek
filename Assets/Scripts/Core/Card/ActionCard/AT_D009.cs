@@ -10,10 +10,10 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_D009 : ActionCard
     {
+        public override bool isDelay => true;
         EventCard targetCard { get; set; } = null;
         public override Task DoEffect(Game game, FreeUse useWay)
         {
-            game.DelayActionDeck.Add(this);//置入连锁区
             game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
             return Task.CompletedTask;
         }
@@ -58,11 +58,11 @@ namespace ZMDFQ.Cards
             if (eventCard == targetCard)
             {
                 targetCard = null;
-                game.DelayActionDeck.Remove(this);
-                game.UsedActionDeck.Add(this);//进入弃牌区
                 game.EventSystem.Remove(EventEnum.BeforeGameSizeChange, beforeGameSizeChange);
                 game.EventSystem.Remove(EventEnum.BeforePlayrSizeChange, beforePlayerSizeChange);
                 game.EventSystem.Remove(EventEnum.AfterEventCardEffect, afterEventCardEffect);//注销事件
+                game.DelayActionDeck.Remove(this);
+                onEffected(game);
             }
             return Task.CompletedTask;
         }

@@ -16,6 +16,13 @@ namespace ZMDFQ
         {
             get { return false; }
         }
+        /// <summary>
+        /// 是否是延迟行动牌？
+        /// </summary>
+        public virtual bool isDelay
+        {
+            get { return false; }
+        }
         public bool CanUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             NextRequest request;
@@ -46,9 +53,7 @@ namespace ZMDFQ
             }
             return false;
         }
-
         public abstract Task DoEffect(Game game, FreeUse useWay);
-
         internal virtual void OnDraw(Game game, Player player)
         {
 
@@ -56,6 +61,14 @@ namespace ZMDFQ
         internal virtual void OnLeaveHand(Game game, Player player)
         {
 
+        }
+        /// <summary>
+        /// 当行动牌生效后，默认将其置入弃牌堆。
+        /// </summary>
+        /// <param name="game"></param>
+        public virtual void onEffected(Game game)
+        {
+            game.UsedActionDeck.Add(this);
         }
     }
 }
