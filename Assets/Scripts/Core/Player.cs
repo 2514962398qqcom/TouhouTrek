@@ -70,7 +70,7 @@ namespace ZMDFQ
                     game.Reshuffle(game.ActionDeck);
                 }
                 ActionCard card = game.ActionDeck[0];
-                await AddCards(game, card);
+                await AddActionCards(game, new List<ActionCard>() { card });
                 drawedCards.Add(card);
                 game.ActionDeck.Remove(card);
                 card.Owner = this;

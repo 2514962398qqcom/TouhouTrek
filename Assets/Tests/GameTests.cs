@@ -380,10 +380,7 @@ namespace Tests
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
-            await UseCard.UseActionCard(game, useWay, this, async (g, r) =>
-            {
-                await game.ChangeSize(2, this);
-            });
+            await game.ChangeSize(2, this);
         }
     }
     class TestAction_Add1Inf : ActionCard

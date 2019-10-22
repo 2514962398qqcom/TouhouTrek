@@ -18,6 +18,7 @@ namespace ZMDFQ.Cards
         public override bool isGroup => true;
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
             List<Player> crowdfunders = new List<Player>() { game.GetPlayer(useWay.PlayerId) };
             Task<Response>[] tasks = game.Players.Where(p => p.Id != useWay.PlayerId).Select(p => game.WaitAnswer(new ChooseSomeCardRequest()
             {
@@ -40,7 +41,7 @@ namespace ZMDFQ.Cards
             {
                 foreach (Player player in crowdfunders)
                 {
-                    await player.ChangeSize(game, 1, this, game.GetPlayer(useWay.PlayerId));
+                    await player.ChangeSize(game, 1, source, game.GetPlayer(useWay.PlayerId));
                 }
             }
             if (crowdfunders.Count > 1)
@@ -51,9 +52,9 @@ namespace ZMDFQ.Cards
                     Infos = new List<string>() { "+" + crowdfunders.Count, "-" + crowdfunders.Count }
                 }.SetTimeOut(game.RequestTime)) as TakeChoiceResponse;
                 if (response.Index == 0)
-                    await game.ChangeSize(crowdfunders.Count, this);
+                    await game.ChangeSize(crowdfunders.Count, source);
                 else
-                    await game.ChangeSize(-crowdfunders.Count, this);
+                    await game.ChangeSize(-crowdfunders.Count, source);
             }
             if (crowdfunders.Count > 2)
             {

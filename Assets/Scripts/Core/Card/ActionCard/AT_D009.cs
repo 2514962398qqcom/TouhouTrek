@@ -13,7 +13,7 @@ namespace ZMDFQ.Cards
         EventCard targetCard { get; set; } = null;
         public override Task DoEffect(Game game, FreeUse useWay)
         {
-            g.DelayActionDeck.Add(this);//置入连锁区
+            game.DelayActionDeck.Add(this);//置入连锁区
             game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
             return Task.CompletedTask;
         }

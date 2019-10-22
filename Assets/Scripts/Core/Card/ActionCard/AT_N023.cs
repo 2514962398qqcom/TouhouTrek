@@ -12,7 +12,7 @@ namespace ZMDFQ.Cards
         public override Type getType(Game game)
         {
             if (game.UsedActionDeck.Count > 0)
-                return game.UsedActionDeck[game.UsedActionDeck.Count - 1].getTrueType();//在弃牌堆里应该不能视作变形牌了
+                return game.UsedActionDeck[game.UsedActionDeck.Count - 1].getTrueType();//如果弃牌堆里没有牌就没法视为变形牌。
             return base.getType(game);
         }
         protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)

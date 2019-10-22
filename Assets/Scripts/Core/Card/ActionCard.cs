@@ -56,7 +56,7 @@ namespace ZMDFQ
             switch (nowRequest)
             {
                 case UseLimitCardRequest useLimitCard:
-                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, this);
+                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, game.GetCard(useInfo.Source[0]));
                 case FreeUseRequest _:
                     return true;
             }
