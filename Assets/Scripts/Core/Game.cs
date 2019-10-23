@@ -536,8 +536,15 @@ namespace ZMDFQ
 
             await EventSystem.Call(EventEnum.ActionEnd, seat, this);
 
-            var chooseDirectionResponse = (ChooseDirectionResponse)await WaitAnswer(new ChooseDirectionRequest() { PlayerId = player.Id }.SetTimeOut(RequestTime));
-
+            //事件处理阶段
+            ChooseDirectionResponse chooseDirectionResponse;
+            if (player.avoidSetEvent)
+            {
+                chooseDirectionResponse = (ChooseDirectionResponse)await WaitAnswer(new ChooseDirectionRequest() { PlayerId = player.Id, CanSet = false }.SetTimeOut(RequestTime));
+                player.avoidSetEvent = true;
+            }
+            else
+                chooseDirectionResponse = (ChooseDirectionResponse)await WaitAnswer(new ChooseDirectionRequest() { PlayerId = player.Id, CanSet = true }.SetTimeOut(RequestTime));
             await player.UseEventCard(this, chooseDirectionResponse);
 
             int max = await player.HandMax(this);

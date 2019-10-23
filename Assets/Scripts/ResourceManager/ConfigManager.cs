@@ -41,10 +41,12 @@ namespace ZMDFQ
                 data.Add(getId(t), t);
             }
         }
-        public void AddCard(int id, Card card)
+        public void RegisterCard(int id, Card card)
         {
             if (!Cards.ContainsKey(id))
                 Cards.Add(id, card);
+            else
+                Cards[id] = card;
         }
         public Card GetCard(int configId)
         {
