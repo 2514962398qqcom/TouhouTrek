@@ -338,7 +338,7 @@ namespace Tests
             game.useAction(0, game.Players[0].findHand<TestAction_DelayDraw>());//延迟行动牌
             game.endAction(0);
             game.useEvent(0, false);
-            game.discard(0);
+            game.tryDiscard(0);
             //复读延迟行动牌
             Assert.AreEqual(1, game.Players[1].ActionCards.Where(c => c is AT_N023).Count());//复读机传递成功
             Assert.AreEqual(1, game.Players[0].ActionCards.Count);
@@ -352,7 +352,7 @@ namespace Tests
             game.useEvent(1, false);
             int cardID = game.Players[0].ActionCards.Find(c => c is AT_N020).Id;
             game.Answer(new UseLimitCardResponse() { PlayerId = 0, CardId = cardID, Source = new List<int>() { cardID }, Used = true });//发动墨菲
-            game.discard(1);
+            game.tryDiscard(1);
             //复读墨菲定理
             Assert.AreEqual(4, game.Players[1].ActionCards.Count);//复读机延迟生效
             Assert.AreEqual(1, game.Players[0].ActionCards.Where(c => c is AT_N023).Count());//复读机传递成功
@@ -379,13 +379,13 @@ namespace Tests
         }
         async Task onTurnStart(Card thisCard, object[] args)
         {
+            Debug.Log(thisCard + "延迟效果发动");
             Game game = args[0] as Game;
             Player player = thisCard.getProp<Player>("player");
             await player.DrawActionCard(game, 1);
             game.EventSystem.Remove(EventEnum.TurnStart, thisCard.getProp<CardCallback>("onTurnStart").call);
             game.DelayActionDeck.Remove(thisCard as ActionCard);
             await (thisCard as ActionCard).onEffected(game);
-            Debug.Log(thisCard + "延迟效果发动");
         }
     }
     class TestEvent_AddCSAndInf : EventCard

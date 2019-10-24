@@ -393,16 +393,26 @@ namespace ZMDFQ
             card.Id = id;
             allCards.Add(card);
         }
-
+        public Request getRequest(Player player)
+        {
+            List<Request> requestList = Requests[Players.IndexOf(player)];
+            if (requestList.Count > 0)
+                return requestList[0];
+            else
+                return null;
+        }
         /// <summary>
         /// 玩家响应系统询问用这个接口
         /// </summary>
         /// <param name="response"></param>
+        /// <exception cref="IndexOutOfRangeException">当玩家没有任何需要响应的Request的时候回抛出该异常</exception>
         public void Answer(Response response, int requestIndex = 0)
         {
             //Log.Debug(response.GetType().Name);
             int index = Players.FindIndex(x => x.Id == response.PlayerId);
             var list = responses[index];
+            if (list.Count < 1)
+                throw new IndexOutOfRangeException("当前玩家" + Players[index].Id + "无法响应" + response);
             var tcs = list[requestIndex];
             list.RemoveAt(requestIndex);//可能后续会重新对requests[index]询问，所以这个要写在TrySetResult之前
             Requests[index].RemoveAt(requestIndex);
@@ -585,7 +595,13 @@ namespace ZMDFQ
         {
             return Players.IndexOf(player);
         }
-
+        public Player getNextPlayer(Player player)
+        {
+            int index = Players.IndexOf(player) + 1;
+            if (index == Players.Count)
+                index = 0;
+            return Players[index];
+        }
         public int ActivePlayerSeat()
         {
             return Players.IndexOf(ActivePlayer);
