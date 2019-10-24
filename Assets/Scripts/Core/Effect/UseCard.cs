@@ -67,7 +67,7 @@ namespace ZMDFQ.Effects
                 var c = game.GetCard(cardId) as ActionCard;
                 game.RemoveUsingCard(c);
                 if (!card.isDelay)//延迟牌不会结算完毕
-                    c.onEffected(game);
+                    await c.onEffected(game);
                 c.Owner = null;
             }
         }
@@ -96,7 +96,9 @@ namespace ZMDFQ.Effects
             game.RemoveUsingCard(card);
             //结算完毕进入弃牌堆
             if (card is ActionCard actionCard1)
-                game.UsedActionDeck.Add(actionCard1);
+            {
+                await game.AddUsedActionCard(new List<ActionCard>() { actionCard1 });
+            }
             else if (card is EventCard eventCard1 && !game.ChainEventDeck.Contains(eventCard1))
                 game.UsedEventDeck.Add(eventCard1);
         }

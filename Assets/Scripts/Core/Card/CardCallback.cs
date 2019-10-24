@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ZMDFQ.Cards
 {
-    class CardCallback
+    public class CardCallback
     {
         Card card { get; } = null;
         Func<Card, object[], Task> callback { get; } = null;

@@ -11,6 +11,24 @@ namespace ZMDFQ.Cards
     public class AT_N023 : ActionCard
     {
         ActionCard _changeTarget = null;
+        public override bool isDelay
+        {
+            get
+            {
+                if (_changeTarget != null)
+                    return _changeTarget.isDelay;
+                return false;
+            }
+        }
+        public override bool isGroup
+        {
+            get
+            {
+                if (_changeTarget != null)
+                    return _changeTarget.isGroup;
+                return false;
+            }
+        }
         public override int configID
         {
             get
@@ -20,9 +38,9 @@ namespace ZMDFQ.Cards
                 return base.configID;
             }
         }
-        internal override void OnDraw(Game game, Player player)
+        internal override void OnEnterHand(Game game, Player player)
         {
-            base.OnDraw(game, player);
+            base.OnEnterHand(game, player);
             if (game.UsedActionDeck.Count > 0)
                 _changeTarget = game.UsedActionDeck[game.UsedActionDeck.Count - 1];//变形成已经在弃牌堆的最后一张牌
             game.EventSystem.Register(EventEnum.AfterAddCard, game.GetSeat(player), afterAddCard);
@@ -31,7 +49,6 @@ namespace ZMDFQ.Cards
         internal override void OnLeaveHand(Game game, Player player)
         {
             base.OnLeaveHand(game, player);
-            _changeTarget = null;//变回你原来的样子！
             game.EventSystem.Remove(EventEnum.AfterAddCard, afterAddCard);
             game.EventSystem.Remove(EventEnum.AfterRemoveCard, afterRemoveCard);
         }
@@ -68,18 +85,23 @@ namespace ZMDFQ.Cards
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
             if (_changeTarget != null)
+            {
                 await _changeTarget.DoEffect(game, useWay);
+                Log.Debug("复读机复读" + _changeTarget);
+            }
         }
-        public override void onEffected(Game game)
+        public override Task onEffected(Game game)
         {
-            game.EventSystem.Register(EventEnum.TurnStart, game.GetSeat(Owner), onTurnStart);
-            //TODO:支持变形成延迟牌
+            game.EventSystem.Register(EventEnum.TurnStart, game.GetSeat(Owner), onTurnStart, 100);
+            Log.Debug("复读机结算完毕");
+            return Task.CompletedTask;
         }
         async Task onTurnStart(object[] args)
         {
-            Game game = args[1] as Game;
-            Player player = game.Players[(int)args[0]];
+            Game game = args[0] as Game;
+            Player player = args[1] as Player;
             await player.AddActionCards(game, new List<ActionCard>() { this });
+            Log.Debug("复读机传递给玩家" + player.Id);
         }
     }
 }

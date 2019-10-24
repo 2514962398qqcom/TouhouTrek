@@ -52,10 +52,15 @@ namespace ZMDFQ
         /// <returns></returns>
         public async Task AddActionCards(Game game, List<ActionCard> cards)
         {
-            ActionCards.AddRange(cards);
+            foreach (ActionCard card in cards)
+            {
+                card.Owner = this;
+                ActionCards.Add(card);
+                card.OnEnterHand(game, this);
+            }
             await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, ActionCards, cards);
         }
-        internal async Task DrawActionCard(Game game, int count)
+        public async Task DrawActionCard(Game game, int count)
         {
             EventData<int> drawCount = new EventData<int>() { data = count };
             await game.EventSystem.Call(EventEnum.BeforDrawActionCard, game.ActivePlayerSeat(), this, drawCount);
@@ -73,11 +78,9 @@ namespace ZMDFQ
                     game.Reshuffle(game.ActionDeck);
                 }
                 ActionCard card = game.ActionDeck[0];
+                game.ActionDeck.Remove(card);
                 await AddActionCards(game, new List<ActionCard>() { card });
                 drawedCards.Add(card);
-                game.ActionDeck.Remove(card);
-                card.Owner = this;
-                card.OnDraw(game, this);
             }
             await game.EventSystem.Call(EventEnum.DrawActionCard, game.ActivePlayerSeat(), this, drawedCards);
         }
@@ -201,7 +204,7 @@ namespace ZMDFQ
                 ActionCards.Remove(card);
                 if (goUsedPile)
                 {
-                    game.UsedActionDeck.Add(card);
+                    await game.AddUsedActionCard(new List<ActionCard>() { card });
                     card.Owner = null;
                 }
                 data.Add(card);

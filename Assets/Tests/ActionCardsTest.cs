@@ -295,6 +295,98 @@ namespace Tests
             game.Answer(new UseLimitCardResponse() { PlayerId = 1, Used = true, CardId = cardID, Source = new List<int>() { cardID } });
             Assert.AreEqual(0, game.Players[0].Size);
         }
+        [Test]
+        public void AT_N023()
+        {
+            Game game = new Game();
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xA001, new TestAction_Add1Inf());
+            (game.Database as ConfigManager).RegisterCard(0xA002, new TestAction_DelayDraw());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE001, new TestEvent_DoubleOrZeroPlayerInf());
+            game.Init(new GameOptions()
+            {
+                PlayerInfos = new GameOptions.PlayerInfo[]
+                {
+                    new GameOptions.PlayerInfo() { Id = 0 },
+                    new GameOptions.PlayerInfo() { Id = 1 }
+                },
+                Cards = Enumerable.Empty<int>()
+                .concatRepeat(game.getCardID<AT_N023>(), 1).concatRepeat(0xA001, 1).concatRepeat(0xA002, 3).concatRepeat(game.getCardID<AT_N020>(), 1).concatRepeat(0xA001, 14)//行动
+                .concatRepeat(0xC000, 20)//角色
+                .concatRepeat(0xF000, 20)//官作
+                .concatRepeat(0xE001, 20),//事件
+                firstPlayer = 0,
+                shuffle = false,
+                initCommunitySize = 0,
+                initInfluence = 0,
+                chooseCharacter = true,
+                doubleCharacter = false
+            });
+            game.StartGame();
+            game.Answer(new ChooseHeroResponse() { PlayerId = 0, HeroId = 21 });
+            game.Answer(new ChooseHeroResponse() { PlayerId = 1, HeroId = 24 });
+
+            //复读普通的行动牌
+            game.useAction(0, game.Players[0].findHand<TestAction_Add1Inf>());//影响力+1
+            Assert.AreEqual(1, game.Players[0].Size);
+            game.useAction(0, game.Players[0].findHand<AT_N023>());//复读机
+            Assert.AreEqual(2, game.Players[0].Size);
+            Assert.IsFalse(game.UsedActionDeck.Any(c => c is AT_N023));//复读机没有进弃牌堆
+            game.useAction(0, game.Players[0].findHand<TestAction_DelayDraw>());//延迟行动牌
+            game.endAction(0);
+            game.useEvent(0, false);
+            game.discard(0);
+            //复读延迟行动牌
+            Assert.AreEqual(1, game.Players[1].ActionCards.Where(c => c is AT_N023).Count());//复读机传递成功
+            Assert.AreEqual(1, game.Players[0].ActionCards.Count);
+            Assert.AreEqual(4, game.Players[1].ActionCards.Count);
+            Assert.IsInstanceOf<TestAction_DelayDraw>(game.UsedActionDeck[game.UsedActionDeck.Count - 1]);
+            game.useAction(1, game.Players[1].findHand<AT_N023>());//复读延迟牌
+            Assert.AreEqual(1, game.DelayActionDeck.Count);
+            Assert.IsInstanceOf<AT_N023>(game.DelayActionDeck[0]);//复读机被挂上去了
+            game.endAction(1);
+            game.useEvent(1, false);
+            int cardID = game.Players[0].ActionCards.Find(c => c is AT_N020).Id;
+            game.Answer(new UseLimitCardResponse() { PlayerId = 0, CardId = cardID, Source = new List<int>() { cardID }, Used = true });//发动墨菲
+            game.Players[1].Size = 5;//干，不能让他弃牌，不然的话就不能复读墨菲了
+            game.discard(1);
+            //复读墨菲定理
+            Assert.AreEqual(4, game.Players[1].ActionCards.Count);//复读机延迟生效
+            Assert.AreEqual(1, game.Players[0].ActionCards.Where(c => c is AT_N023).Count());//复读机传递成功
+            game.Players[0].Size = 1;
+            game.endAction(0);
+            Assert.IsInstanceOf<AT_N020>(game.UsedActionDeck[game.UsedActionDeck.Count - 1]);
+            game.useEvent(0, true);
+            cardID = game.Players[0].ActionCards.Find(c => c is AT_N023).Id;
+            game.Answer(new UseLimitCardResponse() { PlayerId = 0, CardId = cardID, Source = new List<int>(cardID), Used = true });//复读墨菲
+            Assert.AreEqual(0, game.Players[0].Size);
+        }
+    }
+    class TestAction_DelayDraw : ActionCard
+    {
+        public override bool isDelay => true;
+        public override Task DoEffect(Game game, FreeUse useWay)
+        {
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
+            source.setProp("onTurnStart", new CardCallback(source, onTurnStart));
+            source.setProp("player", game.GetPlayer(useWay.PlayerId));
+            game.EventSystem.Register(EventEnum.TurnStart, game.GetSeat(game.GetPlayer(useWay.PlayerId)), source.getProp<CardCallback>("onTurnStart").call);
+            Debug.Log(source + "注册延迟效果");
+            return Task.CompletedTask;
+        }
+        async Task onTurnStart(Card thisCard, object[] args)
+        {
+            Game game = args[0] as Game;
+            Player player = thisCard.getProp<Player>("player");
+            await player.DrawActionCard(game, 1);
+            game.EventSystem.Remove(EventEnum.TurnStart, thisCard.getProp<CardCallback>("onTurnStart").call);
+            game.DelayActionDeck.Remove(thisCard as ActionCard);
+            await (thisCard as ActionCard).onEffected(game);
+            Debug.Log(thisCard + "延迟效果发动");
+        }
     }
     class TestEvent_AddCSAndInf : EventCard
     {

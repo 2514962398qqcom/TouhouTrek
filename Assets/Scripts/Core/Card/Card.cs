@@ -11,7 +11,6 @@ namespace ZMDFQ
     {
         [BsonIgnore]
         public Player Owner;
-
         public int Id;
         public int ConfigId;
         /// <summary>
@@ -21,9 +20,25 @@ namespace ZMDFQ
         {
             get { return ConfigId; }
         }
+        public int trueConfigID
+        {
+            get { return ConfigId; }
+        }
         public string Name;
         public CardTypeEnum CardType;
-
+        [BsonIgnore]
+        Dictionary<string, object> propsDic { get; } = new Dictionary<string, object>();
+        public T getProp<T>(string propName)
+        {
+            if (propsDic.ContainsKey(propName) && propsDic[propName] is T value)
+                return value;
+            else
+                return default;
+        }
+        public void setProp(string propName, object value)
+        {
+            propsDic[propName] = value;
+        }
         //internal abstract PlayerAction.Request GetRequest();
 
         //internal abstract void DoEffect(Game game, PlayerAction.Response target);
@@ -40,6 +55,10 @@ namespace ZMDFQ
             target.ConfigId = ConfigId;
             target.Name = Name;
             target.CardType = CardType;
+        }
+        public override string ToString()
+        {
+            return GetType().Name + "(" + Id + ")";
         }
     }
 

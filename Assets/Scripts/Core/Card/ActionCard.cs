@@ -10,14 +10,14 @@ namespace ZMDFQ
     public abstract class ActionCard : Card
     {
         /// <summary>
-        /// 是否是群体行动牌？
+        /// 是否是群体行动牌？默认不是。
         /// </summary>
         public virtual bool isGroup
         {
             get { return false; }
         }
         /// <summary>
-        /// 是否是延迟行动牌？
+        /// 是否是延迟行动牌？默认不是。
         /// </summary>
         public virtual bool isDelay
         {
@@ -54,7 +54,7 @@ namespace ZMDFQ
             return false;
         }
         public abstract Task DoEffect(Game game, FreeUse useWay);
-        internal virtual void OnDraw(Game game, Player player)
+        internal virtual void OnEnterHand(Game game, Player player)
         {
 
         }
@@ -66,9 +66,9 @@ namespace ZMDFQ
         /// 当行动牌生效后，默认将其置入弃牌堆。
         /// </summary>
         /// <param name="game"></param>
-        public virtual void onEffected(Game game)
+        public virtual async Task onEffected(Game game)
         {
-            game.UsedActionDeck.Add(this);
+            await game.AddUsedActionCard(new List<ActionCard>() { this });
         }
     }
 }
