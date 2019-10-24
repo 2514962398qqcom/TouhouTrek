@@ -10,11 +10,6 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_N014 : ActionCard
     {
-        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
-        {
-            nextRequest = null;
-            return true;
-        }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
             Player player = game.GetPlayer(useWay.PlayerId);

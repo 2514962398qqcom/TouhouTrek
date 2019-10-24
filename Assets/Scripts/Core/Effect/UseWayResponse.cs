@@ -18,9 +18,9 @@ namespace ZMDFQ.Effects
         /// <param name="nextRequest"></param>
         /// <param name="card"></param>
         /// <returns></returns>
-        public static bool CheckLimit(Game game, UseLimitCardRequest useLimt, FreeUse useInfo, ref NextRequest nextRequest,Card card)
+        public static bool CheckLimit(Game game, UseLimitCardRequest useLimt, FreeUse useInfo, ref NextRequest nextRequest, Card card)
         {
-            if (useLimt.CardType != CardHelper.getId(card))
+            if (useLimt.CardType != card.configID)
             {
                 return false;
             }
@@ -28,10 +28,7 @@ namespace ZMDFQ.Effects
             {
                 if (useInfo.Source.Count != 1)
                 {
-                    nextRequest = new CardChooseRequest()
-                    {
-                        RequestInfo = TipHelper.GetText("UseLimitTip", card.Name),
-                    };
+                    nextRequest = new CardChooseRequest() { RequestInfo = TipHelper.GetText("UseLimitTip", card.Name) };
                     return false;
                 }
                 else

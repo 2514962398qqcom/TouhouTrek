@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 using ZMDFQ;
+using ZMDFQ.PlayerAction;
 
 namespace Tests
 {

@@ -52,6 +52,8 @@ namespace ZMDFQ
         BeforeGetPlayerSizeMax,
         BeforeGetPlayerSizeMin,
 
-        AfterAddCard
+        BeforeAddCard,
+        AfterAddCard,
+        AfterRemoveCard
     }
 }

@@ -16,21 +16,18 @@ namespace ZMDFQ.Cards
                 nextRequest = new HeroChooseRequest();
                 return false;
             }
-            else
-            {
-                nextRequest = null;
-                return true;
-            }
+            return base.canUse(game, nowRequest, useInfo, out nextRequest);
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
             int x = game.twoPointCheck();
-            game.GetPlayer(useWay.PlayersId[0]).Size -= x;
-            TakeChoiceResponse response = await game.WaitAnswer(new TakeChoiceRequest() { PlayerId = useWay.PlayerId, Infos = new List<string>() { "-2", "+2" } }) as TakeChoiceResponse;
+            await game.GetPlayer(useWay.PlayersId[0]).ChangeSize(game, -x, source, game.GetPlayer(useWay.PlayerId));
+            TakeChoiceResponse response = await game.WaitAnswer(new TakeChoiceRequest() { PlayerId = useWay.PlayerId, Infos = new List<string>() { "+2", "-2" } }) as TakeChoiceResponse;
             if (response.Index == 0)
-                game.Size -= x;
+                await game.ChangeSize(2, source);
             else
-                game.Size += x;
+                await game.ChangeSize(-2, source);
         }
     }
 }

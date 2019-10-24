@@ -511,9 +511,10 @@ namespace ZMDFQ
         public Player[] winners { get; private set; } = null;
         internal async Task NewTurn(Player player)
         {
+            Log.Debug("玩家" + player.Id + "回合开始");
             ActivePlayer = player;
             int seat = Players.IndexOf(player);
-            await EventSystem.Call(EventEnum.TurnStart, seat, this);
+            await EventSystem.Call(EventEnum.TurnStart, seat, this, player);
             await player.DrawEventCard(this);
             await player.DrawActionCard(this, 1);
             await EventSystem.Call(EventEnum.ActionStart, seat, this);
@@ -521,7 +522,7 @@ namespace ZMDFQ
 
             while (true)
             {
-                Log.Debug($"玩家{player.Id}出牌中");
+                Log.Debug($"玩家 { player.Id } 出牌中");
                 Response response = await WaitAnswer(new FreeUseRequest() { PlayerId = player.Id }.SetTimeOut(TurnTime));
                 if (response is EndFreeUseResponse)
                 {
@@ -595,7 +596,7 @@ namespace ZMDFQ
             return Players.Find(x => x.Id == id);
         }
 
-        internal Card GetCard(int id)
+        public Card GetCard(int id)
         {
             return allCards.Find(x => x.Id == id);
         }
@@ -665,6 +666,11 @@ namespace ZMDFQ
                 default:
                     return 0;
             }
+        }
+        public async Task AddUsedActionCard(List<ActionCard> cards)
+        {
+            UsedActionDeck.AddRange(cards);
+            await EventSystem.Call(EventEnum.AfterAddCard, -1, this, null, UsedActionDeck, cards);
         }
     }
     public class GameOptions

@@ -9,6 +9,7 @@
 {"_t":"AT_G013","ConfigId":13,"Name":"众筹","CardType":3}
 {"_t":"AT_N014","ConfigId":14,"Name":"火星","CardType":3}
 {"_t":"AT_N020","ConfigId":20,"Name":"墨菲定理","CardType":3}
+{"_t":"AT_N023","ConfigId":23,"Name":"人类的本质","CardType":3}
 {"_t":"HeroCard","ConfigId":101,"Name":"社团主催","CardType":0,"SkillIds":[2,3],"camp":1}
 {"_t":"HeroCard","ConfigId":107,"Name":"冷门爱好者","CardType":0,"SkillIds":[4,5,6],"camp":3}
 {"_t":"HeroCard","ConfigId":113,"Name":"传教爱好者","CardType":0,"SkillIds":[1],"camp":0}

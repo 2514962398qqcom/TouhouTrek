@@ -9,7 +9,17 @@ namespace ZMDFQ
 {
     public abstract class ActionCard : Card
     {
+        /// <summary>
+        /// 是否是群体行动牌？默认不是。
+        /// </summary>
         public virtual bool isGroup
+        {
+            get { return false; }
+        }
+        /// <summary>
+        /// 是否是延迟行动牌？默认不是。
+        /// </summary>
+        public virtual bool isDelay
         {
             get { return false; }
         }
@@ -31,17 +41,34 @@ namespace ZMDFQ
             return boolData.data;
         }
 
-        protected abstract bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest);
-
+        protected virtual bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
+        {
+            nextRequest = null;
+            switch (nowRequest)
+            {
+                case UseLimitCardRequest useLimitCard:
+                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, game.GetCard(useInfo.Source[0]));
+                case FreeUseRequest _:
+                    return true;
+            }
+            return false;
+        }
         public abstract Task DoEffect(Game game, FreeUse useWay);
-
-        internal virtual void OnDraw(Game game, Player player)
+        internal virtual void OnEnterHand(Game game, Player player)
         {
 
         }
-        internal virtual void OnLeaveHand(Game game,Player player)
+        internal virtual void OnLeaveHand(Game game, Player player)
         {
 
+        }
+        /// <summary>
+        /// 当行动牌生效后，默认将其置入弃牌堆。
+        /// </summary>
+        /// <param name="game"></param>
+        public virtual async Task onEffected(Game game)
+        {
+            await game.AddUsedActionCard(new List<ActionCard>() { this });
         }
     }
 }

@@ -8,21 +8,11 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 using ZMDFQ;
-using ZMDFQ.Cards;
 using ZMDFQ.Effects;
 using ZMDFQ.PlayerAction;
 
 namespace Tests
 {
-    public class OtherTests
-    {
-        [UnityTest]
-        public IEnumerator getTypeTest()
-        {
-            Assert.AreEqual(typeof(EV_E001), typeof(Card).Assembly.GetTypes().First(t => t.Name == nameof(EV_E001)));
-            yield break;
-        }
-    }
     public class GameTests
     {
         [UnityTest]
@@ -390,10 +380,7 @@ namespace Tests
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
-            await UseCard.UseActionCard(game, useWay, this, async (g, r) =>
-            {
-                await game.ChangeSize(2, this);
-            });
+            await game.ChangeSize(2, this);
         }
     }
     class TestAction_Add1Inf : ActionCard
@@ -405,10 +392,7 @@ namespace Tests
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
-            await UseCard.UseActionCard(game, useWay, this, async (g, r) =>
-            {
-                await game.GetPlayer(useWay.PlayerId).ChangeSize(game, 1, this, Owner);
-            });
+            await game.GetPlayer(useWay.PlayerId).ChangeSize(game, 1, this, Owner);
         }
     }
     class TestEvent_DoubleOrZeroPlayerInf : EventCard
@@ -461,12 +445,9 @@ namespace Tests
             return true;
         }
         public Func<Game, FreeUse, TestAction_Empty, Task> effect { get; set; } = null;
-        public override async Task DoEffect(Game game, FreeUse useWay)
+        public override Task DoEffect(Game game, FreeUse useWay)
         {
-            await UseCard.UseActionCard(game, useWay, this, (g, r) =>
-            {
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
         }
     }
     class TestOfficial_Empty : ThemeCard

@@ -10,35 +10,31 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_D009 : ActionCard
     {
-        protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
+        public override bool isDelay => true;
+        public override Task DoEffect(Game game, FreeUse useWay)
         {
-            nextRequest = null;
-            return true;
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
+            source.setProp("beforeEventCardEffect", new CardCallback(source, beforeEventCardEffect));
+            game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, source.getProp<CardCallback>("beforeEventCardEffect").call);//注册事件
+            return Task.CompletedTask;
         }
-        EventCard targetCard { get; set; } = null;
-        public override async Task DoEffect(Game game, FreeUse useWay)
-        {
-            await Effects.UseCard.UseActionCard(game, useWay, this, (g, r) =>
-            {
-                g.DelayActionDeck.Add(this);//置入连锁区
-                game.EventSystem.Register(EventEnum.BeforeEventCardEffect, -1, beforeEventCardEffect);//注册事件
-                return Task.CompletedTask;
-            });
-        }
-        Task beforeEventCardEffect(object[] args)
+        static Task beforeEventCardEffect(Card thisCard, object[] args)
         {
             Game game = args[0] as Game;
-            targetCard = args[1] as EventCard;//设置生效卡片
-            game.EventSystem.Register(EventEnum.BeforeGameSizeChange, -1, beforeGameSizeChange);
-            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, -1, beforePlayerSizeChange);
-            game.EventSystem.Register(EventEnum.AfterEventCardEffect, -1, afterEventCardEffect);//注册事件
-            game.EventSystem.Remove(EventEnum.BeforeEventCardEffect, beforeEventCardEffect);
+            thisCard.setProp("targetCard", args[1] as EventCard);//设置生效卡片
+            thisCard.setProp("beforeGameSizeChange", new CardCallback(thisCard, beforeGameSizeChange));
+            game.EventSystem.Register(EventEnum.BeforeGameSizeChange, -1, new CardCallback(thisCard, beforeGameSizeChange).call);
+            thisCard.setProp("beforePlayerSizeChange", new CardCallback(thisCard, beforePlayerSizeChange));
+            game.EventSystem.Register(EventEnum.BeforePlayrSizeChange, -1, new CardCallback(thisCard, beforePlayerSizeChange).call);
+            thisCard.setProp("afterEventCardEffect", new CardCallback(thisCard, afterEventCardEffect));
+            game.EventSystem.Register(EventEnum.AfterEventCardEffect, -1, new CardCallback(thisCard, afterEventCardEffect).call);//注册事件
+            game.EventSystem.Remove(EventEnum.BeforeEventCardEffect, thisCard.getProp<CardCallback>("beforeEventCardEffect").call);
             return Task.CompletedTask;
         }
-        Task beforeGameSizeChange(object[] args)
+        static Task beforeGameSizeChange(Card thisCard, object[] args)
         {
             EventData<int> value = args[0] as EventData<int>;
-            if (targetCard != null && args[1] == targetCard)
+            if (thisCard.getProp<EventCard>("targetCard") != null && args[1] == thisCard.getProp<EventCard>("targetCard"))
             {
                 if (value.data > 0)
                     value.data += 1;
@@ -47,10 +43,10 @@ namespace ZMDFQ.Cards
             }
             return Task.CompletedTask;
         }
-        Task beforePlayerSizeChange(object[] args)
+        static Task beforePlayerSizeChange(Card thisCard, object[] args)
         {
             EventData<int> value = args[2] as EventData<int>;
-            if (targetCard != null && args[3] == targetCard)
+            if (thisCard.getProp<EventCard>("targetCard") != null && args[3] == thisCard.getProp<EventCard>("targetCard"))
             {
                 if (value.data > 0)
                     value.data += 1;
@@ -59,20 +55,19 @@ namespace ZMDFQ.Cards
             }
             return Task.CompletedTask;
         }
-        Task afterEventCardEffect(object[] args)
+        static async Task afterEventCardEffect(Card thisCard, object[] args)
         {
             Game game = args[0] as Game;
             EventCard eventCard = args[1] as EventCard;//生效卡片
-            if (eventCard == targetCard)
+            if (eventCard == thisCard.getProp<EventCard>("targetCard"))
             {
-                targetCard = null;
-                game.DelayActionDeck.Remove(this);
-                game.UsedActionDeck.Add(this);//进入弃牌区
-                game.EventSystem.Remove(EventEnum.BeforeGameSizeChange, beforeGameSizeChange);
-                game.EventSystem.Remove(EventEnum.BeforePlayrSizeChange, beforePlayerSizeChange);
-                game.EventSystem.Remove(EventEnum.AfterEventCardEffect, afterEventCardEffect);//注销事件
+                thisCard.setProp("targetCard", null);
+                game.EventSystem.Remove(EventEnum.BeforeGameSizeChange, thisCard.getProp<CardCallback>("beforeGameSizeChange").call);
+                game.EventSystem.Remove(EventEnum.BeforePlayrSizeChange, thisCard.getProp<CardCallback>("beforePlayerSizeChange").call);
+                game.EventSystem.Remove(EventEnum.AfterEventCardEffect, thisCard.getProp<CardCallback>("beforeEventCardEffect").call);//注销事件
+                game.DelayActionDeck.Remove(thisCard as ActionCard);
+                await (thisCard as ActionCard).onEffected(game);
             }
-            return Task.CompletedTask;
         }
     }
 }

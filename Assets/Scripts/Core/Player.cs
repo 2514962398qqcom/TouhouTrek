@@ -45,17 +45,22 @@ namespace ZMDFQ
             Id = id;
         }
         /// <summary>
-        /// 将一张牌置入玩家的手牌
+        /// 将卡牌置入玩家的手牌
         /// </summary>
         /// <param name="game"></param>
-        /// <param name="card"></param>
+        /// <param name="cards"></param>
         /// <returns></returns>
-        public async Task AddCard(Game game, ActionCard card)
+        public async Task AddActionCards(Game game, List<ActionCard> cards)
         {
-            ActionCards.Add(card);
-            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, card);
+            foreach (ActionCard card in cards)
+            {
+                card.Owner = this;
+                ActionCards.Add(card);
+                card.OnEnterHand(game, this);
+            }
+            await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, this, ActionCards, cards);
         }
-        internal async Task DrawActionCard(Game game, int count)
+        public async Task DrawActionCard(Game game, int count)
         {
             EventData<int> drawCount = new EventData<int>() { data = count };
             await game.EventSystem.Call(EventEnum.BeforDrawActionCard, game.ActivePlayerSeat(), this, drawCount);
@@ -65,16 +70,17 @@ namespace ZMDFQ
                 if (game.ActionDeck.Count == 0)//如果没有行动牌了
                 {
                     //就把行动弃牌堆洗入行动牌堆
-                    game.ActionDeck.AddRange(game.UsedActionDeck);
+                    List<ActionCard> usedCards = new List<ActionCard>(game.UsedActionDeck);
+                    game.ActionDeck.AddRange(usedCards);
+                    await game.EventSystem.Call(EventEnum.AfterAddCard, game.GetSeat(this), game, null, game.ActionDeck, usedCards);
                     game.UsedActionDeck.Clear();
+                    await game.EventSystem.Call(EventEnum.AfterRemoveCard, game.GetSeat(this), game, null, game.UsedActionDeck, usedCards);
                     game.Reshuffle(game.ActionDeck);
                 }
                 ActionCard card = game.ActionDeck[0];
-                await AddCard(game, card);
-                drawedCards.Add(card);
                 game.ActionDeck.Remove(card);
-                card.Owner = this;
-                card.OnDraw(game, this);
+                await AddActionCards(game, new List<ActionCard>() { card });
+                drawedCards.Add(card);
             }
             await game.EventSystem.Call(EventEnum.DrawActionCard, game.ActivePlayerSeat(), this, drawedCards);
         }
@@ -153,8 +159,10 @@ namespace ZMDFQ
             {
                 //正常用卡
                 ActionCard card = ActionCards.Find(x => x.Id == useInfo.CardId);
-                if (card == null) return Task.CompletedTask;
-                return card.DoEffect(game, useInfo);
+                if (card == null)
+                    return Task.CompletedTask;
+                return Effects.UseCard.UseActionCard(game, useInfo, card, card.DoEffect);
+                //return card.DoEffect(game, useInfo);
             }
             else
             {
@@ -196,7 +204,7 @@ namespace ZMDFQ
                 ActionCards.Remove(card);
                 if (goUsedPile)
                 {
-                    game.UsedActionDeck.Add(card);
+                    await game.AddUsedActionCard(new List<ActionCard>() { card });
                     card.Owner = null;
                 }
                 data.Add(card);

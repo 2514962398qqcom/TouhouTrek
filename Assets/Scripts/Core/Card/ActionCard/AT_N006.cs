@@ -12,30 +12,14 @@ namespace ZMDFQ.Cards
     {
         protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
-            nextRequest = null;
-            switch (nowRequest)
+            if (nowRequest is FreeUseRequest && useInfo.PlayersId.Count < 1)
             {
-                case UseLimitCardRequest useLimitCard:
-                    return Effects.UseWayResponse.CheckLimit(game, useLimitCard, useInfo, ref nextRequest, this);
-                case FreeUseRequest freeUse:
-                    if (useInfo.PlayersId.Count < 1)
-                    {
-                        nextRequest = new HeroChooseRequest() { };
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                nextRequest = new HeroChooseRequest() { PlayerId = useInfo.PlayerId };
+                return false;
             }
-            return false;
+            return base.canUse(game, nowRequest, useInfo, out nextRequest);
         }
-
-        public override Task DoEffect(Game game, FreeUse useWay)
-        {
-            return Effects.UseCard.UseActionCard(game, useWay, this, effect);
-        }
-        private async Task effect(Game game, FreeUse useWay)
+        public override async Task DoEffect(Game game, FreeUse useWay)
         {
             Player target = game.GetPlayer(useWay.PlayersId[0]);
             Player user = game.GetPlayer(useWay.PlayerId);
@@ -47,9 +31,7 @@ namespace ZMDFQ.Cards
                     (ChooseSomeCardResponse)await game.WaitAnswer(new ChooseSomeCardRequest()
                     { Count = 1, PlayerId = now.Id, TimeOut = game.RequestTime, EnoughOnly = false });
                 if (chooseSomeCardResponse.Cards.Count == 0)
-                {
                     break;
-                }
                 else
                 {
                     Player nowTarget = now == user ? target : user;

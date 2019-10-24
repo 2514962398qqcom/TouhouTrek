@@ -59,17 +59,16 @@ namespace ZMDFQ.Effects
                 usingInfo.Source.Add(c);
             }
             game.AddUsingInfo(usingInfo);
+            if (card.isDelay)
+                game.DelayActionDeck.Add(card);//延迟牌置入延迟区
             await effect(game, useActionCard);
             foreach (var cardId in useActionCard.Source)
             {
                 var c = game.GetCard(cardId) as ActionCard;
                 game.RemoveUsingCard(c);
+                if (!card.isDelay)//延迟牌不会结算完毕
+                    await c.onEffected(game);
                 c.Owner = null;
-                //结算完毕进入弃牌堆
-                if (!game.DelayActionDeck.Contains(c))
-                {
-                    game.UsedActionDeck.Add(c);
-                }
             }
         }
         [Obsolete("时请使用UseActionCard和UseEventCard作为替代")]
@@ -97,7 +96,9 @@ namespace ZMDFQ.Effects
             game.RemoveUsingCard(card);
             //结算完毕进入弃牌堆
             if (card is ActionCard actionCard1)
-                game.UsedActionDeck.Add(actionCard1);
+            {
+                await game.AddUsedActionCard(new List<ActionCard>() { actionCard1 });
+            }
             else if (card is EventCard eventCard1 && !game.ChainEventDeck.Contains(eventCard1))
                 game.UsedEventDeck.Add(eventCard1);
         }

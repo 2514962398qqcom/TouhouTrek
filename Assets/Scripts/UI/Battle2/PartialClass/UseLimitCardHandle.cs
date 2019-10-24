@@ -32,7 +32,7 @@ namespace ZMDFQ.UI.Battle
             //Log.Debug(MongoHelper.ToJson(nowRequest));
             if (nowRequest.PlayerId == self.Id && nowRequest is UseLimitCardRequest useLimitCardRequest)
             {
-                m_UseTip.text = "是否使用" + CardHelper.getType(useLimitCardRequest.CardType).Name;
+                m_UseTip.text = "是否使用" + game.Database.getType(useLimitCardRequest.CardType).Name;
                 m_Request.selectedIndex = 4;
             }
         }
