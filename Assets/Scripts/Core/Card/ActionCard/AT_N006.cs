@@ -14,10 +14,30 @@ namespace ZMDFQ.Cards
         {
             if (nowRequest is FreeUseRequest && useInfo.PlayersId.Count < 1)
             {
-                nextRequest = new HeroChooseRequest() { PlayerId = useInfo.PlayerId };
+                nextRequest = new HeroChooseRequest() { PlayerId = useInfo.PlayerId, Number = 1, RequestInfo = "选择目标玩家" };
                 return false;
             }
             return base.canUse(game, nowRequest, useInfo, out nextRequest);
+        }
+        /// <summary>
+        /// 不能自己撕自己
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="useWay"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public override bool isValidTarget(Game game, FreeUse useWay, Player player, out string invalidInfo)
+        {
+            if (player.Id != useWay.PlayerId)
+            {
+                invalidInfo = string.Empty;
+                return true;
+            }
+            else
+            {
+                invalidInfo = "目标不能是自己";
+                return false;
+            }
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {

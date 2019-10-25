@@ -82,6 +82,18 @@ namespace ZMDFQ.Cards
             else
                 return _changeTarget.CanUse(game, nowRequest, useInfo, out nextRequest);
         }
+        public override bool isValidTarget(Game game, FreeUse useWay, ActionCard card, out string invalidInfo)
+        {
+            if (_changeTarget != null)
+                return _changeTarget.isValidTarget(game, useWay, card, out invalidInfo);
+            return base.isValidTarget(game, useWay, card, out invalidInfo);
+        }
+        public override bool isValidTarget(Game game, FreeUse useWay, Player player, out string invalidInfo)
+        {
+            if (_changeTarget != null)
+                return _changeTarget.isValidTarget(game, useWay, player, out invalidInfo);
+            return base.isValidTarget(game, useWay, player, out invalidInfo);
+        }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
             if (_changeTarget != null)

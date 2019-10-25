@@ -71,12 +71,20 @@ namespace ZMDFQ.UI.Battle
         void freeUse_HeroClick(EventContext evt)
         {
             UI_PlayerSimpleInfo playerSimpleInfo = evt.sender as UI_PlayerSimpleInfo;
-            if (selectedPlayers.Contains(playerSimpleInfo.Player))
-                selectedPlayers.Remove(playerSimpleInfo.Player);
+            if (selectedCards[0].isValidTarget(game, getFreeUseInfo<FreeUse>(), playerSimpleInfo.Player, out string invalidInfo))//是否是可以选中的目标？
+            {
+                if (selectedPlayers.Contains(playerSimpleInfo.Player))
+                    selectedPlayers.Remove(playerSimpleInfo.Player);
+                else
+                    selectedPlayers.Add(playerSimpleInfo.Player);
+                flushSelectPlayer();
+                checkFreeUseAble();
+            }
             else
-                selectedPlayers.Add(playerSimpleInfo.Player);
-            flushSelectPlayer();
-            checkFreeUseAble();
+            {
+                if (!string.IsNullOrEmpty(invalidInfo))
+                    m_UseTip.text = invalidInfo;
+            }
         }
 
         void freeUse_CardClick(FairyGUI.EventContext evt)
@@ -123,7 +131,7 @@ namespace ZMDFQ.UI.Battle
             }
         }
 
-        T getFreeUseInfo<T>() where T : FreeUse,new()
+        T getFreeUseInfo<T>() where T : FreeUse, new()
         {
             return new T()
             {

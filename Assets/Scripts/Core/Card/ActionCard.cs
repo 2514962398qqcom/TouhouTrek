@@ -40,7 +40,6 @@ namespace ZMDFQ
             nextRequest = nextRequestData.data;
             return boolData.data;
         }
-
         protected virtual bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             nextRequest = null;
@@ -52,6 +51,16 @@ namespace ZMDFQ
                     return true;
             }
             return false;
+        }
+        public virtual bool isValidTarget(Game game, FreeUse useWay, Player player, out string invalidInfo)
+        {
+            invalidInfo = string.Empty;
+            return true;
+        }
+        public virtual bool isValidTarget(Game game, FreeUse useWay, ActionCard card, out string invalidInfo)
+        {
+            invalidInfo = string.Empty;
+            return true;
         }
         public abstract Task DoEffect(Game game, FreeUse useWay);
         internal virtual void OnEnterHand(Game game, Player player)
