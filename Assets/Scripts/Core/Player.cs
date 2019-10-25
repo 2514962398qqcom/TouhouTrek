@@ -212,7 +212,16 @@ namespace ZMDFQ
             }
             await game.EventSystem.Call(EventEnum.DropActionCard, game.GetSeat(this), this, data);
         }
-
+        /// <summary>
+        /// 丢弃手牌
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="cards"></param>
+        /// <returns></returns>
+        public Task discard(Game game, List<int> cards)
+        {
+            return DropActionCard(game, cards, true);
+        }
         public async Task ChangeSize(Game game, int Size, object source, Player sourcePlayer)
         {
             var data = new EventData<int>() { data = Size };

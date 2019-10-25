@@ -21,9 +21,10 @@ namespace ZMDFQ.Cards
         }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
+            Player player = game.GetPlayer(useWay.PlayerId);
             Player target = game.GetPlayer(useWay.PlayersId[0]);
-            Player user = game.GetPlayer(useWay.PlayerId);
-            await target.ChangeSize(game, -1, this, Owner);
+            await target.ChangeSize(game, -1, source, player);
             Player now = target;
             while (true)
             {
@@ -34,8 +35,9 @@ namespace ZMDFQ.Cards
                     break;
                 else
                 {
-                    Player nowTarget = now == user ? target : user;
-                    await nowTarget.ChangeSize(game, -1, this, Owner);
+                    Player nowTarget = now == player ? target : player;
+                    await now.discard(game, chooseSomeCardResponse.Cards);
+                    await nowTarget.ChangeSize(game, -1, source, now);
                     now = nowTarget;
                 }
             }

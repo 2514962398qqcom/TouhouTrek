@@ -176,7 +176,12 @@ namespace ZMDFQ
                 ActionDeck.AddRange(createCards<Cards.AT_N003>(3));
                 ActionDeck.AddRange(createCards<Cards.AT_N004>(3));
                 ActionDeck.AddRange(createCards<Cards.AT_N006>(3));
+                ActionDeck.AddRange(createCards<Cards.AT_D009>(5));
                 ActionDeck.AddRange(createCards<Cards.AT_N012>(5));
+                ActionDeck.AddRange(createCards<Cards.AT_G013>(1));
+                ActionDeck.AddRange(createCards<Cards.AT_N014>(1));
+                ActionDeck.AddRange(createCards<Cards.AT_N020>(3));
+                ActionDeck.AddRange(createCards<Cards.AT_N023>(1));
                 ThemeDeck.AddRange(createCards(new Cards.G_001(), 20));
                 EventDeck.AddRange(createCards<Cards.EV_E001>(7));
                 EventDeck.AddRange(createCards<Cards.EV_E002>(3));

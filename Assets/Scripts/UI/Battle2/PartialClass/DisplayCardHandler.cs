@@ -9,7 +9,7 @@ namespace ZMDFQ.UI.Battle
     //用于处理场上能看见的卡
     partial class UI_Main2
     {
-        [BattleUI(nameof(Init),true)]
+        [BattleUI(nameof(Init), true)]
         private void DisplayCard_Init()
         {
             //这里必须先行其他注册事件，否则其他位置的手牌会出错
@@ -55,7 +55,7 @@ namespace ZMDFQ.UI.Battle
             m_SetEvent.SetCard(self.SaveEvent);
 
             m_DelayAction.RemoveChildrenToPool();
-            foreach (var card in game.ChainEventDeck)
+            foreach (var card in game.DelayActionDeck)
             {
                 var ui_card = m_DelayAction.AddItemFromPool() as UI_Card;
                 ui_card.SetCard(card);
@@ -73,16 +73,16 @@ namespace ZMDFQ.UI.Battle
         [BattleUI(nameof(SetGame))]
         private void DisplayCard_NewGame()
         {
-            game.EventSystem.Register(EventEnum.DrawActionCard,100, (x) =>
-            {
-                Player player = x[0] as Player;
-                if (player.Id == self.Id)
-                {
-                    selectedCards.Clear();
-                    m_Hand.SetCards(player.ActionCards, selectedCards);
-                }
-                return Task.CompletedTask;
-            });
+            game.EventSystem.Register(EventEnum.DrawActionCard, 100, (x) =>
+             {
+                 Player player = x[0] as Player;
+                 if (player.Id == self.Id)
+                 {
+                     selectedCards.Clear();
+                     m_Hand.SetCards(player.ActionCards, selectedCards);
+                 }
+                 return Task.CompletedTask;
+             });
         }
     }
 }

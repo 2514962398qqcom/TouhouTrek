@@ -22,7 +22,6 @@ namespace ZMDFQ.Cards
             }
             return base.canUse(game, nowRequest, useInfo, out nextRequest);
         }
-
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
             Player player = game.GetPlayer(useWay.PlayerId);

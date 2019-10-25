@@ -17,7 +17,12 @@ namespace ZMDFQ.UI.Battle
             m_useCard.onClick.Add(() =>
             {
                 var useinfo = getFreeUseInfo<FreeUse>();
+
+                selectedPlayers.Clear();
+                flushSelectPlayer();//清空选中玩家
+
                 selectedCards.Clear();
+
                 selectedSkill = null;
                 flushSkills();
                 game.Answer(useinfo);
@@ -66,15 +71,10 @@ namespace ZMDFQ.UI.Battle
         void freeUse_HeroClick(EventContext evt)
         {
             UI_PlayerSimpleInfo playerSimpleInfo = evt.sender as UI_PlayerSimpleInfo;
-            Log.Debug(playerSimpleInfo.Player.Name);
             if (selectedPlayers.Contains(playerSimpleInfo.Player))
-            {
                 selectedPlayers.Remove(playerSimpleInfo.Player);
-            }
             else
-            {
                 selectedPlayers.Add(playerSimpleInfo.Player);
-            }
             flushSelectPlayer();
             checkFreeUseAble();
         }

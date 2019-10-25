@@ -53,7 +53,6 @@ namespace ZMDFQ.UI.Battle
                 for (int i = 0; i < chooseHeroRequset.HeroIds.Count; i++)
                 {
                     int id = chooseHeroRequset.HeroIds[i];
-                    Log.Debug($"可选择英雄id:{id}");
                     (m_HeroChooseWindow.GetChild("p" + i) as UI_Card).SetCard(game.GetCard(id));
                 }
             }
