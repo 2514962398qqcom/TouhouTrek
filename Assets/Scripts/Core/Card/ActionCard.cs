@@ -40,6 +40,14 @@ namespace ZMDFQ
             nextRequest = nextRequestData.data;
             return boolData.data;
         }
+        /// <summary>
+        /// 能否使用卡牌，默认没有任何条件，但是会对要求使用特定类型卡片的情况进行检查，所以在重写该方法的时候除了特殊情况应该返回base.canUse
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="nowRequest"></param>
+        /// <param name="useInfo"></param>
+        /// <param name="nextRequest"></param>
+        /// <returns></returns>
         protected virtual bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
         {
             nextRequest = null;
