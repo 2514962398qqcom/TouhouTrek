@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ZMDFQ.PlayerAction;
+
 namespace ZMDFQ.UI.Battle
 {
     //用于处理场上能看见的卡
@@ -16,16 +18,14 @@ namespace ZMDFQ.UI.Battle
             //点选卡片
             m_Hand.OnCardClick.Add(evt =>
             {
+                if (nowRequest is FreeUseRequest)
+                    return;
                 UI_Card uI_Card = evt.data as UI_Card;
                 ActionCard card = uI_Card.Card as ActionCard;
                 if (selectedCards.Contains(card))
-                {
                     selectedCards.Remove(card);
-                }
                 else
-                {
                     selectedCards.Add(card);
-                }
                 m_Hand.SetCards(self.ActionCards, selectedCards);
             });
         }
