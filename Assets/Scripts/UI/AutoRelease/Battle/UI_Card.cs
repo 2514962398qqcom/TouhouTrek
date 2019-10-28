@@ -9,6 +9,8 @@ namespace ZMDFQ.UI.Battle
 	{
 		public Controller m_type;
 		public GTextField m_Name;
+		public GTextField m_Tags;
+		public GTextField m_Desc;
 
 		public const string URL = "ui://oacz4rtmdzy4h";
 
@@ -27,6 +29,8 @@ namespace ZMDFQ.UI.Battle
 
 			m_type = this.GetControllerAt(0);
 			m_Name = (GTextField)this.GetChildAt(2);
+			m_Tags = (GTextField)this.GetChildAt(4);
+			m_Desc = (GTextField)this.GetChildAt(5);
 			Init();
 		}
 		
