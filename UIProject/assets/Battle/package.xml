@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<packageDescription id="oacz4rtm" jpegQuality="80" compressPNG="true">
+<packageDescription id="oacz4rtm">
   <resources>
     <component id="qfxq0" name="Main.xml" path="/Main1/"/>
     <component id="qfxq1" name="HandCard.xml" path="/Main1/"/>
@@ -27,6 +27,7 @@
     <component id="dzy4p" name="SmallBuff.xml" path="/"/>
     <component id="sqtfq" name="ChooseHero.xml" path="/"/>
     <component id="g2d6r" name="SimpleBtn.xml" path="/"/>
+    <component id="sapys" name="ChangeSeat.xml" path="/"/>
   </resources>
-  <publish name="Battle" genCode="true"/>
+  <publish name="Battle" genCode="true" codePath="..\Assets\Scripts\UI\AutoRelease"/>
 </packageDescription>

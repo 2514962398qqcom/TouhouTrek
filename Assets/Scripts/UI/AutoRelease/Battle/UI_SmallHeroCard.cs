@@ -27,7 +27,6 @@ namespace ZMDFQ.UI.Battle
 			m_Name = (GTextField)this.GetChildAt(2);
 			Init();
 		}
-		
 		partial void Init();
 	}
 }

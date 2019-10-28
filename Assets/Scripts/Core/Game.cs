@@ -200,7 +200,7 @@ namespace ZMDFQ
             {
                 for (int i = 0; i < options.PlayerInfos.Length; i++)
                 {
-                    GameOptions.PlayerInfo info = (GameOptions.PlayerInfo)options.PlayerInfos[i];
+                    GameOptions.PlayerInfo info = options.PlayerInfos[i];
                     Player p;
                     if (info.Id < 0)
                         p = new AI(this, i);
