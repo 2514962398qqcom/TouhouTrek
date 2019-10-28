@@ -14,16 +14,37 @@ namespace ZMDFQ.Cards
         {
             if (nowRequest is FreeUseRequest && useInfo.PlayersId.Count < 1)
             {
-                nextRequest = new HeroChooseRequest() { PlayerId = useInfo.PlayerId };
+                nextRequest = new HeroChooseRequest() { PlayerId = useInfo.PlayerId, Number = 1, RequestInfo = "选择目标玩家" };
                 return false;
             }
             return base.canUse(game, nowRequest, useInfo, out nextRequest);
         }
+        /// <summary>
+        /// 不能自己撕自己
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="useWay"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public override bool isValidTarget(Game game, FreeUse useWay, Player player, out string invalidInfo)
+        {
+            if (player.Id != useWay.PlayerId)
+            {
+                invalidInfo = string.Empty;
+                return true;
+            }
+            else
+            {
+                invalidInfo = "目标不能是自己";
+                return false;
+            }
+        }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
+            Player player = game.GetPlayer(useWay.PlayerId);
             Player target = game.GetPlayer(useWay.PlayersId[0]);
-            Player user = game.GetPlayer(useWay.PlayerId);
-            await target.ChangeSize(game, -1, this, Owner);
+            await target.ChangeSize(game, -1, source, player);
             Player now = target;
             while (true)
             {
@@ -34,8 +55,9 @@ namespace ZMDFQ.Cards
                     break;
                 else
                 {
-                    Player nowTarget = now == user ? target : user;
-                    await nowTarget.ChangeSize(game, -1, this, Owner);
+                    Player nowTarget = now == player ? target : player;
+                    await now.discard(game, chooseSomeCardResponse.Cards);
+                    await nowTarget.ChangeSize(game, -1, source, now);
                     now = nowTarget;
                 }
             }

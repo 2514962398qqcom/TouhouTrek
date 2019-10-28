@@ -8,6 +8,7 @@ namespace ZMDFQ
 {
     public enum EventEnum
     {
+        Nothing,
         GameStart,
         GameEnd,
 

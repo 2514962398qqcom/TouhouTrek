@@ -338,7 +338,7 @@ namespace Tests
             game.useAction(0, game.Players[0].findHand<TestAction_DelayDraw>());//延迟行动牌
             game.endAction(0);
             game.useEvent(0, false);
-            game.discard(0);
+            game.tryDiscard(0);
             //复读延迟行动牌
             Assert.AreEqual(1, game.Players[1].ActionCards.Where(c => c is AT_N023).Count());//复读机传递成功
             Assert.AreEqual(1, game.Players[0].ActionCards.Count);
@@ -348,15 +348,15 @@ namespace Tests
             Assert.AreEqual(1, game.DelayActionDeck.Count);
             Assert.IsInstanceOf<AT_N023>(game.DelayActionDeck[0]);//复读机被挂上去了
             game.endAction(1);
+            game.Players[1].Size = 5;//干，不能让他弃牌，不然弃牌就会替代墨菲。而且还必须写在useEvent之前，不然一路就进弃牌阶段了。
             game.useEvent(1, false);
             int cardID = game.Players[0].ActionCards.Find(c => c is AT_N020).Id;
             game.Answer(new UseLimitCardResponse() { PlayerId = 0, CardId = cardID, Source = new List<int>() { cardID }, Used = true });//发动墨菲
-            game.Players[1].Size = 5;//干，不能让他弃牌，不然的话就不能复读墨菲了
-            game.discard(1);
+            game.tryDiscard(1);
             //复读墨菲定理
             Assert.AreEqual(4, game.Players[1].ActionCards.Count);//复读机延迟生效
             Assert.AreEqual(1, game.Players[0].ActionCards.Where(c => c is AT_N023).Count());//复读机传递成功
-            game.Players[0].Size = 1;
+            game.Players[0].Size = 1;//用于测试事件的影响力
             game.endAction(0);
             Assert.IsInstanceOf<AT_N020>(game.UsedActionDeck[game.UsedActionDeck.Count - 1]);
             game.useEvent(0, true);
@@ -379,13 +379,13 @@ namespace Tests
         }
         async Task onTurnStart(Card thisCard, object[] args)
         {
+            Debug.Log(thisCard + "延迟效果发动");
             Game game = args[0] as Game;
             Player player = thisCard.getProp<Player>("player");
             await player.DrawActionCard(game, 1);
             game.EventSystem.Remove(EventEnum.TurnStart, thisCard.getProp<CardCallback>("onTurnStart").call);
             game.DelayActionDeck.Remove(thisCard as ActionCard);
             await (thisCard as ActionCard).onEffected(game);
-            Debug.Log(thisCard + "延迟效果发动");
         }
     }
     class TestEvent_AddCSAndInf : EventCard

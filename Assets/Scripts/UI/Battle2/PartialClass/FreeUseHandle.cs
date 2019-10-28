@@ -17,9 +17,7 @@ namespace ZMDFQ.UI.Battle
             m_useCard.onClick.Add(() =>
             {
                 var useinfo = getFreeUseInfo<FreeUse>();
-                selectedCards.Clear();
-                selectedSkill = null;
-                flushSkills();
+                resetSelection();
                 game.Answer(useinfo);
             });
             m_Endturn.onClick.Add(() =>
@@ -29,12 +27,26 @@ namespace ZMDFQ.UI.Battle
                     PlayerId = self.Id,
                 });
             });
-            m_Hand.OnCardClick.Add(checkFreeUseAble);
+            m_Hand.OnCardClick.Add(freeUse_CardClick);
             m_skills.onClickItem.Add(checkFreeUseAble);
             for (int i = 0; i < 8; i++)
             {
                 playersSimpleInfo[i].onClick.Add(freeUse_HeroClick);
             }
+        }
+        /// <summary>
+        /// 重置选中玩家，卡片和技能等等。
+        /// </summary>
+        private void resetSelection()
+        {
+            selectedPlayers.Clear();
+            flushSelectPlayer();//清空选中玩家
+
+            selectedCards.Clear();
+            m_Hand.SetCards(self.ActionCards, selectedCards);
+
+            selectedSkill = null;
+            flushSkills();
         }
 
         //[BattleUI(nameof(flush))]
@@ -46,13 +58,14 @@ namespace ZMDFQ.UI.Battle
         //[BattleUI(nameof(onRequest))]
         private void freeUseRequestHandle()
         {
+            m_Request.selectedIndex = 1;
             //自由出牌
             //if (nowRequest.PlayerId == self.Id && nowRequest is FreeUseRequest && !(nowRequest is UseLimitCardRequest))
-            {
-                m_Request.selectedIndex = 1;
-                //selectedCards.Clear();
-                //m_Hand.SetCards(self.ActionCards, selectedCards);
-            }
+            //{
+            //    m_Request.selectedIndex = 1;
+            //    selectedCards.Clear();
+            //    m_Hand.SetCards(self.ActionCards, selectedCards);
+            //}
         }
 
         void flushSkills()
@@ -66,27 +79,44 @@ namespace ZMDFQ.UI.Battle
         void freeUse_HeroClick(EventContext evt)
         {
             UI_PlayerSimpleInfo playerSimpleInfo = evt.sender as UI_PlayerSimpleInfo;
-            Log.Debug(playerSimpleInfo.Player.Name);
-            if (selectedPlayers.Contains(playerSimpleInfo.Player))
+            if (selectedCards[0].isValidTarget(game, getFreeUseInfo<FreeUse>(), playerSimpleInfo.Player, out string invalidInfo))//是否是可以选中的目标？
             {
-                selectedPlayers.Remove(playerSimpleInfo.Player);
+                selectedPlayers.Clear();
+                selectedPlayers.Add(playerSimpleInfo.Player);
+                //TODO:支持选择多个玩家
+                //if (selectedPlayers.Contains(playerSimpleInfo.Player))
+                //    selectedPlayers.Remove(playerSimpleInfo.Player);
+                //else
+                //    selectedPlayers.Add(playerSimpleInfo.Player);
+                flushSelectPlayer();
+                checkFreeUseAble();
             }
             else
             {
-                selectedPlayers.Add(playerSimpleInfo.Player);
+                selectedPlayers.Clear();
+                flushSelectPlayer();
+                checkFreeUseAble();
+                if (!string.IsNullOrEmpty(invalidInfo))
+                    m_UseTip.text = invalidInfo;
             }
-            flushSelectPlayer();
-            checkFreeUseAble();
         }
 
-        void freeUse_CardClick(FairyGUI.EventContext evt)
+        void freeUse_CardClick(EventContext evt)
         {
-            checkFreeUseAble();
+            if (nowRequest is FreeUseRequest request && request.PlayerId == self.Id)//是自己在出牌
+            {
+                ActionCard card = (evt.data as UI_Card).Card as ActionCard;
+                selectedCards = new List<ActionCard>() { card };
+                m_Hand.SetCards(self.ActionCards, selectedCards);
+                checkFreeUseAble();
+                //TODO:支持选择作为Cost的其他卡片
+            }
         }
 
         private void checkFreeUseAble()
         {
-            if (nowRequest == null || nowRequest.PlayerId != self.Id || !(nowRequest is FreeUseRequest) || nowRequest is UseLimitCardRequest) return;
+            if (nowRequest == null || nowRequest.PlayerId != self.Id || !(nowRequest is FreeUseRequest) || nowRequest is UseLimitCardRequest)
+                return;
             if (selectedSkill != null)
             {
                 NextRequest nextRequest;
@@ -98,7 +128,8 @@ namespace ZMDFQ.UI.Battle
                 else
                 {
                     m_useCard.enabled = false;
-                    m_UseTip.text = nextRequest.RequestInfo;
+                    if (nextRequest != null)
+                        m_UseTip.text = nextRequest.RequestInfo;
                 }
             }
             else if (selectedCards.Count == 1)
@@ -123,7 +154,7 @@ namespace ZMDFQ.UI.Battle
             }
         }
 
-        T getFreeUseInfo<T>() where T : FreeUse,new()
+        T getFreeUseInfo<T>() where T : FreeUse, new()
         {
             return new T()
             {

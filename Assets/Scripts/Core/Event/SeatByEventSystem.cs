@@ -51,13 +51,26 @@ namespace ZMDFQ
                 list.RemoveAll(x => x.action == action);
             }
         }
+        /// <summary>
+        /// 当前正在结算的事件
+        /// </summary>
+        public EventEnum currentEvent
+        {
+            get
+            {
+                if (eventStack.Count > 0)
+                    return eventStack.Peek();
+                return EventEnum.Nothing;
+            }
+        }
+        Stack<EventEnum> eventStack { get; } = new Stack<EventEnum>();
         public async Task Call(EventEnum eventEnum, int seat, params object[] param)
         {
             //Log.Debug($"触发了{eventEnum}事件");
             List<EventItem> list;
             if (dic.TryGetValue(eventEnum, out list))
             {
-                List<EventItem> items = new List<EventItem>(list);
+                List<EventItem> items = new List<EventItem>(list);//对注册的回调进行排序
                 items.Sort((x, y) =>
                 {
                     int xindex = getDistance(seat, x.Seat);
@@ -71,7 +84,7 @@ namespace ZMDFQ
                         return xindex - yindex;
                     }
                 });
-
+                eventStack.Push(eventEnum);
                 while (items.Count > 0)
                 {
                     //取出所有和第一个事件同一座次和排序的事件
@@ -82,9 +95,7 @@ namespace ZMDFQ
                         nextLists.Add(items[0]);
                         items.RemoveAt(0);
                     }
-
                     await Task.WhenAll(nextLists.Select(x => x.action(param)));
-
                     //if (seat >= 0 && seat < game.Players.Count)
                     //{
                     //    while (nextLists.Count > 1)
@@ -108,11 +119,12 @@ namespace ZMDFQ
                     //        await eventItem.action(param);
                     //    }
                     //}
-                }
+                }//按照顺序进行结算
+                eventStack.Pop();
             }
         }
 
-        int getDistance(int startSeat,int seat)
+        int getDistance(int startSeat, int seat)
         {
             if (seat < 0) return seat;
             int result = seat - startSeat;

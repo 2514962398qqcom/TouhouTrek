@@ -39,7 +39,8 @@ namespace ZMDFQ.UI.Battle
 
         private void checkLimitUseAble()
         {
-            if (nowRequest == null || nowRequest.PlayerId != self.Id || !(nowRequest is UseLimitCardRequest)) return;
+            if (nowRequest == null || nowRequest.PlayerId != self.Id || !(nowRequest is UseLimitCardRequest))
+                return;
             if (selectedSkill != null)
             {
                 NextRequest nextRequest;

@@ -82,26 +82,49 @@ namespace ZMDFQ.Cards
             else
                 return _changeTarget.CanUse(game, nowRequest, useInfo, out nextRequest);
         }
+        public override bool isValidTarget(Game game, FreeUse useWay, ActionCard card, out string invalidInfo)
+        {
+            if (_changeTarget != null)
+                return _changeTarget.isValidTarget(game, useWay, card, out invalidInfo);
+            return base.isValidTarget(game, useWay, card, out invalidInfo);
+        }
+        public override bool isValidTarget(Game game, FreeUse useWay, Player player, out string invalidInfo)
+        {
+            if (_changeTarget != null)
+                return _changeTarget.isValidTarget(game, useWay, player, out invalidInfo);
+            return base.isValidTarget(game, useWay, player, out invalidInfo);
+        }
         public override async Task DoEffect(Game game, FreeUse useWay)
         {
             if (_changeTarget != null)
             {
+                setProp("user", game.GetPlayer(useWay.PlayerId));
                 await _changeTarget.DoEffect(game, useWay);
                 Log.Debug("复读机复读" + _changeTarget);
             }
         }
-        public override Task onEffected(Game game)
+        public override async Task onEffected(Game game)
         {
-            game.EventSystem.Register(EventEnum.TurnStart, game.GetSeat(Owner), onTurnStart, 100);
+            if (game.EventSystem.currentEvent == EventEnum.TurnStart)
+            {
+                //如果现在就在回合开始阶段，直接置入玩家手牌
+                await game.getNextPlayer(getProp<Player>("user")).AddActionCards(game, new List<ActionCard>() { this });
+            }
+            else
+            {
+                //不在回合开始阶段，注册回合开始回调
+                setProp("onTurnStart", new CardCallback(this, onTurnStart));
+                game.EventSystem.Register(EventEnum.TurnStart, game.GetSeat(Owner), getProp<CardCallback>("onTurnStart").call, 100);
+            }
             Log.Debug("复读机结算完毕");
-            return Task.CompletedTask;
         }
-        async Task onTurnStart(object[] args)
+        static async Task onTurnStart(Card thisCard, object[] args)
         {
             Game game = args[0] as Game;
-            Player player = args[1] as Player;
-            await player.AddActionCards(game, new List<ActionCard>() { this });
+            Player player = game.getNextPlayer(thisCard.getProp<Player>("user"));
+            await player.AddActionCards(game, new List<ActionCard>() { thisCard as ActionCard });
             Log.Debug("复读机传递给玩家" + player.Id);
+            game.EventSystem.Remove(EventEnum.TurnStart, thisCard.getProp<CardCallback>("onTurnStart").call);
         }
     }
 }

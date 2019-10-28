@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 
+using UnityEngine;
+
 using ZMDFQ;
 using ZMDFQ.PlayerAction;
 
@@ -40,16 +42,30 @@ namespace Tests
         {
             game.Answer(new ChooseDirectionResponse() { PlayerId = playerID, CardId = game.GetPlayer(playerID).EventCards[0].Id, IfForward = isForward, IfSet = isSet });
         }
-        public static void discard(this Game game, int playerID, List<int> cards = null)
+        public static void tryDiscard(this Game game, int playerID, List<int> cards = null)
         {
-            if (cards == null)
+            if (game.getRequest(game.GetPlayer(playerID)) is ChooseSomeCardRequest)
             {
-                Player player = game.GetPlayer(playerID);
-                if (player.ActionCards.Count > player.HandMax(game).Result)
-                    game.Answer(new ChooseSomeCardResponse() { PlayerId = playerID, Cards = new List<int>(player.ActionCards.Take(player.ActionCards.Count - player.HandMax(game).Result).Select(c => c.Id)) });
+                if (cards == null)
+                {
+                    Player player = game.GetPlayer(playerID);
+                    if (player.ActionCards.Count > player.HandMax(game).Result)
+                        game.Answer(new ChooseSomeCardResponse() { PlayerId = playerID, Cards = new List<int>(player.ActionCards.Take(player.ActionCards.Count - player.HandMax(game).Result).Select(c => c.Id)) });
+                }
+                else
+                    game.Answer(new ChooseSomeCardResponse() { PlayerId = playerID, Cards = cards });
             }
-            else
-                game.Answer(new ChooseSomeCardResponse() { PlayerId = playerID, Cards = cards });
+        }
+        public static void printRequests(this Game game)
+        {
+            Debug.Log("所有玩家Request：");
+            for (int i = 0; i < game.Requests.Length; i++)
+            {
+                foreach (Request request in game.Requests[i])
+                {
+                    Debug.Log("玩家" + game.Players[i].Id + "：" + request);
+                }
+            }
         }
     }
 }

@@ -20,6 +20,9 @@ namespace ZMDFQ.UI.Battle
                     PlayerId = self.Id,
                     Cards = selectedCards.Select(x => x.Id).ToList(),
                 });
+                selectedCards.Clear();
+                m_Hand.SetCards(self.ActionCards, selectedCards);
+                m_choose_y.enabled = false;
             });
             m_choose_n.onClick.Add(() =>
             {
@@ -29,10 +32,10 @@ namespace ZMDFQ.UI.Battle
                     Cards = new List<int>(),
                 });
             });
-            m_Hand.OnCardClick.Add((evt) =>
+            m_Hand.OnCardClick.Add(evt =>
             {
-                if (!(nowRequest is ChooseSomeCardRequest chooseSomeCardRequest)) return;
-                m_choose_y.enabled = chooseSomeCardRequest.EnoughOnly ? selectedCards.Count == chooseSomeCardRequest.Count : selectedCards.Count != 0;
+                if (nowRequest is ChooseSomeCardRequest chooseSomeCardRequest)
+                    m_choose_y.enabled = chooseSomeCardRequest.EnoughOnly ? selectedCards.Count == chooseSomeCardRequest.Count : selectedCards.Count != 0;
             });
         }
 
