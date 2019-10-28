@@ -8,8 +8,7 @@ using ZMDFQ.PlayerAction;
 namespace ZMDFQ.Cards
 {
     /// <summary>
-    /// 约稿
-    /// 社群规模±1，选择一名玩家并给x张牌，你与其个人影响力+x
+    /// 约稿：社群规模±1，选择一名玩家并给X张牌，你与其个人影响力+X。
     /// </summary>
     public class AT_N004 : ActionCard
     {

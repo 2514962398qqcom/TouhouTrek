@@ -106,7 +106,10 @@ namespace ZMDFQ.UI.Battle
             if (nowRequest is FreeUseRequest request && request.PlayerId == self.Id)//是自己在出牌
             {
                 ActionCard card = (evt.data as UI_Card).Card as ActionCard;
-                selectedCards = new List<ActionCard>() { card };
+                if (selectedCards.Count == 0 || selectedCards[0] != card)
+                    selectedCards = new List<ActionCard>() { card };
+                else
+                    selectedCards.Clear();
                 m_Hand.SetCards(self.ActionCards, selectedCards);
                 checkFreeUseAble();
                 //TODO:支持选择作为Cost的其他卡片

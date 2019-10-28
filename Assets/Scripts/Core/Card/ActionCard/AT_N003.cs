@@ -4,8 +4,7 @@ using ZMDFQ.PlayerAction;
 namespace ZMDFQ.Cards
 {
     /// <summary>
-    /// 盈利
-    /// 抽两张行动牌
+    /// 盈利：抽两张行动牌。
     /// </summary>
     public class AT_N003 : ActionCard
     {

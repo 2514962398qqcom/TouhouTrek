@@ -8,7 +8,7 @@ using ZMDFQ.PlayerAction;
 namespace ZMDFQ.Cards
 {
     /// <summary>
-    /// 传教：社区规模±2
+    /// 传教：社群规模±2。
     /// </summary>
     public class AT_N001 : ActionCard
     {

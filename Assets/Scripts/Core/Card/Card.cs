@@ -25,6 +25,8 @@ namespace ZMDFQ
             get { return ConfigId; }
         }
         public string Name;
+        public string Tags;
+        public string Desc;
         public CardTypeEnum CardType;
         [BsonIgnore]
         Dictionary<string, object> propsDic { get; } = new Dictionary<string, object>();

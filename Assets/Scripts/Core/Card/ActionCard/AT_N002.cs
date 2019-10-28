@@ -8,8 +8,7 @@ using ZMDFQ.PlayerAction;
 namespace ZMDFQ.Cards
 {
     /// <summary>
-    /// 创作
-    /// 个人影响力+1
+    /// 创作：个人影响力+1。
     /// </summary>
     public class AT_N002 : ActionCard
     {
