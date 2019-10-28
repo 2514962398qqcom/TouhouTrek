@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="176,235">
-  <controller name="type" exported="true" pages="4,,0,,1,,2," selected="1">
+  <controller name="type" exported="true" pages="4,,0,,1,,2," selected="3">
     <remark page="0" value="null"/>
     <remark page="1" value="event"/>
     <remark page="2" value="action"/>
     <remark page="3" value="hero"/>
   </controller>
   <displayList>
-    <graph id="n51_dzy4" name="n51" xy="0,0" size="176,235" type="rect" fillColor="#ff0099ff">
+    <graph id="n51_dzy4" name="n51" xy="0,0" size="176,235" type="rect" fillColor="#ff339900">
       <gearColor controller="type" pages="1,2" values="#ff0000|#339900" default="#0099ff"/>
     </graph>
     <graph id="n52_dzy4" name="n52" xy="11,10" size="155,218" type="rect"/>
-    <text id="n53_dzy4" name="Name" xy="17,13" size="146,29" fontSize="22" align="center" autoSize="none" text="卡名"/>
+    <text id="n53_dzy4" name="Name" xy="14,15" size="150,29" fontSize="22" align="center" autoSize="none" text="卡名"/>
     <graph id="n54_dzy4" name="n54" xy="0,0" size="176,235" type="rect">
       <gearDisplay controller="type" pages="4"/>
     </graph>
+    <text id="n57_u9en" name="Tags" xy="14,50" size="150,20" fontSize="12" align="center" autoSize="none" text="&lt;群体>">
+      <gearDisplay controller="type" pages="0,1,2"/>
+    </text>
+    <text id="n58_u9en" name="Desc" xy="14,75" size="150,150" fontSize="12" autoSize="none" text="卡牌效果&#xA;">
+      <gearDisplay controller="type" pages="0,1,2"/>
+    </text>
   </displayList>
 </component>
