@@ -17,14 +17,7 @@ namespace ZMDFQ.UI.Battle
             m_useCard.onClick.Add(() =>
             {
                 var useinfo = getFreeUseInfo<FreeUse>();
-
-                selectedPlayers.Clear();
-                flushSelectPlayer();//清空选中玩家
-
-                selectedCards.Clear();
-
-                selectedSkill = null;
-                flushSkills();
+                resetSelection();
                 game.Answer(useinfo);
             });
             m_Endturn.onClick.Add(() =>
@@ -40,6 +33,20 @@ namespace ZMDFQ.UI.Battle
             {
                 playersSimpleInfo[i].onClick.Add(freeUse_HeroClick);
             }
+        }
+        /// <summary>
+        /// 重置选中玩家，卡片和技能等等。
+        /// </summary>
+        private void resetSelection()
+        {
+            selectedPlayers.Clear();
+            flushSelectPlayer();//清空选中玩家
+
+            selectedCards.Clear();
+            m_Hand.SetCards(self.ActionCards, selectedCards);
+
+            selectedSkill = null;
+            flushSkills();
         }
 
         //[BattleUI(nameof(flush))]
