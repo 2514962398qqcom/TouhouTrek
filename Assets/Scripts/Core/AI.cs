@@ -22,9 +22,8 @@ namespace ZMDFQ
         async void doResponse(Game game, Request request)
         {
             if (request.PlayerId != Id) return;
-            //Log.Debug(request.PlayerId + "," + Id);
+            Log.Debug("AI被询问" + request);
             await game.TimeManager.WaitAsync(0.5f, game.cts.Token);//假装思考0.5s
-            //await Task.Delay(500, game.cts.Token);
             switch (request)
             {
                 case FreeUseRequest useCardRequest:

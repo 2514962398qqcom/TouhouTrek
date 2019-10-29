@@ -61,7 +61,7 @@ namespace ZMDFQ.UI.Battle
         [BattleUI(nameof(onResponse))]
         private void chooseHeroReponse()
         {
-            if (nowResponse.PlayerId==self.Id&&nowResponse is PlayerAction.ChooseHeroResponse chooseHeroResponse)
+            if (nowResponse.PlayerId == self.Id && nowResponse is PlayerAction.ChooseHeroResponse chooseHeroResponse)
             {
                 m_PlayerHero.SetCard(game.GetCard(chooseHeroResponse.HeroId));
                 this.chooseHeroRequset = null;

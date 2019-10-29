@@ -14,6 +14,7 @@ namespace ZMDFQ
         private class Timer
         {
             public float Time;
+            public float RemainTime;
             public TaskCompletionSource<bool> tcs;
         }
         List<Timer> timers = new List<Timer>();
@@ -23,6 +24,10 @@ namespace ZMDFQ
         }
         private void Update()
         {
+            foreach (Timer timer in timers)
+            {
+                timer.RemainTime = timer.Time - Time.time;
+            }
             while (timers.Count > 0 && timers[0].Time < Time.time)
             {
                 timers[0].tcs.TrySetResult(true);
@@ -49,7 +54,7 @@ namespace ZMDFQ
             foreach (Timer timer in timers)
             {
                 if (timer.tcs.Task == task)
-                    return timer.Time - Time.time;
+                    return timer.RemainTime;
             }
             throw new KeyNotFoundException("Task未注册");
         }
