@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ZMDFQ
 {
     using PlayerAction;
-    public class RequestTimeoutManager:MonoBehaviour,ITimeManager
+    public class RequestTimeoutManager : MonoBehaviour, IRequestManager
     {
         public Game Game { get; set; }
         public bool DoLog = false;
@@ -60,7 +60,7 @@ namespace ZMDFQ
                     Game.Answer(new ChooseSomeCardResponse()
                     {
                         PlayerId = request.PlayerId,
-                        Cards = cards.Select(x=>x.Id).ToList()
+                        Cards = cards.Select(x => x.Id).ToList()
                     });
                     break;
                 case ChooseHeroRequest chooseHero:

@@ -36,7 +36,6 @@ namespace ZMDFQ
             for (int i = 0; i < jsons.Length; i++)
             {
                 if (string.IsNullOrEmpty(jsons[i])) continue;
-                Log.Debug(jsons[i]);
                 T t = MongoHelper.FromJson<T>(jsons[i]);
                 data.Add(getId(t), t);
             }

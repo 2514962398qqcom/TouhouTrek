@@ -28,6 +28,8 @@
     <component id="sqtfq" name="ChooseHero.xml" path="/"/>
     <component id="g2d6r" name="SimpleBtn.xml" path="/"/>
     <component id="sapys" name="ChangeSeat.xml" path="/"/>
+    <component id="pbiet" name="Log.xml" path="/"/>
+    <component id="pbiev" name="LogItem.xml" path="/"/>
   </resources>
   <publish name="Battle" genCode="true" codePath="..\Assets\Scripts\UI\AutoRelease"/>
 </packageDescription>

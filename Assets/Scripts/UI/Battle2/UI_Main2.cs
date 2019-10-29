@@ -9,7 +9,6 @@ namespace ZMDFQ.UI.Battle
 {
     using PlayerAction;
     using System.Reflection;
-
     public partial class UI_Main2
     {
         Game game;
@@ -21,7 +20,7 @@ namespace ZMDFQ.UI.Battle
         /// </summary>
         List<ActionCard> selectedCards = new List<ActionCard>();
 
-        List<Player> selectedPlayers = new List<Player>(); 
+        List<Player> selectedPlayers = new List<Player>();
 
         /// <summary>
         /// 当前选中的技能，最多一个
@@ -53,7 +52,7 @@ namespace ZMDFQ.UI.Battle
         {
             public string Name;
             public bool AddToTop = false;
-            public BattleUIAttribute(string Name,bool toTop=false)
+            public BattleUIAttribute(string Name, bool toTop = false)
             {
                 this.Name = Name;
                 this.AddToTop = toTop;
@@ -92,19 +91,19 @@ namespace ZMDFQ.UI.Battle
         void doDispatch(string name)
         {
             List<Action> list;
-            if (dic.TryGetValue(name,out list))
+            if (dic.TryGetValue(name, out list))
             {
                 foreach (var a in list) a();
             }
         }
 
         protected override void OnUpdate()
-        { 
+        {
             base.OnUpdate();
             doDispatch(nameof(OnUpdate));
         }
 
-        public void SetGame(Game game,Player self)
+        public void SetGame(Game game, Player self)
         {
             this.game = game;
             this.self = self;
@@ -138,7 +137,7 @@ namespace ZMDFQ.UI.Battle
             //m_ActivePlayer.SetVar("p", request.PlayerId == self.Id ? "你" : request.PlayerId.ToString());
             if (request.PlayerId == self.Id)
             {
-                Log.Debug($"受到{request.GetType().Name}");
+                Log.Debug($"受到{request.GetType().Name}询问");
                 nowRequest = request;
                 doDispatch(nameof(onRequest));
             }

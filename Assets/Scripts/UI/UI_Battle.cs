@@ -83,7 +83,7 @@ namespace ZMDFQ
             }
 
             Game = new Game();
-            Game.TimeManager = GetComponent<RequestTimeoutManager>();
+            Game.RequestManager = GetComponent<RequestTimeoutManager>();
 
             for (int i = 0; i < 8; i++)
             {

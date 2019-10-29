@@ -28,7 +28,7 @@ namespace ZMDFQ.UI.Battle
 		public GTextField m_ActionDropDeck;
 		public GTextField m_EventDropDeckCount;
 		public UI_Card m_PlayerHero;
-		public GComponent m_GameInfo;
+		public UI_Log m_GameInfo;
 		public UI_HandCards m_Hand;
 		public UI_Card m_SetEvent;
 		public GComponent m_NowTheme;
@@ -93,7 +93,7 @@ namespace ZMDFQ.UI.Battle
 			m_ActionDropDeck = (GTextField)this.GetChildAt(29);
 			m_EventDropDeckCount = (GTextField)this.GetChildAt(32);
 			m_PlayerHero = (UI_Card)this.GetChildAt(34);
-			m_GameInfo = (GComponent)this.GetChildAt(36);
+			m_GameInfo = (UI_Log)this.GetChildAt(36);
 			m_Hand = (UI_HandCards)this.GetChildAt(37);
 			m_SetEvent = (UI_Card)this.GetChildAt(38);
 			m_NowTheme = (GComponent)this.GetChildAt(41);

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace ZMDFQ
 {
-    public class TimeManager:MonoBehaviour
+    public class TimeManager : MonoBehaviour
     {
         public static TimeManager Instance;
         private class Timer
@@ -16,14 +16,11 @@ namespace ZMDFQ
             public float Time;
             public TaskCompletionSource<bool> tcs;
         }
-
         List<Timer> timers = new List<Timer>();
-
         private void Awake()
         {
             Instance = this;
         }
-
         private void Update()
         {
             while (timers.Count > 0 && timers[0].Time < Time.time)
@@ -32,7 +29,6 @@ namespace ZMDFQ
                 timers.RemoveAt(0);
             }
         }
-
         public Task WaitAsync(float time, CancellationToken cancellationToken)
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
@@ -41,8 +37,6 @@ namespace ZMDFQ
             cancellationToken.Register(() => { timers.Remove(timer); });
             return tcs.Task;
         }
-
-
         public Task WaitAsync(float time)
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
@@ -50,14 +44,22 @@ namespace ZMDFQ
             addNewTimer(timer);
             return tcs.Task;
         }
-
+        public float getRemainTime(Task task)
+        {
+            foreach (Timer timer in timers)
+            {
+                if (timer.tcs.Task == task)
+                    return timer.Time - Time.time;
+            }
+            throw new KeyNotFoundException("Task未注册");
+        }
         void addNewTimer(Timer timer)
         {
             for (int i = 0; i < timers.Count; i++)
             {
                 if (timer.Time < timers[0].Time)
                 {
-                    timers.Insert(i,timer);
+                    timers.Insert(i, timer);
                     return;
                 }
             }

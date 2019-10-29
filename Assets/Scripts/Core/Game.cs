@@ -4,16 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Reflection;
+using ZMDFQ.PlayerAction;
+
 //using UnityEngine;
 
 namespace ZMDFQ
 {
-    using PlayerAction;
     public class Game
     {
         public SeatByEventSystem EventSystem;
-
-        public ITimeManager TimeManager;
+        public IRequestManager RequestManager;
+        public TimeManager TimeManager { get; set; } = null;
         int _size;
         /// <summary>
         /// 当前社群规模
@@ -134,8 +135,8 @@ namespace ZMDFQ
             EventSystem.game = this;
             EventHelper.RegisterEvent(this);
             this.options = options;
-            if (TimeManager != null)
-                TimeManager.Game = this;
+            if (RequestManager != null)
+                RequestManager.Game = this;
             //初始化牌库
             if (options != null && options.Cards != null && Database != null)
             {
@@ -276,7 +277,6 @@ namespace ZMDFQ
                         player.Hero = characterDeck.Find(c => c.Id == chooseHeroResponse.HeroId);
                         player.Hero.Init(this, player);
                     }
-                    Log.Debug($"所有玩家选择英雄完毕！");
                 }
                 else
                 {
@@ -435,10 +435,10 @@ namespace ZMDFQ
             int index = Players.FindIndex(x => x.Id == request.PlayerId);
             responses[index].Add(tcs);
             Requests[index].Add(request);
-            if (TimeManager != null)
+            if (RequestManager != null)
             {
-                TimeManager.Register(request);
-                tcs.Task.ContinueWith(x => { TimeManager.Cancel(request); }, cts.Token);
+                RequestManager.Register(request);
+                tcs.Task.ContinueWith(x => { RequestManager.Cancel(request); }, cts.Token);
             }
             OnRequest?.Invoke(this, request);
             return tcs.Task;
@@ -537,12 +537,9 @@ namespace ZMDFQ
 
             while (true)
             {
-                Log.Debug($"玩家 { player.Id } 出牌中");
                 Response response = await WaitAnswer(new FreeUseRequest() { PlayerId = player.Id }.SetTimeOut(TurnTime));
                 if (response is EndFreeUseResponse)
-                {
                     break;
-                }
                 else
                 {
                     await (response as FreeUse).HandleAction(this);
@@ -653,7 +650,6 @@ namespace ZMDFQ
             if (Size + data.data < -10)
                 data.data = -10 - Size;
             Size += data.data;
-            Log.Debug($"Game size change to {Size}");
         }
         Queue<int> diceQueue { get; } = new Queue<int>();
         /// <summary>

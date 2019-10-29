@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080" designImage="ui://oacz4rtmgs0sb" designImageAlpha="0" designImageLayer="1">
   <controller name="ChooseHero" pages="0,,1," selected="0"/>
-  <controller name="Request" pages="5,,0,,1,,2,,3,,4,,6," selected="6">
+  <controller name="Request" pages="5,,0,,1,,2,,3,,4,,6," selected="0">
     <remark page="0" value="null"/>
     <remark page="1" value="freeUse"/>
     <remark page="2" value="takeChoice"/>
@@ -10,7 +10,7 @@
     <remark page="5" value="chooseDirection"/>
     <remark page="6" value="chooseRequest"/>
   </controller>
-  <controller name="ChangeSeat" alias="热座模式" pages="0,false,1,true" selected="1"/>
+  <controller name="ChangeSeat" alias="热座模式" pages="0,false,1,true" selected="0"/>
   <displayList>
     <graph id="n91_dzy4" name="n91" xy="0,0" size="1920,1080" type="rect"/>
     <component id="n0_gs0s" name="PlayerInfo0" src="gs0sd" fileName="PlayerSimpleInfo.xml" xy="8,8"/>
@@ -51,7 +51,7 @@
     <graph id="n61_dzy4" name="n61" xy="1332,386" size="118,133" type="rect"/>
     <component id="n63_dzy4" name="PlayerHero" src="dzy4h" fileName="Card.xml" xy="1423,829" controller="type,2"/>
     <graph id="n64_dzy4" name="n64" xy="1625,75" size="282,293" type="rect"/>
-    <component id="n65_dzy4" name="GameInfo" src="dzy4j" fileName="GameInfo.xml" xy="1638,85"/>
+    <component id="n65_dzy4" name="GameInfo" src="pbiet" fileName="Log.xml" xy="1634,85"/>
     <component id="n66_dzy4" name="Hand" src="dzy4k" fileName="HandCards.xml" xy="448,818"/>
     <component id="n67_dzy4" name="SetEvent" src="dzy4h" fileName="Card.xml" xy="459,560" controller="type,0"/>
     <text id="n69_dzy4" name="n69" xy="668,104" size="166,30" fontSize="23" text="当前回合事件牌"/>
