@@ -13,85 +13,41 @@ namespace ZMDFQ
     {
         public Game Game { get; set; }
         public bool DoLog = false;
-        List<Request> requests = new List<Request>();
+        //List<Request> requests = new List<Request>();
 
         private bool destoryed = false;
 
-        private void Update()
-        {
-            foreach (var request in requests.ToArray())
-            {
-                request.RemainTime -= Time.deltaTime;
-                if (request.RemainTime < 0)
-                {
-                    Log.Debug($"{request.PlayerId}超时了{request.GetType().Name}询问");
-                    requests.Remove(request);
-                    timeoutAnswer(request);
-                }
-            }
-        }
+        //private void Update()
+        //{
+        //    foreach (var request in requests.ToArray())
+        //    {
+        //        request.RemainTime -= Time.deltaTime;
+        //        if (request.RemainTime < 0)
+        //        {
+        //            Log.Debug($"{request.PlayerId}超时了{request.GetType().Name}询问");
+        //            requests.Remove(request);
+        //            timeoutAnswer(request);
+        //        }
+        //    }
+        //}
         Dictionary<Request, CancellationTokenSource> requestCancelDic { get; } = new Dictionary<Request, CancellationTokenSource>();
-        public void Register(Request request)
+        public async void Register(Request request)
         {
             if (destoryed) return;
             doLog($"注册了{request.PlayerId}的 {request.GetType().Name}事件，超时：{request.TimeOut}s ");
-
+            request.StartTime = Time.time;
             requestCancelDic.Add(request, new CancellationTokenSource());
-            Task waitTask = Game.TimeManager.WaitAsync(request.TimeOut, requestCancelDic[request].Token);
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (waitTask.IsCompleted)
-                    {
-                        //超时
-                        Log.Debug("超时：" + request);
-                        timeoutAnswer(request);
-                        requestCancelDic.Remove(request);
-                    }
-                    else if (waitTask.IsCanceled)
-                    {
-                        //取消询问
-                        Log.Debug("取消：" + request);
-                        requestCancelDic.Remove(request);
-                    }
-                    else if(waitTask.IsFaulted)
-                    {
-                        //异常
-                        Log.Error(waitTask.Exception);
-                        requestCancelDic.Remove(request);
-                    }
-                    request.RemainTime = Game.TimeManager.getRemainTime(waitTask);//更新剩余时间
-                    Log.Debug("剩余时间：" + request.RemainTime);
-                }
-            });
-            //waitTask.ContinueWith(t =>
-            //{
-            //    timeoutAnswer(request);
-            //});
-
-            //await Task.Run(async () =>
-            //{
-            //    await Game.TimeManager.WaitAsync(request.TimeOut, Game.cts.Token);
-            //    timeoutAnswer(request);
-            //});
-
-            //Task.Run(async () =>
-            //{
-            //    await Game.TimeManager.WaitAsync(request.TimeOut, Game.cts.Token);
-            //    timeoutAnswer(request);
-            //});
-
-            //await Game.TimeManager.WaitAsync(request.TimeOut, Game.cts.Token);
-            //timeoutAnswer(request);
-
-            //requests.Add(request);
+            await Game.TimeManager.WaitAsync(request.TimeOut, requestCancelDic[request].Token);
+            if (requestCancelDic.ContainsKey(request))//超时，而不是被取消了
+                timeoutAnswer(request);
         }
 
         public void Cancel(Request request)
         {
             doLog($"取消了{request.PlayerId}的 {request.GetType().Name}事件，剩余：{request.TimeOut}s ");
-            requests.Remove(request);
+            requestCancelDic[request].Cancel();
+            requestCancelDic.Remove(request);
+            //requests.Remove(request);
         }
 
         void timeoutAnswer(Request request)
@@ -141,10 +97,15 @@ namespace ZMDFQ
         private void OnDestroy()
         {
             destoryed = true;
-            foreach (var request in requests.ToArray())
+            foreach (var pair in requestCancelDic)
             {
-                Cancel(request);
+                pair.Value.Cancel();
             }
+            requestCancelDic.Clear();
+            //foreach (var request in requests.ToArray())
+            //{
+            //    Cancel(request);
+            //}
         }
     }
 }

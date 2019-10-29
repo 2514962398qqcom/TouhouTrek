@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityEngine;
+
 namespace ZMDFQ.UI.Battle
 {
     //用于处理倒计时
@@ -25,7 +27,7 @@ namespace ZMDFQ.UI.Battle
             if (nowRequest != null)
             {
                 m_TimeBar.max = nowRequest.TimeOut;
-                m_TimeBar.value = nowRequest.RemainTime;
+                m_TimeBar.value = nowRequest.TimeOut - Time.time + nowRequest.StartTime;
             }
         }
     }

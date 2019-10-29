@@ -11,12 +11,13 @@ namespace ZMDFQ
     public class TimeManager : MonoBehaviour
     {
         public static TimeManager Instance;
+        [Serializable]
         private class Timer
         {
             public float Time;
-            public float RemainTime;
             public TaskCompletionSource<bool> tcs;
         }
+        [SerializeField]
         List<Timer> timers = new List<Timer>();
         private void Awake()
         {
@@ -24,10 +25,6 @@ namespace ZMDFQ
         }
         private void Update()
         {
-            foreach (Timer timer in timers)
-            {
-                timer.RemainTime = timer.Time - Time.time;
-            }
             while (timers.Count > 0 && timers[0].Time < Time.time)
             {
                 timers[0].tcs.TrySetResult(true);
@@ -49,20 +46,11 @@ namespace ZMDFQ
             addNewTimer(timer);
             return tcs.Task;
         }
-        public float getRemainTime(Task task)
-        {
-            foreach (Timer timer in timers)
-            {
-                if (timer.tcs.Task == task)
-                    return timer.RemainTime;
-            }
-            throw new KeyNotFoundException("Task未注册");
-        }
         void addNewTimer(Timer timer)
         {
             for (int i = 0; i < timers.Count; i++)
             {
-                if (timer.Time < timers[0].Time)
+                if (timer.Time < timers[i].Time)
                 {
                     timers.Insert(i, timer);
                     return;

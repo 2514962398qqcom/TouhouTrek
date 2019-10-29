@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityEngine;
+
 namespace ZMDFQ.UI.Battle
 {
     /// <summary>
@@ -39,7 +41,7 @@ namespace ZMDFQ.UI.Battle
             if (chooseHeroRequset != null)
             {
                 m_HeroChooseWindow.m_time.max = chooseHeroRequset.TimeOut;
-                m_HeroChooseWindow.m_time.value = chooseHeroRequset.RemainTime;
+                m_HeroChooseWindow.m_time.value = chooseHeroRequset.TimeOut - Time.time + chooseHeroRequset.StartTime;
             }
         }
 

@@ -36,7 +36,7 @@ namespace ZMDFQ
             game.RequestManager = gameObject.AddComponent<RequestTimeoutManager>();
             game.TimeManager = gameObject.AddComponent<TimeManager>();
             //game.Init();
-            game.Init(ConfigManager.Instance.GetGameOption("Test",infos));
+            game.Init(ConfigManager.Instance.GetGameOption("Test", infos));
             _Main2.SetGame(game, game.GetPlayer(1));
             game.StartGame();
         }
@@ -70,6 +70,11 @@ namespace ZMDFQ
                 UIPackage.AddPackage(desc);
             }
 #endif
+        }
+        protected void OnGUI()
+        {
+            if (GUILayout.Button(Time.timeScale == 0 ? "恢复" : "暂停", GUILayout.Width(200)))
+                Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
     }
 
