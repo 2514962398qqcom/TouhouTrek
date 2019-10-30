@@ -27,8 +27,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA000, 20)//行动
@@ -61,8 +61,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA000, 20)//行动
@@ -109,8 +109,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 20)//行动
@@ -147,8 +147,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 20)//行动
@@ -189,8 +189,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 20)//行动
@@ -229,8 +229,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 20)//行动
@@ -285,8 +285,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 20)//行动
@@ -337,8 +337,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 20)//行动

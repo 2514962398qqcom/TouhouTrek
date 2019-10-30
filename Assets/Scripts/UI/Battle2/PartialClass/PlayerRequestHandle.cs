@@ -86,11 +86,21 @@ namespace ZMDFQ.UI.Battle
                     break;
             }
         }
-
+        [BattleUI(nameof(onRequest))]
+        void onRequest_ChangeSeat()
+        {
+            if (nowRequest.PlayerId != self.Id)
+            {
+                //需要换座位
+                m_ChangeSeatPanel.setInfo("轮到" + game.GetPlayer(nowRequest.PlayerId).Name + "行动了");//设置信息
+                m_ChangeSeatController.selectedIndex = 1;//显示换人
+                game.TimeManager.Stop();//换人的时候时间是暂停的
+            }
+        }
         //[BattleUI(nameof(onRequest))]
         private void handleRequest()
         {
-            if (nowRequest.PlayerId==self.Id)
+            if (nowRequest.PlayerId == self.Id)
                 switch (nowRequest)
                 {
                     case ChooseHeroRequest chooseHeroRequest:
@@ -105,7 +115,7 @@ namespace ZMDFQ.UI.Battle
                         for (int i = 0; i < takeChoiceRequest.Infos.Count; i++)
                         {
                             int k = i;
-                            var g= m_choiceList.AddItemFromPool();
+                            var g = m_choiceList.AddItemFromPool();
                             g.text = takeChoiceRequest.Infos[i];
                             g.onClick.Set(() => game.Answer(new TakeChoiceResponse()
                             {
@@ -116,10 +126,10 @@ namespace ZMDFQ.UI.Battle
                         m_choiceList.ResizeToFit(m_choiceList.numItems);
                         break;
                     case ChooseSomeCardRequest chooseSomeCardRequest:
-                       
+
                         break;
                     case ChooseDirectionRequest chooseDirectionRequest:
-                        
+
                         break;
                     case UseLimitCardRequest useLimitCardRequest:
                         m_Request.selectedIndex = 4;

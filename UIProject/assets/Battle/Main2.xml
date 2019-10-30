@@ -10,7 +10,7 @@
     <remark page="5" value="chooseDirection"/>
     <remark page="6" value="chooseRequest"/>
   </controller>
-  <controller name="ChangeSeat" alias="热座模式" pages="0,false,1,true" selected="0"/>
+  <controller name="ChangeSeatController" alias="热座模式" pages="0,false,1,true" selected="1"/>
   <displayList>
     <graph id="n91_dzy4" name="n91" xy="0,0" size="1920,1080" type="rect"/>
     <component id="n0_gs0s" name="PlayerInfo0" src="gs0sd" fileName="PlayerSimpleInfo.xml" xy="8,8"/>
@@ -150,8 +150,8 @@
     <component id="n99_sqtf" name="HeroChooseWindow" src="sqtfq" fileName="ChooseHero.xml" xy="450,263">
       <gearDisplay controller="ChooseHero" pages="1"/>
     </component>
-    <component id="n120_sapy" name="Background" src="sapys" fileName="ChangeSeat.xml" xy="0,0">
-      <gearDisplay controller="ChangeSeat" pages="1"/>
+    <component id="n120_sapy" name="ChangeSeatPanel" src="sapys" fileName="ChangeSeat.xml" xy="0,0">
+      <gearDisplay controller="ChangeSeatController" pages="1"/>
     </component>
   </displayList>
 </component>

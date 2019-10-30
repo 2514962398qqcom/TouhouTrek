@@ -90,7 +90,7 @@ namespace ZMDFQ
                         nextLists.Add(itemList[0]);
                         itemList.RemoveAt(0);
                     }
-                    await Task.WhenAll(nextLists.Select(item => item.action(args)));
+                    await game.whenAll(nextLists.Select(item => item.action(args)));
                     //if (seat >= 0 && seat < game.Players.Count)
                     //{
                     //    while (nextLists.Count > 1)

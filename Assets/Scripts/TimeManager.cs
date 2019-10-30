@@ -46,6 +46,14 @@ namespace ZMDFQ
             addNewTimer(timer);
             return tcs.Task;
         }
+        public void Stop()
+        {
+            Time.timeScale = 0;
+        }
+        public void Continue()
+        {
+            Time.timeScale = 1;
+        }
         void addNewTimer(Timer timer)
         {
             for (int i = 0; i < timers.Count; i++)

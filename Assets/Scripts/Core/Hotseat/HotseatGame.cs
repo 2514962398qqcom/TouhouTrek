@@ -9,6 +9,13 @@ namespace ZMDFQ.Hotseat
 {
     class HotseatGame : Game
     {
+        public override async Task whenAll(IEnumerable<Task> tasks)
+        {
+            foreach (Task task in tasks)
+            {
+                await task;
+            }
+        }
         public override async Task<Task<Response>[]> waitAnswerAll(List<Player> players, Func<Player, Task<Response>> selector, Func<Task<Response>, Task> callback = null)
         {
             Task<Response>[] responses = new Task<Response>[players.Count];

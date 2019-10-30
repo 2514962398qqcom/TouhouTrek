@@ -23,8 +23,8 @@ namespace Tests
             {
                 PlayerInfos = new GameOptions.PlayerInfo[]
                 {
-                    new GameOptions.PlayerInfo() { Id = 0 },
-                    new GameOptions.PlayerInfo() { Id = 1 }
+                    new GameOptions.PlayerInfo(),
+                    new GameOptions.PlayerInfo()
                 },
                 Cards = new int[] { }
                 .concatRepeat(0xA001, 2).concatRepeat(0xA002,18)//行动

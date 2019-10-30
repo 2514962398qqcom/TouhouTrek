@@ -468,6 +468,10 @@ namespace ZMDFQ
             }
             return tasks;
         }
+        public virtual async Task whenAll(IEnumerable<Task> tasks)
+        {
+            await Task.WhenAll(tasks);
+        }
         public void CancelRequests()
         {
             for (int i = 0; i < responses.Length; i++)

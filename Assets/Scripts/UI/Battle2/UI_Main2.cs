@@ -9,6 +9,21 @@ namespace ZMDFQ.UI.Battle
 {
     using PlayerAction;
     using System.Reflection;
+    public partial class UI_ChangeSeat
+    {
+        partial void Init()
+        {
+            m_Confirm.onClick.Add(onConfirm);
+        }
+        public void setInfo(string msg)
+        {
+            m_Info.text = msg;
+        }
+        void onConfirm()
+        {
+
+        }
+    }
     public partial class UI_Main2
     {
         Game game;
@@ -111,7 +126,11 @@ namespace ZMDFQ.UI.Battle
             game.OnResponse += onResponse;
             doDispatch(nameof(SetGame));
         }
-
+        public void SetGame(Player self)
+        {
+            this.self = self;
+            doDispatch(nameof(SetGame));
+        }
         /// <summary>
         /// 刷新页面基本信息
         /// </summary>

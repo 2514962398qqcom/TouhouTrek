@@ -9,7 +9,7 @@ namespace ZMDFQ.UI.Battle
 	{
 		public Controller m_ChooseHero;
 		public Controller m_Request;
-		public Controller m_ChangeSeat;
+		public Controller m_ChangeSeatController;
 		public UI_PlayerSimpleInfo m_PlayerInfo0;
 		public UI_PlayerSimpleInfo m_PlayerInfo1;
 		public UI_PlayerSimpleInfo m_PlayerInfo2;
@@ -55,7 +55,7 @@ namespace ZMDFQ.UI.Battle
 		public GButton m_setcard;
 		public GGroup m_chooseDirection;
 		public UI_ChooseHero m_HeroChooseWindow;
-		public UI_ChangeSeat m_Background;
+		public UI_ChangeSeat m_ChangeSeatPanel;
 
 		public const string URL = "ui://oacz4rtmgs0sc";
 
@@ -74,7 +74,7 @@ namespace ZMDFQ.UI.Battle
 
 			m_ChooseHero = this.GetControllerAt(0);
 			m_Request = this.GetControllerAt(1);
-			m_ChangeSeat = this.GetControllerAt(2);
+			m_ChangeSeatController = this.GetControllerAt(2);
 			m_PlayerInfo0 = (UI_PlayerSimpleInfo)this.GetChildAt(1);
 			m_PlayerInfo1 = (UI_PlayerSimpleInfo)this.GetChildAt(2);
 			m_PlayerInfo2 = (UI_PlayerSimpleInfo)this.GetChildAt(3);
@@ -120,7 +120,7 @@ namespace ZMDFQ.UI.Battle
 			m_setcard = (GButton)this.GetChildAt(83);
 			m_chooseDirection = (GGroup)this.GetChildAt(84);
 			m_HeroChooseWindow = (UI_ChooseHero)this.GetChildAt(86);
-			m_Background = (UI_ChangeSeat)this.GetChildAt(87);
+			m_ChangeSeatPanel = (UI_ChangeSeat)this.GetChildAt(87);
 			Init();
 		}
 		partial void Init();
