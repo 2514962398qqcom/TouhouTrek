@@ -402,13 +402,14 @@ namespace Tests
         {
             await UseCard.UseEventCard(game, response, this, effect);
         }
-        Task effect(Game game, ChooseDirectionResponse response)
+        async Task effect(Game game, ChooseDirectionResponse response)
         {
+            ActionCard source = game.GetCard(response.CardId) as ActionCard;
+            Player player = game.Players.Find(p => p.Id == response.PlayerId);
             if (response.IfForward)
-                game.Players.Find(p => p.Id == response.PlayerId).Size *= 2;
+                await player.ChangeSize(game, player.Size, source, player);
             else
-                game.Players.Find(p => p.Id == response.PlayerId).Size = 0;
-            return Task.CompletedTask;
+                await player.ChangeSize(game, -player.Size, source, player);
         }
     }
     class TestCharacter_Empty : HeroCard

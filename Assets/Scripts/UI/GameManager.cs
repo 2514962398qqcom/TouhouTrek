@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using FairyGUI;
 
+using ZMDFQ.Hotseat;
+
 namespace ZMDFQ
 {
     using UI.Battle;
@@ -11,6 +13,12 @@ namespace ZMDFQ
     {
         UI_Main2 _Main2;
         Game game;
+        [SerializeField]
+        bool _hotseat;
+        bool hotseat
+        {
+            get { return _hotseat; }
+        }
         private void Awake()
         {
             BattleBinder.BindAll();
@@ -31,7 +39,7 @@ namespace ZMDFQ
                     Name = "玩家" + i,
                 };
             }
-            game = new Game();
+            game = hotseat ? new HotseatGame() : new Game();
             game.Database = ConfigManager.Instance;
             game.RequestManager = gameObject.AddComponent<RequestTimeoutManager>();
             game.TimeManager = gameObject.AddComponent<TimeManager>();

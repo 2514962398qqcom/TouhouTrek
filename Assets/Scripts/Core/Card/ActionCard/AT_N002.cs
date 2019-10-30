@@ -12,10 +12,11 @@ namespace ZMDFQ.Cards
     /// </summary>
     public class AT_N002 : ActionCard
     {
-        public override Task DoEffect(Game game, FreeUse useWay)
+        public override async Task DoEffect(Game game, FreeUse useWay)
         {
-            game.GetPlayer(useWay.PlayerId).Size += 1;
-            return Task.CompletedTask;
+            ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
+            Player player = game.GetPlayer(useWay.PlayerId);
+            await player.ChangeSize(game, 1, source, player);
         }
     }
 }

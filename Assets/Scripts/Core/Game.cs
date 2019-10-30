@@ -230,7 +230,7 @@ namespace ZMDFQ
             EventSystem.MaxSeat = Players.Count;
             foreach (Player player in Players)
             {
-                player.Size = options != null ? options.initInfluence : 0;
+                player.SetSize(options != null ? options.initInfluence : 0);
             }
             //初始化游戏结束条件
             endingOfficialCardCount = options != null && options.endingOfficialCardCount > 0 ? options.endingOfficialCardCount : 12 - Players.Count;
@@ -268,14 +268,21 @@ namespace ZMDFQ
                     {
                         PlayerId = p.Id,
                         HeroIds = new List<int>(characterDeck.GetRange(Players.IndexOf(p) * 3, 3).Select(c => c.Id))
-                    }.SetTimeOut(RequestTime)));
-                    foreach (var response in chooseHero)
+                    }.SetTimeOut(RequestTime)), t =>
                     {
-                        var chooseHeroResponse = response.Result as ChooseHeroResponse;
-                        Player player = GetPlayer(chooseHeroResponse.PlayerId);
-                        player.Hero = characterDeck.Find(c => c.Id == chooseHeroResponse.HeroId);
+                        ChooseHeroResponse response = t.Result as ChooseHeroResponse;
+                        Player player = GetPlayer(response.PlayerId);
+                        player.Hero = characterDeck.Find(c => c.Id == response.HeroId);
                         player.Hero.Init(this, player);
-                    }
+                        return Task.CompletedTask;
+                    });
+                    //foreach (var response in chooseHero)
+                    //{
+                    //    var chooseHeroResponse = response.Result as ChooseHeroResponse;
+                    //    Player player = GetPlayer(chooseHeroResponse.PlayerId);
+                    //    player.Hero = characterDeck.Find(c => c.Id == chooseHeroResponse.HeroId);
+                    //    player.Hero.Init(this, player);
+                    //}
                 }
                 else
                 {
@@ -446,12 +453,19 @@ namespace ZMDFQ
         /// 向所有玩家请求一个动作的回应
         /// </summary>
         /// <param name="players"></param>
-        /// <param name="callback"></param>
+        /// <param name="selector"></param>
         /// <returns></returns>
-        public virtual async Task<Task<Response>[]> waitAnswerAll(List<Player> players, Func<Player, Task<Response>> callback)
+        public virtual async Task<Task<Response>[]> waitAnswerAll(List<Player> players, Func<Player, Task<Response>> selector, Func<Task<Response>, Task> callback = null)
         {
-            Task<Response>[] tasks = players.Select(p => callback(p)).ToArray();
+            Task<Response>[] tasks = players.Select(p => selector(p)).ToArray();
             await Task.WhenAll(tasks);
+            if (callback != null)
+            {
+                foreach (var task in tasks)
+                {
+                    await callback(task);
+                }
+            }
             return tasks;
         }
         public void CancelRequests()
