@@ -64,38 +64,33 @@ namespace ZMDFQ
             }
         }
         Stack<EventEnum> eventStack { get; } = new Stack<EventEnum>();
-        public async Task Call(EventEnum eventEnum, int seat, params object[] param)
+        public async Task Call(EventEnum eventEnum, int seat, params object[] args)
         {
             //Log.Debug($"触发了{eventEnum}事件");
-            List<EventItem> list;
-            if (dic.TryGetValue(eventEnum, out list))
+            if (dic.TryGetValue(eventEnum, out List<EventItem> value))
             {
-                List<EventItem> items = new List<EventItem>(list);//对注册的回调进行排序
-                items.Sort((x, y) =>
+                List<EventItem> itemList = new List<EventItem>(value);//对注册的回调进行排序
+                itemList.Sort((x, y) =>
                 {
                     int xindex = getDistance(seat, x.Seat);
                     int yindex = getDistance(seat, y.Seat);
                     if (x.Seat - y.Seat == 0)
-                    {
                         return x.sortIndex - y.sortIndex;
-                    }
                     else
-                    {
                         return xindex - yindex;
-                    }
                 });
                 eventStack.Push(eventEnum);
-                while (items.Count > 0)
+                while (itemList.Count > 0)
                 {
                     //取出所有和第一个事件同一座次和排序的事件
-                    EventItem next = items[0];
+                    EventItem next = itemList[0];
                     List<EventItem> nextLists = new List<EventItem>();
-                    while (items.Count > 0 && items[0].Seat == next.Seat && items[0].sortIndex == next.sortIndex)
+                    while (itemList.Count > 0 && itemList[0].Seat == next.Seat && itemList[0].sortIndex == next.sortIndex)//每一次都执行同一个座次和同一个优先级的事件
                     {
-                        nextLists.Add(items[0]);
-                        items.RemoveAt(0);
+                        nextLists.Add(itemList[0]);
+                        itemList.RemoveAt(0);
                     }
-                    await Task.WhenAll(nextLists.Select(x => x.action(param)));
+                    await Task.WhenAll(nextLists.Select(item => item.action(args)));
                     //if (seat >= 0 && seat < game.Players.Count)
                     //{
                     //    while (nextLists.Count > 1)
