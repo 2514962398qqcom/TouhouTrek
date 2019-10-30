@@ -6,7 +6,7 @@ using ZMDFQ.PlayerAction;
 namespace ZMDFQ.Cards
 {
     /// <summary>
-    /// 互撕：指定玩家个人影响力-1，从该玩家开始，轮流弃一张牌使对方个人影响力-1
+    /// 互撕：指定玩家个人影响力-1，从该玩家开始，轮流弃一张牌使对方个人影响力-1。
     /// </summary>
     public class AT_N006 : ActionCard
     {

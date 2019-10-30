@@ -24,6 +24,8 @@ namespace ZMDFQ.UI.Battle
                 return;
             }
             m_Name.text = card.Name;
+            m_Tags.text = card.Tags;
+            m_Desc.text = card.Desc;
             switch (card)
             {
                 case ActionCard actionCard:

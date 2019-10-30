@@ -18,7 +18,7 @@ namespace ZMDFQ
         /// </summary>
         public int Id;
         public string Name;
-        public int Size;
+        public int Size { get; private set; } = 0;
         /// <summary>
         /// 手牌
         /// </summary>
@@ -232,6 +232,14 @@ namespace ZMDFQ
                 data.data = await getSizeMin(game) - this.Size;
             this.Size += data.data;
             await game.EventSystem.Call(EventEnum.AfterPlayrSizeChange, game.ActivePlayerSeat(), game, this, data, new EventData<object>() { data = source }, sourcePlayer);
+        }
+        /// <summary>
+        /// 直接设置玩家的个人影响力而不经过游戏逻辑和事件触发。这个方法通常用于初始化和测试，不要在游戏效果中调用它。
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetSize(int value)
+        {
+            Size = value;
         }
         public async Task<int> getSizeMin(Game game)
         {

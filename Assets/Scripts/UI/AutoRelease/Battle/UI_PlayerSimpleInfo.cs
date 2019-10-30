@@ -41,7 +41,6 @@ namespace ZMDFQ.UI.Battle
 			m_Buffs = (GList)this.GetChildAt(17);
 			Init();
 		}
-		
 		partial void Init();
 	}
 }

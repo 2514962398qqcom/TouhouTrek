@@ -111,26 +111,37 @@
 </ol>
 <p>根据卡片类型继承的父类不同，你会需要重写不同的抽象方法。</p>
 <h2 id="行动卡">行动卡</h2>
-<p>继承行动卡需要你重写<code>canUse</code>和<code>DoEffect</code>两个方法。依然是以卡片<code>AT_N001</code>为例，先来看<code>canUse</code>：</p>
+<p>继承行动卡需要你可以重写<code>canUse</code>和<code>DoEffect</code>两个方法。<code>canUse</code>表示这张卡的使用条件，当返回<code>true</code>的时候，表示这张卡可以使用。<code>canUse</code>默认返回<code>true</code>，并且会对一些其他条件下的使用做检查，即使是在重写这个方法的情况下，通常你也应该保留对<code>base.canUse</code>的返回。在其他的情况下，比如这张卡有特定的发动条件，或者是这张卡在使用之前需要指定一个目标的时候，就会需要重写<code>canUse</code>方法。以<code>AT_N004</code>为例：</p>
 <pre><code>protected override bool canUse(Game game, Request nowRequest, FreeUse useInfo, out NextRequest nextRequest)
 {
-	nextRequest = null;
-	return true;
+	if (nowRequest is FreeUseRequest &amp;&amp; useInfo.PlayersId.Count &lt; 1)
+	{
+		nextRequest = new HeroChooseRequest() { PlayerId = useInfo.PlayerId, Number = 1, RequestInfo = &quot;选择一名玩家&quot; };
+		return false;
+	}
+	return base.canUse(game, nowRequest, useInfo, out nextRequest);
 }
 </code></pre>
-<p>显而易见的，这个方法表示这张卡的使用条件，当返回<code>true</code>的时候，表示这张卡可以使用。如果一张卡没有任何使用条件，那么该方法可以直接返回<code>true</code>。在其他的情况下，比如这张卡有特定的发动条件，或者是这张卡在使用之前需要指定一个目标的时候，就会需要用到这个方法提供的参数：</p>
+<p>关于参数的说明：</p>
 <ul>
-<li>Game game：当前正在运行的游戏对象，提供当前游戏运行状态和方法，比如检查当前的游戏是否符合这张卡的使用条件。</li>
-<li>Request nowRequest：表示当前正在询问玩家的<code>Request</code>。<code>Request</code>和<code>Respond</code>是一组特殊的概念，可以理解为对玩家进行的询问与玩家提供的回应，而玩家对卡片的使用实际上也算是一种<code>Respond</code>，因为在自由行动阶段游戏一直都在询问玩家是否要使用卡片或者结束回合。关于这一参数的信息会在相关的例子中提到。</li>
-<li>FreeUse useInfo：表示玩家使用这张卡片的信息。通常来讲，使用一张行动卡必然包含以下信息：
+<li><p>Game game：当前正在运行的游戏对象，提供当前游戏运行状态和方法，比如检查当前的游戏是否符合这张卡的使用条件。</p>
+</li>
+<li><p>Request nowRequest：表示当前正在询问玩家的<code>Request</code>。<code>Request</code>和<code>Respond</code>是一组特殊的概念，可以理解为对玩家进行的询问与玩家提供的回应，而玩家对卡片的使用实际上也算是一种<code>Respond</code>，因为在自由行动阶段游戏一直都在询问玩家是否要使用卡片或者结束回合。关于这一参数的信息会在相关的例子中提到。</p>
+</li>
+<li><p>FreeUse useInfo：表示玩家使用这张卡片的信息。通常来讲，使用一张行动卡必然包含以下信息：</p>
 <ul>
-<li>PlayerId：使用卡片的玩家的ID。通常用于调用<code>Game.GetPlayer</code>来获取使用卡片的玩家。</li>
-<li>CardId：同样的，玩家所使用的卡片的ID。</li>
-<li>Source：一个整数的列表，表示使用的卡片来源。这个听上去比较不明所以，它是为了“将任意牌作为某种牌打出”的机制而存在的。比如“传教爱好者”可以将任意牌作为“传教”打出，在这种情况下<code>Source</code>列表中就会列出这张卡原本是由哪张卡变形而来的。</li>
+<li><p>PlayerId：使用卡片的玩家的ID。通常用于调用<code>Game.GetPlayer</code>来获取使用卡片的玩家。</p>
+</li>
+<li><p>CardId：同样的，玩家所使用的卡片的ID。</p>
+</li>
+<li><p>Source：一个整数的列表，表示使用的卡片来源。这个听上去比较不明所以，它是为了“将任意牌作为某种牌打出”的机制而存在的。比如“传教爱好者”可以将任意牌作为“传教”打出，在这种情况下<code>Source</code>列表中就会列出这张卡原本是由哪张卡变形而来的。</p>
+</li>
 </ul>
 </li>
-<li>out NextRequest nextRequest：如果这张卡需要玩家提供使用目标之类的信息，而玩家还没有提供，你就可以将<code>nextRequest</code>设置为对玩家的某种询问来要求玩家提供相应的信息（至于具体有哪些类型的询问，请查询API文档）。如果你这么做了，记得返回<code>false</code>。</li>
+<li><p>out NextRequest nextRequest：如果这张卡需要玩家提供使用目标之类的信息，而玩家还没有提供，你就可以将<code>nextRequest</code>设置为对玩家的某种询问来要求玩家提供相应的信息（至于具体有哪些类型的询问，请查询API文档）。如果你这么做了，记得返回<code>false</code>。</p>
+</li>
 </ul>
+<p>以上的例子表示<code>AT_N004</code>在使用的时候需要指定一个玩家作为目标，故而当useInfo中<code>PlayersId.Count</code>的数量小于1的时候，将<code>nextRequest</code>设置为<code>HeroChooseRequest</code>并返回<code>false</code>。其余情况返回<code>base.canUse</code>。</p>
 <p>接着是<code>DoEffect</code>方法：</p>
 <pre><code>public override Task DoEffect(Game game, FreeUse useWay)
 {
@@ -240,7 +251,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/a395338563/ZMDFQ/blob/develop/articles/how_to_write_cards.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/a395338563/ZMDFQ/blob/hotseat/articles/how_to_write_cards.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

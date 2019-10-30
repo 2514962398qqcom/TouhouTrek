@@ -15,6 +15,8 @@ namespace ZMDFQ.UI.Battle
 			UIObjectFactory.SetPackageItemExtension(UI_Group.URL, typeof(UI_Group));
 			UIObjectFactory.SetPackageItemExtension(UI_Main2.URL, typeof(UI_Main2));
 			UIObjectFactory.SetPackageItemExtension(UI_PlayerSimpleInfo.URL, typeof(UI_PlayerSimpleInfo));
+			UIObjectFactory.SetPackageItemExtension(UI_Log.URL, typeof(UI_Log));
+			UIObjectFactory.SetPackageItemExtension(UI_ChangeSeat.URL, typeof(UI_ChangeSeat));
 			UIObjectFactory.SetPackageItemExtension(UI_ChooseHero.URL, typeof(UI_ChooseHero));
 		}
 	}

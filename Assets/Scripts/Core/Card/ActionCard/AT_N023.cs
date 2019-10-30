@@ -100,7 +100,6 @@ namespace ZMDFQ.Cards
             {
                 setProp("user", game.GetPlayer(useWay.PlayerId));
                 await _changeTarget.DoEffect(game, useWay);
-                Log.Debug("复读机复读" + _changeTarget);
             }
         }
         public override async Task onEffected(Game game)
@@ -116,14 +115,12 @@ namespace ZMDFQ.Cards
                 setProp("onTurnStart", new CardCallback(this, onTurnStart));
                 game.EventSystem.Register(EventEnum.TurnStart, game.GetSeat(Owner), getProp<CardCallback>("onTurnStart").call, 100);
             }
-            Log.Debug("复读机结算完毕");
         }
         static async Task onTurnStart(Card thisCard, object[] args)
         {
             Game game = args[0] as Game;
             Player player = game.getNextPlayer(thisCard.getProp<Player>("user"));
             await player.AddActionCards(game, new List<ActionCard>() { thisCard as ActionCard });
-            Log.Debug("复读机传递给玩家" + player.Id);
             game.EventSystem.Remove(EventEnum.TurnStart, thisCard.getProp<CardCallback>("onTurnStart").call);
         }
     }

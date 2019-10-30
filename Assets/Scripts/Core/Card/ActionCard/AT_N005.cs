@@ -72,7 +72,7 @@ namespace ZMDFQ.Cards
                     //说明该玩家处于另一个挂裱询问
                     return;
                 }
-                Log.Debug($"询问 { card.Owner.Name } 使用挂裱");
+                Log.Game($"询问 { card.Owner.Name } 使用挂裱");
                 UseLimitCardResponse useLimitCard = (UseLimitCardResponse)await game.WaitAnswer(new UseLimitCardRequest()
                 {
                     AllPlayerRequest = true,
@@ -81,7 +81,7 @@ namespace ZMDFQ.Cards
                 }.SetTimeOut(game.RequestTime));
                 if (useLimitCard.Used)
                 {
-                    Log.Debug($" { card.Owner.Name } 使用挂裱");
+                    Log.Game($" { card.Owner.Name } 使用挂裱");
                     //响应后 取消其他玩家的询问
                     game.CancelRequests();
                     await card.Owner.DropActionCard(game, new List<int>() { card.Id }, true);//弃牌
@@ -92,7 +92,7 @@ namespace ZMDFQ.Cards
                 }
                 else
                 {
-                    Log.Debug($" { card.Owner.Name } 取消使用挂裱");
+                    Log.Game($" { card.Owner.Name } 取消使用挂裱");
                     if (game.Requests.All(x => x.Count == 0))
                         flag.TrySetResult(true);
                 }

@@ -27,7 +27,6 @@ namespace ZMDFQ.UI.Battle
 			m_type = this.GetControllerAt(0);
 			Init();
 		}
-		
 		partial void Init();
 	}
 }

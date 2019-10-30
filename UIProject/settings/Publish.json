@@ -1,8 +1,12 @@
 {
+	"atlasSetting":{
+		"paging":true,
+		"sizeOption":"pot"
+	},
 	"binaryFormat":true,
 	"codeGeneration":{
 		"classNamePrefix":"UI_",
-		"codePath":"F:\\MyProject\\ZMDFQ\\Assets\\Scripts\\UI\\AutoRelease",
+		"codePath":"..\\Assets\\Scripts\\UI\\AutoRelease",
 		"codeType":"",
 		"getMemberByName":false,
 		"ignoreNoname":true,
@@ -10,7 +14,6 @@
 		"packageName":"ZMDFQ.UI"
 	},
 	"compressDesc":true,
-	"fileExtension":"",
 	"packageCount":2,
 	"path":"..\\Assets\\Bundle\\UI"
 }

@@ -4,13 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using FairyGUI;
 
+using ZMDFQ.Hotseat;
+
 namespace ZMDFQ
 {
     using UI.Battle;
-    public class UI_Battle2 : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         UI_Main2 _Main2;
         Game game;
+        [SerializeField]
+        bool _hotseat;
+        bool hotseat
+        {
+            get { return _hotseat; }
+        }
         private void Awake()
         {
             BattleBinder.BindAll();
@@ -31,11 +39,11 @@ namespace ZMDFQ
                     Name = "玩家" + i,
                 };
             }
-            game = new Game();
+            game = hotseat ? new HotseatGame() : new Game();
             game.Database = ConfigManager.Instance;
-            game.TimeManager = gameObject.AddComponent<RequestTimeoutManager>();
-            //game.Init();
-            game.Init(ConfigManager.Instance.GetGameOption("Test",infos));
+            game.RequestManager = gameObject.AddComponent<RequestTimeoutManager>();
+            game.TimeManager = gameObject.AddComponent<TimeManager>();
+            game.Init(ConfigManager.Instance.GetGameOption("Test", infos));
             _Main2.SetGame(game, game.GetPlayer(1));
             game.StartGame();
         }
@@ -69,6 +77,11 @@ namespace ZMDFQ
                 UIPackage.AddPackage(desc);
             }
 #endif
+        }
+        protected void OnGUI()
+        {
+            if (GUILayout.Button(Time.timeScale == 0 ? "恢复" : "暂停", GUILayout.Width(200)))
+                Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
     }
 

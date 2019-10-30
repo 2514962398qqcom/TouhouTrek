@@ -42,7 +42,7 @@ namespace Tests
             game.Players[0].Hero.Skills[0].AutoRequest = true;
             game.Answer(new EndFreeUseResponse() { PlayerId = 0 });
             game.Answer(new ChooseDirectionResponse() { PlayerId = 0, CardId = 61, IfForward = true });
-            game.Players[0].Size = -5;
+            game.Players[0].SetSize(-5);
             game.Answer(new ChooseSomeCardResponse() { PlayerId = 0, Cards = new List<int>() { 1, 2 } });
 
             Assert.AreEqual(-5, game.Players[0].Size);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="260,276">
+<component size="260,276" overflow="scroll" scrollBarFlags="4" initName="GameInfo">
   <displayList>
     <text id="n65_dzy4" name="n65" xy="0,0" size="260,276" fontSize="50" color="#ffffff" autoSize="none" text=""/>
   </displayList>

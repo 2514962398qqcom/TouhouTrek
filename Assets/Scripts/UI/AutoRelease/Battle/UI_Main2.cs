@@ -9,6 +9,7 @@ namespace ZMDFQ.UI.Battle
 	{
 		public Controller m_ChooseHero;
 		public Controller m_Request;
+		public Controller m_ChangeSeat;
 		public UI_PlayerSimpleInfo m_PlayerInfo0;
 		public UI_PlayerSimpleInfo m_PlayerInfo1;
 		public UI_PlayerSimpleInfo m_PlayerInfo2;
@@ -27,7 +28,7 @@ namespace ZMDFQ.UI.Battle
 		public GTextField m_ActionDropDeck;
 		public GTextField m_EventDropDeckCount;
 		public UI_Card m_PlayerHero;
-		public GComponent m_GameInfo;
+		public UI_Log m_GameInfo;
 		public UI_HandCards m_Hand;
 		public UI_Card m_SetEvent;
 		public GComponent m_NowTheme;
@@ -54,6 +55,7 @@ namespace ZMDFQ.UI.Battle
 		public GButton m_setcard;
 		public GGroup m_chooseDirection;
 		public UI_ChooseHero m_HeroChooseWindow;
+		public UI_ChangeSeat m_Background;
 
 		public const string URL = "ui://oacz4rtmgs0sc";
 
@@ -72,6 +74,7 @@ namespace ZMDFQ.UI.Battle
 
 			m_ChooseHero = this.GetControllerAt(0);
 			m_Request = this.GetControllerAt(1);
+			m_ChangeSeat = this.GetControllerAt(2);
 			m_PlayerInfo0 = (UI_PlayerSimpleInfo)this.GetChildAt(1);
 			m_PlayerInfo1 = (UI_PlayerSimpleInfo)this.GetChildAt(2);
 			m_PlayerInfo2 = (UI_PlayerSimpleInfo)this.GetChildAt(3);
@@ -90,7 +93,7 @@ namespace ZMDFQ.UI.Battle
 			m_ActionDropDeck = (GTextField)this.GetChildAt(29);
 			m_EventDropDeckCount = (GTextField)this.GetChildAt(32);
 			m_PlayerHero = (UI_Card)this.GetChildAt(34);
-			m_GameInfo = (GComponent)this.GetChildAt(36);
+			m_GameInfo = (UI_Log)this.GetChildAt(36);
 			m_Hand = (UI_HandCards)this.GetChildAt(37);
 			m_SetEvent = (UI_Card)this.GetChildAt(38);
 			m_NowTheme = (GComponent)this.GetChildAt(41);
@@ -117,9 +120,9 @@ namespace ZMDFQ.UI.Battle
 			m_setcard = (GButton)this.GetChildAt(83);
 			m_chooseDirection = (GGroup)this.GetChildAt(84);
 			m_HeroChooseWindow = (UI_ChooseHero)this.GetChildAt(86);
+			m_Background = (UI_ChangeSeat)this.GetChildAt(87);
 			Init();
 		}
-		
 		partial void Init();
 	}
 }

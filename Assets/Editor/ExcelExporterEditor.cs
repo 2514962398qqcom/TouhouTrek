@@ -186,7 +186,12 @@ public class ExcelExporterEditor : EditorWindow
             Type t = typeof(ZMDFQ.Game).Assembly.GetType(type.Substring(0, type.Length - 2));
             sbCache.Clear();
             string[] sp = value.Split(',');
-            foreach (string s in sp) sbCache.Append((int)Enum.Parse(t, value));
+            foreach (string s in sp)
+            {
+                sbCache.Append((int)Enum.Parse(t, s));
+                sbCache.Append(',');
+            }
+            sbCache.Remove(sbCache.Length - 1, 1);
             return $"[{sbCache.ToString()}]";
         }
         if (type.EndsWith("Enum"))

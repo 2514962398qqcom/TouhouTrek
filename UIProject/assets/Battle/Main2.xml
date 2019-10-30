@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080" designImage="ui://oacz4rtmgs0sb" designImageAlpha="0" designImageLayer="1">
   <controller name="ChooseHero" pages="0,,1," selected="0"/>
-  <controller name="Request" pages="5,,0,,1,,2,,3,,4,,6," selected="6">
+  <controller name="Request" pages="5,,0,,1,,2,,3,,4,,6," selected="0">
     <remark page="0" value="null"/>
     <remark page="1" value="freeUse"/>
     <remark page="2" value="takeChoice"/>
@@ -10,6 +10,7 @@
     <remark page="5" value="chooseDirection"/>
     <remark page="6" value="chooseRequest"/>
   </controller>
+  <controller name="ChangeSeat" alias="热座模式" pages="0,false,1,true" selected="0"/>
   <displayList>
     <graph id="n91_dzy4" name="n91" xy="0,0" size="1920,1080" type="rect"/>
     <component id="n0_gs0s" name="PlayerInfo0" src="gs0sd" fileName="PlayerSimpleInfo.xml" xy="8,8"/>
@@ -50,7 +51,7 @@
     <graph id="n61_dzy4" name="n61" xy="1332,386" size="118,133" type="rect"/>
     <component id="n63_dzy4" name="PlayerHero" src="dzy4h" fileName="Card.xml" xy="1423,829" controller="type,2"/>
     <graph id="n64_dzy4" name="n64" xy="1625,75" size="282,293" type="rect"/>
-    <component id="n65_dzy4" name="GameInfo" src="dzy4j" fileName="GameInfo.xml" xy="1638,85"/>
+    <component id="n65_dzy4" name="GameInfo" src="pbiet" fileName="Log.xml" xy="1634,85"/>
     <component id="n66_dzy4" name="Hand" src="dzy4k" fileName="HandCards.xml" xy="448,818"/>
     <component id="n67_dzy4" name="SetEvent" src="dzy4h" fileName="Card.xml" xy="459,560" controller="type,0"/>
     <text id="n69_dzy4" name="n69" xy="668,104" size="166,30" fontSize="23" text="当前回合事件牌"/>
@@ -89,7 +90,7 @@
     <component id="n44_dzy4" name="Endturn" src="dzy4g" fileName="NormalBtn.xml" xy="826,735" group="n101_g2d6">
       <Button title="结束回合" titleColor="#000000"/>
     </component>
-    <group id="n101_g2d6" name="freeUse" xy="657,728" size="328,76" advanced="true" collapsed="true">
+    <group id="n101_g2d6" name="freeUse" xy="657,728" size="328,76" advanced="true">
       <gearDisplay controller="Request" pages="0"/>
     </group>
     <graph id="n102_g2d6" name="n102" xy="659,728" size="328,76" group="n105_g2d6" type="rect"/>
@@ -99,7 +100,7 @@
     <component id="n104_g2d6" name="choose_n" src="dzy4g" fileName="NormalBtn.xml" xy="828,735" group="n105_g2d6">
       <Button title="取消" titleColor="#000000"/>
     </component>
-    <group id="n105_g2d6" name="chooseCard" xy="659,728" size="328,76" advanced="true" collapsed="true">
+    <group id="n105_g2d6" name="chooseCard" xy="659,728" size="328,76" advanced="true">
       <gearDisplay controller="Request" pages="2"/>
     </group>
     <graph id="n106_g2d6" name="n106" xy="668,736" size="296,72" group="n108_g2d6" type="rect">
@@ -109,7 +110,7 @@
       <item title="选择1"/>
       <item title="选择2"/>
     </list>
-    <group id="n108_g2d6" name="takeChoice" xy="668,736" size="296,73" advanced="true" collapsed="true">
+    <group id="n108_g2d6" name="takeChoice" xy="668,736" size="296,73" advanced="true">
       <gearDisplay controller="Request" pages="1"/>
     </group>
     <graph id="n117_ta80" name="n117" xy="667,736" size="296,72" group="n119_ta80" type="rect">
@@ -148,6 +149,9 @@
     </graph>
     <component id="n99_sqtf" name="HeroChooseWindow" src="sqtfq" fileName="ChooseHero.xml" xy="450,263">
       <gearDisplay controller="ChooseHero" pages="1"/>
+    </component>
+    <component id="n120_sapy" name="Background" src="sapys" fileName="ChangeSeat.xml" xy="0,0">
+      <gearDisplay controller="ChangeSeat" pages="1"/>
     </component>
   </displayList>
 </component>

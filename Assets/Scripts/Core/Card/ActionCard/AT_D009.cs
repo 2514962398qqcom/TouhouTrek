@@ -6,7 +6,7 @@ using ZMDFQ.PlayerAction;
 namespace ZMDFQ.Cards
 {
     /// <summary>
-    /// 煽风点火：下一张生效的事件牌效果中的社群规模和个人影响力偏移量+1
+    /// 煽风点火：下一张生效的事件牌效果中的社群规模和个人影响力偏移量+1。
     /// </summary>
     public class AT_D009 : ActionCard
     {

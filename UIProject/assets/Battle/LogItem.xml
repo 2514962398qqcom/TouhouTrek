@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="265,154" extention="Label">
+  <displayList>
+    <text id="n0_pbie" name="title" xy="0,0" size="265,147" fontSize="20" vAlign="middle" autoSize="height" text="玩家1使用了传教，社群规模+2玩家1使用了传教，社群规模+2玩家1使用了传教，社群规模+2玩家1使用了传教，社群规模+2玩家1使用了传教，社群规模+2"/>
+  </displayList>
+  <relation target="n0_pbie" sidePair="width-width%,height-height%"/>
+</component>

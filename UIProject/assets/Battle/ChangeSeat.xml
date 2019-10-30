@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n120_sapy" name="Background" xy="0,0" size="1920,1080" group="n122_sapy" type="rect" fillColor="#ff000000"/>
+    <text id="n123_sapy" name="Info" xy="660,300" size="600,150" group="n122_sapy" fontSize="40" color="#ffffff" align="center" vAlign="bottom" autoSize="none" text="玩家1的回合开始"/>
+    <component id="n125_sapy" name="Confirm" src="dzy4g" fileName="NormalBtn.xml" xy="896,516" group="n122_sapy">
+      <Button title="确定" selectedTitle="确定"/>
+    </component>
+    <group id="n122_sapy" name="ChangeSeat" xy="0,0" size="1920,1080"/>
+  </displayList>
+</component>

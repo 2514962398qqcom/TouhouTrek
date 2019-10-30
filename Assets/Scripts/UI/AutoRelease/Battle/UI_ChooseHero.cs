@@ -33,7 +33,6 @@ namespace ZMDFQ.UI.Battle
 			m_time = (GProgressBar)this.GetChildAt(5);
 			Init();
 		}
-		
 		partial void Init();
 	}
 }

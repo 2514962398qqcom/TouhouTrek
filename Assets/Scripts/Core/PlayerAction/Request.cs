@@ -12,6 +12,10 @@ namespace ZMDFQ.PlayerAction
     public class Request
     {
         /// <summary>
+        /// 开始时间
+        /// </summary>
+        public float StartTime = 0;
+        /// <summary>
         /// 剩余时间
         /// </summary>
         public float RemainTime = 5;
@@ -36,7 +40,6 @@ namespace ZMDFQ.PlayerAction
 
         public Request SetTimeOut(float time)
         {
-            RemainTime = time;
             TimeOut = time;
             return this;
         }

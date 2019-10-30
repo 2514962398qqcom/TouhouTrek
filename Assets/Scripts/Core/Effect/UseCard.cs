@@ -61,6 +61,7 @@ namespace ZMDFQ.Effects
             game.AddUsingInfo(usingInfo);
             if (card.isDelay)
                 game.DelayActionDeck.Add(card);//延迟牌置入延迟区
+            Log.Game(player.Name + "使用" + card.Name);
             await effect(game, useActionCard);
             foreach (var cardId in useActionCard.Source)
             {
