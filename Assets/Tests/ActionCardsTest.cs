@@ -364,7 +364,46 @@ namespace Tests
             game.Answer(new UseLimitCardResponse() { PlayerId = 0, CardId = cardID, Source = new List<int>(cardID), Used = true });//复读墨菲
             Assert.AreEqual(0, game.Players[0].Size);
         }
+    
+        [Test]
+        public void AT_N008Test()
+        {
+            Game game = new Game();
+            (game.Database as ConfigManager).RegisterCard(0xA000, new TestAction_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xC000, new TestCharacter_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xF000, new TestOfficial_Empty());
+            (game.Database as ConfigManager).RegisterCard(0xE000, new TestEvent_Empty());
+            game.Init(new GameOptions()
+            {
+                PlayerInfos = new GameOptions.PlayerInfo[]
+                {
+                    new GameOptions.PlayerInfo() { Id = 0 },
+                    new GameOptions.PlayerInfo() { Id = 1 }
+                },
+                Cards = Enumerable.Empty<int>()
+                .concatRepeat(game.getCardID<AT_N008>(), 20)//行动
+                .concatRepeat(0xC000, 20)//角色
+                .concatRepeat(0xF000, 20)//官作
+                .concatRepeat(0xE000, 20),//事件
+                firstPlayer = 0,
+                shuffle = false,
+                initCommunitySize = 0,
+                initInfluence = 0,
+                chooseCharacter = true,
+                doubleCharacter = false
+            });
+            game.StartGame();
+            game.Answer(new ChooseHeroResponse() { PlayerId = 0, HeroId = 21 });
+            game.Answer(new ChooseHeroResponse() { PlayerId = 1, HeroId = 24 });
+
+            int cardID = game.Players[0].ActionCards[0].Id;
+            game.Answer(new FreeUse() { PlayerId = 0, CardId = cardID, Source = new List<int>() { cardID }, PlayersId = new List<int>() { 1 } });
+
+            Assert.AreEqual(-1, game.Players[0].Size);
+            Assert.AreEqual(-2, game.Players[1].Size);
+        }
     }
+
     class TestAction_DelayDraw : ActionCard
     {
         public override bool isDelay => true;
