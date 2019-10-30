@@ -19,6 +19,7 @@ namespace ZMDFQ.UI.Battle
                 int index = m_requestList.GetChildIndex(item);
                 nowRequest = game.Requests[game.Players.IndexOf(self)][index];
             });
+            m_ChangeSeatPanel.m_Confirm.onClick.Add(onClick_ChangeSeatConfirm);
         }
         [BattleUI(nameof(OnUpdate))]
         private void requestHandleUpdate()
@@ -26,6 +27,7 @@ namespace ZMDFQ.UI.Battle
             int requestCount = game.Requests[game.Players.IndexOf(self)].Count;
             if (requestCount == 0)
             {
+
                 nowRequest = null;
                 m_Request.selectedIndex = 0;
             }
@@ -92,10 +94,17 @@ namespace ZMDFQ.UI.Battle
             if (nowRequest.PlayerId != self.Id)
             {
                 //需要换座位
+                Log.Debug("座位从" + self.Id + "换到" + nowRequest.PlayerId);
                 m_ChangeSeatPanel.setInfo("轮到" + game.GetPlayer(nowRequest.PlayerId).Name + "行动了");//设置信息
                 m_ChangeSeatController.selectedIndex = 1;//显示换人
                 game.TimeManager.Stop();//换人的时候时间是暂停的
             }
+        }
+        void onClick_ChangeSeatConfirm()
+        {
+            SetGame(game.GetPlayer(nowRequest.PlayerId));//换人
+            m_ChangeSeatController.selectedIndex = 0;
+            game.TimeManager.Continue();
         }
         //[BattleUI(nameof(onRequest))]
         private void handleRequest()

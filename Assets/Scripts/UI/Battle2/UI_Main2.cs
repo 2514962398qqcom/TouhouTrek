@@ -11,17 +11,9 @@ namespace ZMDFQ.UI.Battle
     using System.Reflection;
     public partial class UI_ChangeSeat
     {
-        partial void Init()
-        {
-            m_Confirm.onClick.Add(onConfirm);
-        }
         public void setInfo(string msg)
         {
             m_Info.text = msg;
-        }
-        void onConfirm()
-        {
-
         }
     }
     public partial class UI_Main2
@@ -154,12 +146,14 @@ namespace ZMDFQ.UI.Battle
         private void onRequest(Game game, Request request)
         {
             //m_ActivePlayer.SetVar("p", request.PlayerId == self.Id ? "你" : request.PlayerId.ToString());
-            if (request.PlayerId == self.Id)
-            {
-                Log.Debug($"受到{request.GetType().Name}询问");
-                nowRequest = request;
-                doDispatch(nameof(onRequest));
-            }
+            //if (request.PlayerId == self.Id)
+            //{
+            //    Log.Debug($"受到{request.GetType().Name}询问");
+            //    nowRequest = request;
+            //    doDispatch(nameof(onRequest));
+            //}
+            nowRequest = request;
+            doDispatch(nameof(onRequest));
             flush();//感觉这里写的有问题
         }
         /// <summary>
