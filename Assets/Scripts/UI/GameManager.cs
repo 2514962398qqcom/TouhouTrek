@@ -7,7 +7,7 @@ using FairyGUI;
 namespace ZMDFQ
 {
     using UI.Battle;
-    public class UI_Battle2 : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         UI_Main2 _Main2;
         Game game;
@@ -35,7 +35,6 @@ namespace ZMDFQ
             game.Database = ConfigManager.Instance;
             game.RequestManager = gameObject.AddComponent<RequestTimeoutManager>();
             game.TimeManager = gameObject.AddComponent<TimeManager>();
-            //game.Init();
             game.Init(ConfigManager.Instance.GetGameOption("Test", infos));
             _Main2.SetGame(game, game.GetPlayer(1));
             game.StartGame();

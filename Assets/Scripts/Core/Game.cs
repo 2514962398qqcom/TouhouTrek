@@ -10,6 +10,9 @@ using ZMDFQ.PlayerAction;
 
 namespace ZMDFQ
 {
+    /// <summary>
+    /// 标准模式游戏
+    /// </summary>
     public class Game
     {
         public SeatByEventSystem EventSystem;
@@ -261,15 +264,11 @@ namespace ZMDFQ
             {
                 if (options == null || !options.doubleCharacter)//单角色三选一
                 {
-                    Task<Response>[] chooseHero = new Task<Response>[Players.Count];
-                    for (int i = 0; i < Players.Count; i++)
+                    Task<Response>[] chooseHero = await waitAnswerAll(Players, p => WaitAnswer(new ChooseHeroRequest()
                     {
-                        Player p = Players[i];
-                        chooseHero[i] = WaitAnswer(new ChooseHeroRequest() { PlayerId = p.Id, HeroIds = new List<int>(characterDeck.GetRange(i * 3, 3).Select(c => c.Id)) }.SetTimeOut(RequestTime));
-                    }
-
-                    await Task.WhenAll(chooseHero);
-
+                        PlayerId = p.Id,
+                        HeroIds = new List<int>(characterDeck.GetRange(Players.IndexOf(p) * 3, 3).Select(c => c.Id))
+                    }.SetTimeOut(RequestTime)));
                     foreach (var response in chooseHero)
                     {
                         var chooseHeroResponse = response.Result as ChooseHeroResponse;
@@ -443,7 +442,18 @@ namespace ZMDFQ
             OnRequest?.Invoke(this, request);
             return tcs.Task;
         }
-
+        /// <summary>
+        /// 向所有玩家请求一个动作的回应
+        /// </summary>
+        /// <param name="players"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public virtual async Task<Task<Response>[]> waitAnswerAll(List<Player> players, Func<Player, Task<Response>> callback)
+        {
+            Task<Response>[] tasks = players.Select(p => callback(p)).ToArray();
+            await Task.WhenAll(tasks);
+            return tasks;
+        }
         public void CancelRequests()
         {
             for (int i = 0; i < responses.Length; i++)

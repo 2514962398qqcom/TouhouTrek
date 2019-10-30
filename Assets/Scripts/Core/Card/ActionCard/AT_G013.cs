@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using System.Threading.Tasks;
@@ -20,15 +21,14 @@ namespace ZMDFQ.Cards
         {
             ActionCard source = game.GetCard(useWay.Source[0]) as ActionCard;
             List<Player> crowdfunders = new List<Player>() { game.GetPlayer(useWay.PlayerId) };
-            Task<Response>[] tasks = game.Players.Where(p => p.Id != useWay.PlayerId).Select(p => game.WaitAnswer(new ChooseSomeCardRequest()
+            Task<Response>[] tasks = await game.waitAnswerAll(new List<Player>(game.Players.Where(p => p.Id != useWay.PlayerId)), p => game.WaitAnswer(new ChooseSomeCardRequest()
             {
                 AllPlayerRequest = true,
                 Count = 1,
                 EnoughOnly = false,
                 PlayerId = p.Id,
                 RequsetInfo = "是否丢弃手牌成为众筹者？"
-            }.SetTimeOut(game.RequestTime))).ToArray();
-            await Task.WhenAll(tasks);
+            }.SetTimeOut(game.RequestTime)));
             foreach (var task in tasks)
             {
                 ChooseSomeCardResponse response = task.Result as ChooseSomeCardResponse;
